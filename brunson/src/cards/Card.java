@@ -3,69 +3,33 @@ package cards;
 public class Card implements Comparable<Card>{
 	
 	//field
-	private int face;
+	private int value;
 	private Suit suit;	
 	
 	//constructor
-	public Card(String suit,int face){
-		this.suit = new Suit(suit.charAt(0));
-		this.face = (1 <= face && face <= 13) ? face : -1;
+	public Card(Suit suit,int value){
+		this.suit = suit;
+		this.value = (1 <= value && value <= 13) ? value : -1;
 	}
 	
-	public int getFace(){
-		return face;
+	public int getValue(){
+		return value;
 	}
 	
-	public String getSuit(){
-		return suit.getSuit();
+	public Suit getSuit(){
+		return suit;
 	}
 	
 	public String toString(){
-		return suit.getSuit() + face;
-	}
-	
-	public int compareTo(Card that){
-		return this.cardValueAceHigh() - that.cardValueAceHigh();
-	}
-	
-	public int cardValueAceHigh() {
-		return (getFace()+11)%13 * 4 + suit.value();
-	}
-	
-	public int cardValueAceLow(){
-		return (getFace()-1)*4 + suit.value();
-	}
-}
-
-class Suit {
-	
-	public static final char SPADES 	= 'S';
-	public static final char HEARTS 	= 'H';
-	public static final char DIAMONDS 	= 'D';
-	public static final char CLUBS 		= 'C';
-	public static final char[] SUITS = {'C','D','H','S'};
-	
-	//field
-	private char suit;
-	
-	//constructor
-	public Suit(char suit){
-		this.suit = isLegalSuit(suit) ? suit : this.suit; 
+		return String.format("%c%d",suit.pip,value);
 	}
 
-	public String getSuit(){
-		return Character.toString(suit);
+	@Override
+	public int compareTo(Card o) {
+		return 0;
 	}
-	
-	public int value(){
-		for(int i = 0;i < SUITS.length;i++){
-			if(SUITS[i] == suit) return i;
-		}
-		return -1;
-	}
-	
-	private boolean isLegalSuit(char suit) {
-		return (suit == SPADES || suit == HEARTS || suit == DIAMONDS || suit == CLUBS);
-	}
+
 }
+
+
 
