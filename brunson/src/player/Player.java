@@ -17,8 +17,11 @@ public abstract class Player {
 	//Value from 0-100 indicating how willing the player is to run big bluffs.
 	protected int bluffy;
 	
-	protected Player(int buyin) {
+	protected Player(int buyin, int aggression, int vpip, int bluffy) {
 		this.stack = buyin;
+		this.aggression = aggression;
+		this.vpip = vpip;
+		this.bluffy = bluffy;
 		
 	}
 	
@@ -27,9 +30,6 @@ public abstract class Player {
 	}
 	
 	//Returns the player's chosen action. 0 for fold, 1 for call and 2 for raise.
-	public int Action() {
-		//TODO Add some functionality here.
-		return 0;
-	}
+	public abstract int Action();
 
 }
