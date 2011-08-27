@@ -23,4 +23,8 @@ public enum Value {
 		this.pip = pip;
 		this.name = name;
 	}
+	
+	public String toString(){
+		return pip;
+	}
 }

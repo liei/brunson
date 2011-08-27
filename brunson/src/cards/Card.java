@@ -3,16 +3,16 @@ package cards;
 public class Card implements Comparable<Card>{
 	
 	//field
-	private int value;
+	private Value value;
 	private Suit suit;	
 	
 	//constructor
-	public Card(Suit suit,int value){
+	public Card(Suit suit,Value value){
 		this.suit = suit;
-		this.value = (1 <= value && value <= 13) ? value : -1;
+		this.value = value;
 	}
 	
-	public int getValue(){
+	public Value getValue(){
 		return value;
 	}
 	
@@ -21,7 +21,7 @@ public class Card implements Comparable<Card>{
 	}
 	
 	public String toString(){
-		return String.format("%c%d",suit.pip,value);
+		return suit.pip + value.pip;
 	}
 
 	@Override
