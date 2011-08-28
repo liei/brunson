@@ -22,7 +22,6 @@ public abstract class Player {
 		this.aggression = aggression;
 		this.vpip = vpip;
 		this.bluffy = bluffy;
-		
 	}
 	
 	public void setHand(Hand hand) {
@@ -30,6 +29,6 @@ public abstract class Player {
 	}
 	
 	//Returns the player's chosen action. 0 for fold, 1 for call and 2 for raise.
-	public abstract int Action();
+	public abstract int action();
 
 }
