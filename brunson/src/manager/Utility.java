@@ -60,28 +60,23 @@ public class Utility {
 	}
 	
 	private static boolean flush(Pile pile) {
-		int s = 0;
 		int c = 0;
-		int d = 0;
 		int h = 0;
-		char suit;
-		int[] powerRating = new int[6];
+		int s = 0;
+		int d = 0;
 		
 		for(int i = 0; i < pile.getCardCount(); i++) {
-			suit = pile.getCard(i).getSuit().toString().toCharArray()[0];
-			
-			switch(suit) {
-			case 's': s++;
-			case 'd': d++;
-			case 'h':  h++;
-			case 'c': c++;
+			switch(pile.getCard(i).getSuit()) {
+			case CLUBS: c++;break;
+			case HEARTS: h++;break;
+			case SPADES: s++;break;
+			case DIAMONDS: c++; break;
 			}
 		}
 		if(s > 4 || c > 4 || h > 4 || d > 4) {
 			return true;
 		}
 		return false;
-		
 	}
 	
 	private static int[] flushRating(Pile pile) {
