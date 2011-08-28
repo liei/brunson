@@ -19,16 +19,44 @@ public class Utility {
 		if(onePair(pile)) {
 			return onePairRating(pile);
 		}
+		//Two pairs		
+		else if(twoPair(pile)) {
+			return twoPairRating(pile);
+		}
+		//Three of a kind.
+		else if(trips(pile)) {
+			return tripsRating(pile);
+		}
+		
 		//Straight flush
-		if(straight(pile) && flush(pile)) {
+		else if(straight(pile) && flush(pile)) {
 			powerRating = flushRating(pile);
 			powerRating[0] = 9;
 			return powerRating;
 		}
+		//straight
+		else if(straight(pile)) {
+			return straightRating(pile);
+		}
 		
+		//Flush
+		else if(flush(pile)) {
+			return flushRating(pile);
+		}
+		
+		//Boat
+		else if(boat(pile)) {
+			return boatRating(pile);
+		}
+		
+		//Quads
+		else if(quads(pile)) {
+			return quadsRating(pile);
+		}
+		return highCardRating(pile);
 	}
 	
-	private int[] highCardRating(Pile pile) {
+	private static int[] highCardRating(Pile pile) {
 		ArrayList<Integer> values = new ArrayList<Integer>();
 		for(int i = 0; i < pile.getCardCount(); i++) {
 			values.add(pile.getCard(i).getIntValue());
@@ -119,6 +147,9 @@ public class Utility {
 	}
 	
 	private static boolean onePair(Pile pile){
+		if(flush(pile) || straight(pile)) {
+			return false;
+		}
 		int[] values = valueSort(pile);
 		int equalCards = 0;
 		for(int i = 0; i < values.length - 1; i++) {
@@ -127,10 +158,11 @@ public class Utility {
 				equalCards++;
 			}
 		}
+		//two pairs, full house, quads
 		if(equalCards > 1) {
 			return false;
 		}
-		return true;
+		return equalCards > 0;
 	}
 	
 	private static int[] onePairRating(Pile pile) {
@@ -144,8 +176,188 @@ public class Utility {
 					if(j==i) {
 						continue;
 					}
-					rating[2 + j] = values[j];
+					rating[3 + j] = values[j];
 				}					
+			}
+		}
+		return rating;
+	}
+	
+	public static boolean twoPair(Pile pile) {
+		int[] rating = new int[5];
+		rating[0] = 3;
+		int[] values = valueSort(pile);
+		int pairCount = 0;
+		for(int i = 0; i < values.length - 2; i++) {
+			//trips, boat, quads
+			if(values[i] == values[i+1] && values[i]== values[i+2]) {
+				return false;
+			}
+		}
+		for(int i = 0; i < values.length - 1; i++) {
+			if(values[i] == values[i+1]) {
+				pairCount++;
+			}
+		}
+		return pairCount > 1;
+	}
+	
+	public static int[] twoPairRating(Pile pile) {
+		int[] rating = new int[4];
+		rating[0] = 3;
+		int[] values = valueSort(pile);
+		int highPair = 0;
+		int lowPair = 0;
+		
+		//Set high pair
+		for(int i = 0; i < values.length - 1; i++) {
+			if(values[i] == values[i+1]) {
+				rating[1] = values[i];
+				highPair = i;
+			}
+		}
+		//Set second pair
+		for(int i = highPair; i < values.length - 1; i++) {
+			if(values[i] == values[i+1]) {
+				rating[1] = values[i];
+				lowPair = i;
+			}
+		}
+		for(int j = 0; j < values.length; j++) {
+			if(j==highPair || j==highPair + 1 || j==lowPair ||j==lowPair+1) {
+				continue;
+			}
+			rating[4] = values[j];
+		}					
+		return rating;
+	}
+	
+	public static boolean trips(Pile pile) {
+		int[] values = valueSort(pile);
+		int tripIndex = -1 ;
+		if(flush(pile) || straight(pile)) {
+			return false;
+		}
+		for(int i = 0; i < values.length -3; i++) {
+			//quads
+			if(values[i] == values[i+1] && values[i]== values[i+2] && values [i] == values[i+3]) {
+				return false;
+			}
+		}
+		
+		for(int i = 0; i < values.length - 2; i++) {
+			//trips
+			if(values[i] == values[i+1] && values[i]== values[i+2]) {
+				tripIndex = i;
+			}
+		}
+		//if we find trips we have to make sure we cannot find another pair as this would mean a full house.
+		for(int i = 0; i < values.length; i++) {
+			//we found trips, skip index containing this value, check for pair.
+			if(tripIndex != - 1 && i != tripIndex && i != tripIndex + 1 && i != tripIndex + 2) {
+				if(values[i] == values[i+1]) {
+					return false;
+				}
+			}
+		}
+		return tripIndex > 0;
+	}
+	
+	public static int[] tripsRating(Pile pile) {
+		int[] values = valueSort(pile);
+		int[] rating = {4, 0, 0, 0};
+		int tripIndex = -1;
+		for(int i = 0; i < values.length; i++) {
+			if(values[i] == values[i+1]) {
+				tripIndex = i;
+				rating[1] = values[i];
+			}
+		}
+		
+		for(int i = 0; i < values.length; i++) {
+			if( i== tripIndex || i == tripIndex + 1 || i == tripIndex +2) {
+				continue;
+			}
+			rating[2+i] = values[i];
+		}
+		return rating;
+	}
+	
+	public static boolean boat(Pile pile) {
+		int[] values = valueSort(pile);
+		int tripIndex = -1 ;
+		if(flush(pile) || straight(pile)) {
+			return false;
+		}
+		for(int i = 0; i < values.length -4; i++) {
+			//quads
+			if(values[i] == values[i+1] && values[i]== values[i+2] && values [i] == values[i+3]) {
+				return false;
+			}
+		}
+		
+		for(int i = 0; i < values.length; i++) {
+			//trips
+			if(values[i] == values[i+1] && values[i]== values[i+2]) {
+				tripIndex = i;
+			}
+		}
+		//if we find trips we have to make sure we find another pair as this would mean a full house.
+		for(int i = 0; i < values.length; i++) {
+			//we found trips, skip index containing this value, check for pair.
+			if(tripIndex != - 1 && i != tripIndex && i != tripIndex + 1 && i != tripIndex + 2) {
+				if(values[i] == values[i+1]) {
+					return true;
+				}
+			}
+		}
+		return false;		
+	}
+	
+	public static int[] boatRating(Pile pile) {
+		int[] values = valueSort(pile);
+		int[] rating = {7, 0, 0};
+		int tripIndex = -1;
+		for(int i = 0; i < values.length -2; i++) {
+			if(values[i] == values[i+1] && values[i] == values[i+2]) {
+				tripIndex = i;
+				rating[1] = values[i];
+			}
+		}
+		
+		for(int i = 0; i < values.length -2; i++) {
+			if(i == tripIndex ||i == tripIndex + 1 ||i == tripIndex + 2) {
+				continue;
+			}
+			if(values[i] == values[i+1]) {
+				rating[2] = values[i];
+			}
+		}
+		return rating;
+	}
+	
+	public static boolean quads(Pile pile) {
+		int[] values = valueSort(pile);
+		if(flush(pile) || straight(pile)) {
+			return false;
+		}
+		for(int i = 0; i < values.length -3; i++) {
+			//quads
+			if(values[i] == values[i+1] && values[i]== values[i+2] && values [i] == values[i+3]) {
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public static int[] quadsRating(Pile pile) {
+		int[] values = valueSort(pile);
+		int[] rating = {7, 0, 0};
+		
+		for(int i = 0; i < values.length -4; i++) {
+			if(values[i] == values[i+1]) {
+				rating[1] = values[i];
+				rating[2] = values[i+4];
 			}
 		}
 		return rating;
