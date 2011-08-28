@@ -27,4 +27,17 @@ public enum Value {
 	public String toString(){
 		return pip;
 	}
+	
+	public static Value getValueFromInt(int v){
+		return Value.values()[v+2];
+	}
+		
+	public static Value getValueFromPip(char v) {
+		for(Value value : Value.values()){
+			if(v == value.pip.toCharArray()[0]) {
+				return value;
+			}
+		}
+		throw new IllegalArgumentException();	
+	}
 }

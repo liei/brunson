@@ -18,4 +18,13 @@ public enum Suit {
 	public String toString(){
 		return pip;
 	}
+	
+	public static Suit getSuitFromPip(char s) {
+			for(Suit suit : Suit.values()){
+				if(s == suit.pip.toCharArray()[0]) {
+					return suit;
+				}
+			}
+			throw new IllegalArgumentException();	
+		}
 }

@@ -3,7 +3,7 @@ package cards;
 import java.util.ArrayList;
 import java.util.Iterator;
 
-public class Pile {
+public class Pile implements Iterable<Card>{
 	
 	ArrayList<Card> cards;
 	
@@ -33,6 +33,10 @@ public class Pile {
 		
 	public void remove(Card card){
 		cards.remove(card);
+	}
+	
+	public void clear() {
+		cards.clear();
 	}
 		
 	public Iterator<Card> iterator() {
