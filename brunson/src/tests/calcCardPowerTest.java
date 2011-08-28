@@ -33,6 +33,8 @@ public class calcCardPowerTest {
 		assertEquals(9, powerRating[4]);
 		pile.clear();	
 		
+		
+		//pair of kings.
 		pile.add(new Card(12, 's'));
 		pile.add(new Card(7, 'd'));
 		pile.add(new Card(9, 'c'));
@@ -42,7 +44,7 @@ public class calcCardPowerTest {
 		pile.add(new Card(12, 'd'));
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(2, powerRating[0]);
-		assertEquals(9, powerRating[1]);
+		assertEquals(14, powerRating[1]);
 		
 		//pair of 5s
 		pile.add(new Card("5s"));
@@ -52,7 +54,7 @@ public class calcCardPowerTest {
 		pile.add(new Card("9h"));
 		pile.add(new Card("7c"));
 		powerRating = Utility.calcCardPower(pile);
-		assertEquals(2, powerRating[0]);
+		assertEquals(2, powerRating);
 		assertEquals(5, powerRating[1]);
 		assertEquals(14, powerRating[2]);
 		assertEquals(13, powerRating[3]);

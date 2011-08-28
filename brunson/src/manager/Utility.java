@@ -99,10 +99,10 @@ public class Utility {
 			suit = pile.getCard(i).getSuit().toString().toCharArray()[0];
 			
 			switch(suit) {
-			case 's': s++;
-			case 'd': d++;
-			case 'h':  h++;
-			case 'c': c++;
+			case 's': s++; continue;
+			case 'd': d++; continue;
+			case 'h':  h++; continue;
+			case 'c': c++; continue;
 			}
 		}
 		if(s > 4 || c > 4 || h > 4 || d > 4) {
