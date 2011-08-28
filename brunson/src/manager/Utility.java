@@ -6,9 +6,7 @@ import java.util.*;
 
 public class Utility {
 	
-	private Utility(){
-		
-	}
+	private Utility(){}
 	
 	public static int[] calcCardPower(Pile pile) {
 		int[] powerRating = new int[6];
@@ -29,18 +27,18 @@ public class Utility {
 		}
 		
 		//Straight flush
-		else if(straight(pile) && flush(pile)) {
+		else if(isStraight(pile) && isFlush(pile)) {
 			powerRating = flushRating(pile);
 			powerRating[0] = 9;
 			return powerRating;
 		}
 		//straight
-		else if(straight(pile)) {
+		else if(isStraight(pile)) {
 			return straightRating(pile);
 		}
 		
 		//Flush
-		else if(flush(pile)) {
+		else if(isFlush(pile)) {
 			return flushRating(pile);
 		}
 		
@@ -84,32 +82,26 @@ public class Utility {
 			v[i] = values.get(i);
 		}
 		return v;
-		
 	}
 	
-	private static boolean flush(Pile pile) {
-		int s = 0;
+	private static boolean isFlush(Pile pile) {
 		int c = 0;
-		int d = 0;
 		int h = 0;
-		char suit;
-		int[] powerRating = new int[6];
+		int s = 0;
+		int d = 0;
 		
 		for(int i = 0; i < pile.getCardCount(); i++) {
-			suit = pile.getCard(i).getSuit().toString().toCharArray()[0];
-			
-			switch(suit) {
-			case 's': s++; continue;
-			case 'd': d++; continue;
-			case 'h':  h++; continue;
-			case 'c': c++; continue;
+			switch(pile.getCard(i).getSuit()) {
+			case CLUBS: c++; break;
+			case HEARTS:  h++; break;
+			case SPADES: s++; break;
+			case DIAMONDS: d++; break;
 			}
 		}
 		if(s > 4 || c > 4 || h > 4 || d > 4) {
 			return true;
 		}
 		return false;
-		
 	}
 	
 	private static int[] flushRating(Pile pile) {
@@ -122,7 +114,7 @@ public class Utility {
 		return rating;
 	}
 	
-	private static boolean straight(Pile pile) {
+	private static boolean isStraight(Pile pile) {
 		int straighteningCards = pile.getCardCount();
 		int[] values = valueSort(pile);
 		for(int i = 0; i < pile.getCardCount() - 1; i++) {
@@ -147,7 +139,7 @@ public class Utility {
 	}
 	
 	private static boolean onePair(Pile pile){
-		if(flush(pile) || straight(pile)) {
+		if(isFlush(pile) || isStraight(pile)) {
 			return false;
 		}
 		int[] values = valueSort(pile);
@@ -235,7 +227,7 @@ public class Utility {
 	public static boolean trips(Pile pile) {
 		int[] values = valueSort(pile);
 		int tripIndex = -1 ;
-		if(flush(pile) || straight(pile)) {
+		if(isFlush(pile) || isStraight(pile)) {
 			return false;
 		}
 		for(int i = 0; i < values.length -3; i++) {
@@ -286,7 +278,7 @@ public class Utility {
 	public static boolean boat(Pile pile) {
 		int[] values = valueSort(pile);
 		int tripIndex = -1 ;
-		if(flush(pile) || straight(pile)) {
+		if(isFlush(pile) || isStraight(pile)) {
 			return false;
 		}
 		for(int i = 0; i < values.length -4; i++) {
@@ -338,7 +330,7 @@ public class Utility {
 	
 	public static boolean quads(Pile pile) {
 		int[] values = valueSort(pile);
-		if(flush(pile) || straight(pile)) {
+		if(isFlush(pile) || isStraight(pile)) {
 			return false;
 		}
 		for(int i = 0; i < values.length -3; i++) {
