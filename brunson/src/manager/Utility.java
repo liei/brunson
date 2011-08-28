@@ -20,11 +20,12 @@ public class Utility {
 			return onePairRating(pile);
 		}
 		//Straight flush
-		if(straight(pile) && flush(pile)) {
+		if(isStraight(pile) && isFlush(pile)) {
 			powerRating = flushRating(pile);
 			powerRating[0] = 9;
 			return powerRating;
 		}
+		return powerRating;
 		
 	}
 	
@@ -59,7 +60,7 @@ public class Utility {
 		
 	}
 	
-	private static boolean flush(Pile pile) {
+	private static boolean isFlush(Pile pile) {
 		int c = 0;
 		int h = 0;
 		int s = 0;
@@ -89,7 +90,7 @@ public class Utility {
 		return rating;
 	}
 	
-	private static boolean straight(Pile pile) {
+	private static boolean isStraight(Pile pile) {
 		int straighteningCards = pile.getCardCount();
 		int[] values = valueSort(pile);
 		for(int i = 0; i < pile.getCardCount() - 1; i++) {
