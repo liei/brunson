@@ -27,8 +27,19 @@ public abstract class Player {
 	public void setHand(Hand hand) {
 		this.hand = hand;
 	}
+	public Hand getHand() {
+		return this.hand;
+	}
+	
+	public int getStackSize() {
+		return this.stack;
+	}
+	
+	public void updateStack(int delta) {
+		stack+=delta;
+	}
 	
 	//Returns the player's chosen action. 0 for fold, 1 for call and 2 for raise.
-	public abstract int action();
+	public abstract int getAction();
 
 }

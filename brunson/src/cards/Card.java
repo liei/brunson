@@ -21,7 +21,7 @@ public class Card implements Comparable<Card>{
 	}
 	
 	public String toString(){
-		return suit.pip + value.pip;
+		return value.pip + suit.pip;
 	}
 
 	@Override

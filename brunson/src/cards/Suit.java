@@ -2,10 +2,10 @@ package cards;
 
 public enum Suit {
 		
-	SPADES("S","Spades"),
-	HEARTS("H","Hearts"),
-	DIAMONDS("D","Diamonds"),
-	CLUBS("C","Clubs");
+	SPADES("s","Spades"),
+	HEARTS("h","Hearts"),
+	DIAMONDS("d","Diamonds"),
+	CLUBS("c","Clubs");
 
 	public final String pip;
 	public final String name;

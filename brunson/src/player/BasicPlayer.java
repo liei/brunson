@@ -10,7 +10,7 @@ public class BasicPlayer extends Player{
 		super(buyin, aggression, vpip, bluffy);
 	}
 	
-	public int action() {
+	public int getAction() {
 		return random.nextInt(3);
 	}
 
