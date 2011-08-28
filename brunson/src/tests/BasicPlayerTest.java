@@ -20,7 +20,10 @@ public class BasicPlayerTest {
 	public void testSetHand() {
 		BasicPlayer player = new BasicPlayer(100, 30, 25, 25);
 		player.setHand(new Hand(new Card[] {new Card(Suit.DIAMONDS, Value.FIVE), new Card(Suit.SPADES, Value.NINE)}));
-		assertEquals(new Hand(new Card[] {new Card(Suit.DIAMONDS, Value.FIVE), new Card(Suit.SPADES, Value.NINE)}), player.getHand());
+		assertEquals(Suit.DIAMONDS,player.getHand().getCard(0).getSuit());
+		assertEquals(Suit.SPADES,player.getHand().getCard(1).getSuit());
+		assertEquals(Value.FIVE,player.getHand().getCard(0).getValue());
+		assertEquals(Value.NINE,player.getHand().getCard(1).getValue());
 	}
 	
 	@Test
