@@ -30,16 +30,18 @@ public class CalcCardPowerTest {
 		assertEquals(9, powerRating[4]);
 		pile.clear();	
 		
-		pile.add(new Card("QS"));
-		pile.add(new Card("7D"));
-		pile.add(new Card("9C"));
-		pile.add(new Card("8H"));
-		pile.add(new Card("6D"));
-		pile.add(new Card("AH"));
-		pile.add(new Card("QD"));
+		//pair of queens
+		pile.add(new Card("Qs"));
+		pile.add(new Card("7d"));
+		pile.add(new Card("9c"));
+		pile.add(new Card("8h"));
+		pile.add(new Card("6d"));
+		pile.add(new Card("Ah"));
+		pile.add(new Card("Qd"));
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(2, powerRating[0]);
 		assertEquals(9, powerRating[1]);
+		pile.clear();
 		
 		//pair of 5s
 		pile.add(new Card("5s"));

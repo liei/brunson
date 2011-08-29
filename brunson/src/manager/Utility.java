@@ -92,10 +92,10 @@ public class Utility {
 		
 		for(int i = 0; i < pile.getCardCount(); i++) {
 			switch(pile.getCard(i).getSuit()) {
-			case CLUBS: c++; break;
-			case HEARTS:  h++; break;
-			case SPADES: s++; break;
-			case DIAMONDS: d++; break;
+			case CLUBS: c++; continue;
+			case HEARTS:  h++; continue;
+			case SPADES: s++; continue;
+			case DIAMONDS: d++; continue;
 			}
 		}
 		if(s > 4 || c > 4 || h > 4 || d > 4) {
@@ -288,7 +288,7 @@ public class Utility {
 			}
 		}
 		
-		for(int i = 0; i < values.length; i++) {
+		for(int i = 0; i < values.length-2; i++) {
 			//trips
 			if(values[i] == values[i+1] && values[i]== values[i+2]) {
 				tripIndex = i;
