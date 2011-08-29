@@ -1,7 +1,5 @@
 package manager;
 
-import java.util.Collections;
-
 import cards.Deck;
 import cards.Pile;
 

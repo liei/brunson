@@ -52,7 +52,7 @@ public class Card implements Comparable<Card>{
 
 	@Override
 	public int compareTo(Card that) {
-		return this.getValue().ordinal() - that.getValue().ordinal();
+		return  that.getValue().ordinal() - this.getValue().ordinal();
 	}
 
 }
