@@ -1,5 +1,32 @@
 package manager;
 
-public class GameManager {
+import java.util.List;
+import java.util.ArrayList;
 
+import cards.Deck;
+
+import player.Player;
+
+public class GameManager {
+	
+	List<Player> players;
+	Deck deck;
+	
+	
+	private int pot;
+	private int bet;
+	
+	public GameManager(){
+		players = new ArrayList<Player>();
+		deck = new Deck();
+	}
+	
+	public void addPlayer(Player p){
+		players.add(p);
+	}
+	
+	private void playHand(){
+		
+	}
+	
 }
