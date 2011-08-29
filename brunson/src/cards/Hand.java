@@ -32,7 +32,7 @@ public class Hand implements Iterable<Card>{
 		return arr;
 	}
 		
-	private void remove(Card card){
+	public void remove(Card card){
 		cards.remove(card);
 	}
 		

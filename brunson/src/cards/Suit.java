@@ -2,29 +2,29 @@ package cards;
 
 public enum Suit {
 		
-	SPADES("s","Spades"),
-	HEARTS("h","Hearts"),
-	DIAMONDS("d","Diamonds"),
-	CLUBS("c","Clubs");
+	CLUBS('C',"Clubs"),
+	HEARTS('H',"Hearts"),
+	SPADES('S',"Spades"),
+	DIAMONDS('D',"Diamonds");
 
-	public final String pip;
+	public final char pip;
 	public final String name;
 	
-	private Suit(String pip,String name){
+	private Suit(char pip,String name){
 		this.pip = pip;
 		this.name = name;
 	}
 	
 	public String toString(){
-		return pip;
+		return Character.toString(pip);
 	}
 	
 	public static Suit getSuitFromPip(char s) {
-			for(Suit suit : Suit.values()){
-				if(s == suit.pip.toCharArray()[0]) {
-					return suit;
-				}
+		for(Suit suit : Suit.values()){
+			if(s == suit.pip) {
+				return suit;
 			}
-			throw new IllegalArgumentException();	
-		}
+		}	
+		throw new IllegalArgumentException();	
+	}
 }

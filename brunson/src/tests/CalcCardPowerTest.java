@@ -9,7 +9,7 @@ import manager.*;
 import cards.Suit;
 import cards.Value;
 
-public class calcCardPowerTest {
+public class CalcCardPowerTest {
 
 	@Test
 	public void testCalcCardPower() {
@@ -33,13 +33,13 @@ public class calcCardPowerTest {
 		assertEquals(9, powerRating[4]);
 		pile.clear();	
 		
-		pile.add(new Card(12, 's'));
-		pile.add(new Card(7, 'd'));
-		pile.add(new Card(9, 'c'));
-		pile.add(new Card(8, 'h'));
-		pile.add(new Card(6, 'd'));
-		pile.add(new Card(14, 'h'));
-		pile.add(new Card(12, 'd'));
+		pile.add(new Card("QS"));
+		pile.add(new Card("7D"));
+		pile.add(new Card("9C"));
+		pile.add(new Card("8H"));
+		pile.add(new Card("6D"));
+		pile.add(new Card("AH"));
+		pile.add(new Card("QD"));
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(2, powerRating[0]);
 		assertEquals(9, powerRating[1]);
@@ -60,18 +60,17 @@ public class calcCardPowerTest {
 		pile.clear();			
 		
 		//straight, 9 high
-		pile.add(new Card(5, 's'));
-		pile.add(new Card(7, 'd'));
-		pile.add(new Card(9, 'c'));
-		pile.add(new Card(8, 'h'));
-		pile.add(new Card(6, 'd'));
-		pile.add(new Card(14, 'h'));
-		pile.add(new Card(12, 'd'));
+		pile.add(new Card("5S"));
+		pile.add(new Card("7D"));
+		pile.add(new Card("9C"));
+		pile.add(new Card("8H"));
+		pile.add(new Card("6D"));
+		pile.add(new Card("AH"));
+		pile.add(new Card("QD"));
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(5, powerRating[0]);
 		assertEquals(9, powerRating[1]);
 		pile.clear();
-
 	}
 
 }
