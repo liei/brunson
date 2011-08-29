@@ -61,9 +61,9 @@ public class Utility {
 		}
 		Collections.sort(values);
 		Collections.reverse(values);
-		int[] v = new int[pile.getCardCount()];
+		int[] v = new int[pile.getCardCount() + 1];
 		v[0] = 1;
-		for(int i = 1; i < values.size(); i++) {
+		for(int i = 1; i < values.size() + 1; i++) {
 			v[i] = values.get(i-1);
 		}
 		return v;
