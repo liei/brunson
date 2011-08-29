@@ -6,9 +6,6 @@ import org.junit.Test;
 import cards.*;
 import manager.*;
 
-import cards.Suit;
-import cards.Value;
-
 public class CalcCardPowerTest {
 
 	@Test
