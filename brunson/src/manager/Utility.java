@@ -28,7 +28,7 @@ public class Utility {
 		
 		//Straight flush
 		else if(isStraight(pile) && isFlush(pile)) {
-			powerRating = flushRating(pile);
+			powerRating = straightRating(pile);
 			powerRating[0] = 9;
 			return powerRating;
 		}
@@ -318,7 +318,7 @@ public class Utility {
 		if(isFlush(pile) || isStraight(pile)) {
 			return false;
 		}
-		for(int i = 0; i < values.length -4; i++) {
+		for(int i = 0; i < values.length -3; i++) {
 			//quads
 			if(values[i] == values[i+1] && values[i]== values[i+2] && values [i] == values[i+3]) {
 				return false;
@@ -351,11 +351,12 @@ public class Utility {
 			if(values[i] == values[i+1] && values[i] == values[i+2]) {
 				tripIndex = i;
 				rating[1] = values[i];
+				break;
 			}
 		}
 		
-		for(int i = 0; i < values.length -2; i++) {
-			if(i == tripIndex ||i == tripIndex + 1 ||i == tripIndex + 2) {
+		for(int i = 0; i < values.length -1; i++) {
+			if(i == tripIndex | i == tripIndex + 1 | i == tripIndex + 2) {
 				continue;
 			}
 			if(values[i] == values[i+1]) {
@@ -381,12 +382,14 @@ public class Utility {
 	
 	public static int[] quadsRating(Pile pile) {
 		int[] values = valueSort(pile);
-		int[] rating = {7, 0, 0};
+		int[] rating = {8, 0, 0};
 		
 		for(int i = 0; i < values.length -4; i++) {
-			if(values[i] == values[i+1]) {
+			if(values[i] == values[i+1] && values[i] == values[i+2]) {
 				rating[1] = values[i];
-				rating[2] = values[i+4];
+			} 
+			else{
+				rating[2] = values[i];
 			}
 		}
 		return rating;
