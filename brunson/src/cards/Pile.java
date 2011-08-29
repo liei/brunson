@@ -1,6 +1,7 @@
 package cards;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Iterator;
 
 public class Pile implements Iterable<Card>{
@@ -41,5 +42,20 @@ public class Pile implements Iterable<Card>{
 		
 	public Iterator<Card> iterator() {
 		return cards.iterator();
+	}
+	
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		sb.append("{");
+		for(Card card : cards){
+			sb.append(card);
+			sb.append(",");
+		}
+		sb.setCharAt(sb.length() - 1 , '}');
+		return sb.toString();
+	}
+
+	public void sort() {
+		Collections.sort(cards);
 	}
 }
