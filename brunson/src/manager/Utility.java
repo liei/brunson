@@ -106,10 +106,27 @@ public class Utility {
 	
 	private static int[] flushRating(Pile pile) {
 		int[] rating = new int[6];
-		int[] values = valueSort(pile);
 		rating[0] = 6;
-		for(int i=1; i<6; i++) {
-			rating[i] = values[i-1];
+		Pile flushPile = new Pile();
+		int count=0;
+		for(Card card : pile) {
+			for(Card card2 : pile) {
+				if(card.getSuit() == card2.getSuit()) {
+					count++;
+				}
+				if(count >2) {
+					flushPile.add(card);
+					continue;
+				}
+			}
+			count=0;
+		}
+		//Remove the cards which are of dissimilar suit.
+		int[] values = valueSort(flushPile);
+		int index =0;
+		for(int i = 1; i < rating.length; i++) {
+			rating[i] = values[index];
+			index++;
 		}
 		return rating;
 	}
@@ -132,8 +149,14 @@ public class Utility {
 		int[] rating = new int[2];
 		int[] values = valueSort(pile);
 		rating[0] = 5;
-		rating[1] = values[0];
-		return rating;
+		for(int i = 0; i < values.length - 4; i++) {
+			if(values[i] == values[i+1] + 1 && values[i] == values[i+2] +2 && values[i] == values[i+3] + 3 && values[i] == values[i+4] + 4) {
+				rating[1] = values[i];
+				return rating;
+			}
+		}
+		
+		throw new IllegalArgumentException();
 	}
 	
 	private static boolean onePair(Pile pile){
