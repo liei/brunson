@@ -235,6 +235,86 @@ public class CalcCardPowerTest {
 		assertEquals(6, powerRating[0]);
 		assertEquals(9, powerRating[1]);
 		pile.clear();
+		
+		//Boat,  99922
+		pile.add(new Card("9s"));
+		pile.add(new Card("9d"));
+		pile.add(new Card("9c"));
+		pile.add(new Card("2s"));
+		pile.add(new Card("3s"));
+		pile.add(new Card("2h"));
+		pile.add(new Card("Qd"));
+		powerRating = Utility.calcCardPower(pile);
+		assertEquals(7, powerRating[0]);
+		assertEquals(9, powerRating[1]);
+		assertEquals(2, powerRating[2]);
+		pile.clear();
+		
+		//Boat,  99922, 6 pile
+		pile.add(new Card("9s"));
+		pile.add(new Card("9d"));
+		pile.add(new Card("9c"));
+		pile.add(new Card("2s"));
+		pile.add(new Card("2h"));
+		pile.add(new Card("Qd"));
+		powerRating = Utility.calcCardPower(pile);
+		assertEquals(7, powerRating[0]);
+		assertEquals(9, powerRating[1]);
+		assertEquals(2, powerRating[2]);
+		pile.clear();
+		
+		//Boat,  99922, 5 pile
+		pile.add(new Card("9s"));
+		pile.add(new Card("9d"));
+		pile.add(new Card("9c"));
+		pile.add(new Card("2s"));
+		pile.add(new Card("2h"));
+		powerRating = Utility.calcCardPower(pile);
+		assertEquals(7, powerRating[0]);
+		assertEquals(9, powerRating[1]);
+		assertEquals(2, powerRating[2]);
+		pile.clear();
+		
+		//Quad 9s, A kicker
+		pile.add(new Card("9s"));
+		pile.add(new Card("9d"));
+		pile.add(new Card("9c"));
+		pile.add(new Card("9h"));
+		pile.add(new Card("Ah"));
+		pile.add(new Card("2h"));
+		pile.add(new Card("5h"));
+		powerRating = Utility.calcCardPower(pile);
+		assertEquals(8, powerRating[0]);
+		assertEquals(9, powerRating[1]);
+		assertEquals(14, powerRating[2]);
+		pile.clear();
+		
+		//Quad 9s, A kicker, 6 pile
+		pile.add(new Card("9s"));
+		pile.add(new Card("9d"));
+		pile.add(new Card("9c"));
+		pile.add(new Card("9h"));
+		pile.add(new Card("Ah"));
+		pile.add(new Card("Ad"));
+		powerRating = Utility.calcCardPower(pile);
+		assertEquals(8, powerRating[0]);
+		assertEquals(9, powerRating[1]);
+		assertEquals(14, powerRating[2]);
+		pile.clear();
+		
+		//Quad 9s, A kicker, 5 pile
+		pile.add(new Card("9s"));
+		pile.add(new Card("9d"));
+		pile.add(new Card("9c"));
+		pile.add(new Card("9h"));
+		pile.add(new Card("Ah"));
+		powerRating = Utility.calcCardPower(pile);
+		assertEquals(8, powerRating[0]);
+		assertEquals(9, powerRating[1]);
+		assertEquals(14, powerRating[2]);
+		pile.clear();
+		
+		
 	}
 
 }
