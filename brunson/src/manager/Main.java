@@ -1,5 +1,6 @@
 package manager;
 
+import cards.Card;
 import cards.Deck;
 import cards.Pile;
 
@@ -9,14 +10,14 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		Deck deck = new Deck();
-		Pile pile = new Pile();
-		int i = 5;
-		while(i-- > 0){
-			pile.add(deck.pop());
-		}
+		Pile pile = Pile.newPile("9s","9d","9c","2s","3s","2h","Qd");
+		int[] powerRating = Utility.calcCardPower(pile);
+		
 		System.out.println(pile);
-		pile.sort();
-		System.out.println(pile);
+		for(int i : powerRating)
+			System.out.printf(" %2d",i);
+		System.out.println();
+		
+		
 	}
 }

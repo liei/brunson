@@ -58,4 +58,12 @@ public class Pile implements Iterable<Card>{
 	public void sort() {
 		Collections.sort(cards);
 	}
+	
+	public static Pile newPile(String... cards){
+		Pile pile = new Pile();
+		for(String card : cards)
+			pile.add(new Card(card));
+		return pile;
+		
+	}
 }
