@@ -13,7 +13,8 @@ public class BasicPlayerTest {
 	@Test
 	public void testAction() {
 		BasicPlayer player = new BasicPlayer(100, 30, 25, 25);
-		assertTrue(player.getAction() == 0 | player.getAction() == 1 | player.getAction() == 2);
+		int action = player.getAction();
+		assertTrue(action== 0 | action == 1 | action == 2);
 	}
 
 	@Test

@@ -2,7 +2,7 @@ package cards;
 
 import java.util.*;
 
-public class Deck {
+public class Deck implements Iterable<Card>{
 	
 	ArrayList<Card> deck;
 	Random random = new Random();
@@ -25,6 +25,10 @@ public class Deck {
 	public Card pop() {
 		int index = random.nextInt(deck.size());
 		return deck.remove(index);
+	}
+	@Override
+	public Iterator<Card> iterator() {
+		return deck.iterator();
 	}
 	
 

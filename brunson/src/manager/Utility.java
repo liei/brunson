@@ -61,10 +61,10 @@ public class Utility {
 		}
 		Collections.sort(values);
 		Collections.reverse(values);
-		int[] v = new int[6];
+		int[] v = new int[pile.getCardCount()];
 		v[0] = 1;
-		for(int i = 1; i < 6; i++) {
-			v[i] = values.get(i);
+		for(int i = 1; i < values.size(); i++) {
+			v[i] = values.get(i-1);
 		}
 		return v;
 		
@@ -118,7 +118,7 @@ public class Utility {
 		int straighteningCards = pile.getCardCount();
 		int[] values = valueSort(pile);
 		for(int i = 0; i < pile.getCardCount() - 1; i++) {
-			if(!(values[i] == values [i+1] - 1 || values[i] == values[i+1])) {
+			if(!(values[i] == values [i+1] - 1 | values[i] == values[i+1] + 1)) {
 				straighteningCards--;
 			}
 			if(straighteningCards < 5) {
@@ -160,17 +160,27 @@ public class Utility {
 	private static int[] onePairRating(Pile pile) {
 		int[] rating = new int[5];
 		rating[0] = 2;
+		int index = 0;
+		int rIndex = 0;
 		int[] values = valueSort(pile);
 		for(int i = 0; i < values.length - 1; i++) {
 			if(values[i] == values[i+1]) {
 				rating[1] = values[i];
-				for(int j = 0; j < rating.length - 2; j++) {
-					if(j==i) {
-						continue;
-					}
-					rating[3 + j] = values[j];
-				}					
+				index = i;
 			}
+		}
+		for(int i =0; i< values.length; i++) {
+			if(i == index | i == index + 1) {
+				continue;
+			}
+			if(rIndex +2 == rating.length) {
+				return rating;
+			}
+			else {
+			rating[2 + rIndex] = values[i];
+			rIndex++;
+			}
+			
 		}
 		return rating;
 	}

@@ -11,7 +11,16 @@ public class DeckTest {
 	public void testGetDeck() {
 		Deck deck = new Deck();
 		assertEquals("DeckSize", 52, deck.getDeck().size());
-		assertTrue(deck.getDeck().contains(new Card(Suit.HEARTS, Value.NINE)));
+		boolean found = false;
+		for(Card card : deck) {
+			if(card.getSuit()==Suit.HEARTS) {
+				if(card.getValue()==Value.FIVE) {
+					found = true;
+				}
+			}
+		}
+		//found the 5h
+		assertTrue(found);
 	}
 
 	@Test
