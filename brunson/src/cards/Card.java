@@ -10,16 +10,6 @@ public class Card implements Comparable<Card>{
 		this.value = value;
 	}
 	
-//	public Card(int v, char s) {
-//		switch(s) {
-//		case 's': this.suit = Suit.SPADES;
-//		case 'd': this.suit = Suit.DIAMONDS;
-//		case 'h': this.suit = Suit.HEARTS;
-//		case 'c': this.suit = Suit.CLUBS;
-//		}
-//		this.value=Value.getValueFromInt(v);
-//	}
-	
 	public Card(String s){
 		if(s.length() != 2) {
 			throw new IllegalArgumentException();
