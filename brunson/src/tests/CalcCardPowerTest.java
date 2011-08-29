@@ -73,7 +73,7 @@ public class CalcCardPowerTest {
 		assertEquals(4, powerRating[0]);
 		assertEquals(5, powerRating[1]);
 		assertEquals(14, powerRating[2]);
-		assertEquals(9, powerRating[3]);
+		assertEquals(11, powerRating[3]);
 		pile.clear();	
 		
 		//straight, 9 high

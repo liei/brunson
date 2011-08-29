@@ -129,12 +129,10 @@ public class Utility {
 	}
 	
 	private static int[] straightRating(Pile pile) {
-		int[] rating = new int[5];
+		int[] rating = new int[2];
 		int[] values = valueSort(pile);
-		rating[0] = 6;
-		for(int i=1; i<6; i++) {
-			rating[i] = values[i-1];
-		}
+		rating[0] = 5;
+		rating[1] = values[0];
 		return rating;
 	}
 	
@@ -269,18 +267,24 @@ public class Utility {
 		int[] values = valueSort(pile);
 		int[] rating = {4, 0, 0, 0};
 		int tripIndex = -1;
-		for(int i = 0; i < values.length; i++) {
+		int rIndex =0;
+		for(int i = 0; i < values.length-1; i++) {
 			if(values[i] == values[i+1]) {
 				tripIndex = i;
 				rating[1] = values[i];
+				break;
 			}
 		}
 		
 		for(int i = 0; i < values.length; i++) {
-			if( i== tripIndex || i == tripIndex + 1 || i == tripIndex +2) {
+			if( i== tripIndex | i == tripIndex + 1 | i == tripIndex +2) {
 				continue;
 			}
-			rating[2+i] = values[i];
+			if(rIndex +2 == rating.length) {
+				return rating;
+			}
+			rating[2+rIndex] = values[i];
+			rIndex++;
 		}
 		return rating;
 	}
