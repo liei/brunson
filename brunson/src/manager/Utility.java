@@ -9,9 +9,7 @@ public class Utility {
 	private Utility(){}
 	
 	public static int[] calcCardPower(Pile pile) {
-		int[] powerRating = new int[6];
-		
-		
+			
 		//Pair
 		
 		if(onePair(pile)) {
@@ -140,6 +138,7 @@ public class Utility {
 			}
 			if(straighteningCards < 5) {
 				flag = false;
+				break;
 			}
 		}
 		
@@ -150,6 +149,9 @@ public class Utility {
 			}
 		}
 		
+		//sort array again
+		values=sort(values);
+		straighteningCards= pile.getCardCount();
 		for(int i = 0; i < pile.getCardCount() - 1; i++) {
 			if(!(values[i] == values [i+1] - 1 | values[i] == values[i+1] + 1)) {
 				straighteningCards--;

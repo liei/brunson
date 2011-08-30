@@ -200,6 +200,17 @@ public class CalcCardPowerTest {
 		assertEquals(5, powerRating[0]);
 		assertEquals(9, powerRating[1]);
 		pile.clear();
+				
+		//straight, the wheel
+		pile.add(new Card("5s"));
+		pile.add(new Card("4d"));
+		pile.add(new Card("3c"));
+		pile.add(new Card("2h"));
+		pile.add(new Card("Ad"));
+		powerRating = Utility.calcCardPower(pile);
+		assertEquals(5, powerRating[0]);
+		assertEquals(5, powerRating[1]);
+		pile.clear();
 		
 		//flush, 9 high
 		pile.add(new Card("2s"));
@@ -339,6 +350,29 @@ public class CalcCardPowerTest {
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(9, powerRating[0]);
 		assertEquals(5, powerRating[1]);
+		pile.clear();
+		
+		//5 high straight flush, 6 pile
+		pile.add(new Card("9s"));
+		pile.add(new Card("8s"));
+		pile.add(new Card("5s"));
+		pile.add(new Card("6s"));
+		pile.add(new Card("7s"));
+		pile.add(new Card("Ad"));
+		powerRating = Utility.calcCardPower(pile);
+		assertEquals(9, powerRating[0]);
+		assertEquals(9, powerRating[1]);
+		pile.clear();
+		
+		//5 high straight flush, 5 pile
+		pile.add(new Card("Js"));
+		pile.add(new Card("Ts"));
+		pile.add(new Card("As"));
+		pile.add(new Card("Ks"));
+		pile.add(new Card("Qs"));
+		powerRating = Utility.calcCardPower(pile);
+		assertEquals(9, powerRating[0]);
+		assertEquals(14, powerRating[1]);
 		pile.clear();
 	
 	}
