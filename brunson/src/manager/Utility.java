@@ -28,9 +28,7 @@ public class Utility {
 		
 		//Straight flush
 		else if(isStraight(pile) && isFlush(pile)) {
-			powerRating = straightRating(pile);
-			powerRating[0] = 9;
-			return powerRating;
+			return straightFlushRating(pile);
 		}
 		//straight
 		else if(isStraight(pile)) {
@@ -54,6 +52,7 @@ public class Utility {
 		return highCardRating(pile);
 	}
 	
+
 	private static int[] highCardRating(Pile pile) {
 		ArrayList<Integer> values = new ArrayList<Integer>();
 		for(int i = 0; i < pile.getCardCount(); i++) {
@@ -134,14 +133,32 @@ public class Utility {
 	private static boolean isStraight(Pile pile) {
 		int straighteningCards = pile.getCardCount();
 		int[] values = valueSort(pile);
+		boolean flag=true;
 		for(int i = 0; i < pile.getCardCount() - 1; i++) {
 			if(!(values[i] == values [i+1] - 1 | values[i] == values[i+1] + 1)) {
 				straighteningCards--;
 			}
 			if(straighteningCards < 5) {
-				return false;
+				flag = false;
 			}
 		}
+		
+		//Change any ace to 1 and try again
+		for(int i=0; i < values.length; i++) {
+			if(values[i] == 14) {
+				values[i] = 1;
+			}
+		}
+		
+		for(int i = 0; i < pile.getCardCount() - 1; i++) {
+			if(!(values[i] == values [i+1] - 1 | values[i] == values[i+1] + 1)) {
+				straighteningCards--;
+			}
+			if(straighteningCards < 5) {
+				return flag | false;
+			}
+		}
+				
 		return true;
 	}
 	
@@ -149,6 +166,22 @@ public class Utility {
 		int[] rating = new int[2];
 		int[] values = valueSort(pile);
 		rating[0] = 5;
+		for(int i = 0; i < values.length - 4; i++) {
+			if(values[i] == values[i+1] + 1 && values[i] == values[i+2] +2 && values[i] == values[i+3] + 3 && values[i] == values[i+4] + 4) {
+				rating[1] = values[i];
+				return rating;
+			}
+		}
+		
+		//Change any ace to 1 and try again
+		for(int i=0; i < values.length; i++) {
+			if(values[i] == 14) {
+				values[i] = 1;
+			}
+		}
+		//sort array again
+		values=sort(values);
+		
 		for(int i = 0; i < values.length - 4; i++) {
 			if(values[i] == values[i+1] + 1 && values[i] == values[i+2] +2 && values[i] == values[i+3] + 3 && values[i] == values[i+4] + 4) {
 				rating[1] = values[i];
@@ -398,10 +431,45 @@ public class Utility {
 		throw new IllegalArgumentException();
 	}
 	
-	public static <T> T[] concat(T[] first, T[] second) {
+	public static int[] straightFlushRating(Pile pile){
+		int[] rating = {9, 0};
+		Pile flushPile = new Pile();
+		int count=0;
+		
+		//Create a new pile containing only the cards of correct suit. 5 + 2 cards when flush is known, add to flushpile if card has same suit as > 2 other cards.
+		for(Card card : pile) {
+			for(Card card2 : pile) {
+				if(card.getSuit() == card2.getSuit()) {
+					count++;
+				}
+				if(count >2) {
+					flushPile.add(card);
+					break;
+				}
+			}
+			count=0;
+		}
+		//The straight flush rating is now the straight rating of the flush pile
+		rating[1] = straightRating(flushPile)[1];
+		return rating;
+	}
+	
+	private static <T> T[] concat(T[] first, T[] second) {
 		T[] result = Arrays.copyOf(first, first.length + second.length);
 		System.arraycopy(second, 0, result, first.length, second.length);
 		return result;
+	}
+	
+	private static int[] sort(int[] array) {
+		Arrays.sort(array);
+		int[] a = new int[array.length];
+		int index = 0;
+		for(int i = array.length -1; i> -1; i--) {
+			a[index] = array[i];
+			index++;
+		}
+		return a;
+		
 	}
 }
 	

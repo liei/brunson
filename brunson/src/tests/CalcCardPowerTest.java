@@ -328,6 +328,19 @@ public class CalcCardPowerTest {
 		assertEquals(14, powerRating[2]);
 		pile.clear();
 		
+		//5 high straight flush
+		pile.add(new Card("9s"));
+		pile.add(new Card("2d"));
+		pile.add(new Card("5d"));
+		pile.add(new Card("6h"));
+		pile.add(new Card("3d"));
+		pile.add(new Card("Ad"));
+		pile.add(new Card("4d"));
+		powerRating = Utility.calcCardPower(pile);
+		assertEquals(9, powerRating[0]);
+		assertEquals(5, powerRating[1]);
+		pile.clear();
+	
 	}
 
 }
