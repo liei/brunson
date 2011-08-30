@@ -368,9 +368,6 @@ public class Utility {
 	
 	public static boolean quads(Pile pile) {
 		int[] values = valueSort(pile);
-		if(isFlush(pile) || isStraight(pile)) {
-			return false;
-		}
 		for(int i = 0; i < values.length -3; i++) {
 			//quads
 			if(values[i] == values[i+1] && values[i]== values[i+2] && values [i] == values[i+3]) {
@@ -383,16 +380,22 @@ public class Utility {
 	public static int[] quadsRating(Pile pile) {
 		int[] values = valueSort(pile);
 		int[] rating = {8, 0, 0};
-		
-		for(int i = 0; i < values.length -4; i++) {
-			if(values[i] == values[i+1] && values[i] == values[i+2]) {
+		int index = 0;
+		for(int i = 0; i < values.length -3; i++) {
+			if(values[i] == values[i+1] && values[i]== values[i+2] && values [i] == values[i+3]) {
 				rating[1] = values[i];
+				index =i;
 			} 
-			else{
-				rating[2] = values[i];
-			}
 		}
-		return rating;
+		
+		for(int i =0; i< values.length; i++) {
+			if(i == index | i == index + 1 | i==index +2 | i == index + 3) {
+				continue;
+			}
+			rating[2] = values[i];
+			return rating;
+		}
+		throw new IllegalArgumentException();
 	}
 	
 	public static <T> T[] concat(T[] first, T[] second) {

@@ -314,6 +314,19 @@ public class CalcCardPowerTest {
 		assertEquals(14, powerRating[2]);
 		pile.clear();
 		
+		//Quad 9s, A kicker, 7 pile
+		pile.add(new Card("9s"));
+		pile.add(new Card("9d"));
+		pile.add(new Card("9c"));
+		pile.add(new Card("9h"));
+		pile.add(new Card("Ah"));
+		pile.add(new Card("Ad"));
+		pile.add(new Card("Ac"));
+		powerRating = Utility.calcCardPower(pile);
+		assertEquals(8, powerRating[0]);
+		assertEquals(9, powerRating[1]);
+		assertEquals(14, powerRating[2]);
+		pile.clear();
 		
 	}
 
