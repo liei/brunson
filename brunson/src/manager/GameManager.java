@@ -25,8 +25,15 @@ public class GameManager {
 		players.add(p);
 	}
 	
-	private void playHand(){
+	private void playGame(int hands) {
+		for(int i=0; i < hands; i++) {
+			playHand();
+		}
 		
+	}
+	
+	private void playHand(){
+
 	}
 	
 }
