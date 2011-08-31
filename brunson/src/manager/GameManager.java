@@ -2,10 +2,8 @@ package manager;
 
 import java.util.List;
 import java.util.ArrayList;
-
-import cards.Deck;
-
-import player.Player;
+import cards.*;
+import player.*;
 
 public class GameManager {
 	
@@ -33,7 +31,8 @@ public class GameManager {
 	}
 	
 	private void playHand(){
-
+		CommunityCards communityCards = new CommunityCards();
+		communityCards.setFlop
 	}
 	
 }

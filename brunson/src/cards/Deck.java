@@ -26,6 +26,13 @@ public class Deck implements Iterable<Card>{
 		int index = random.nextInt(deck.size());
 		return deck.remove(index);
 	}
+	public Pile getFlop() {
+		Pile flop = new Pile();
+		flop.add(this.pop());
+		flop.add(this.pop());
+		flop.add(this.pop());
+		return flop;
+	}
 	@Override
 	public Iterator<Card> iterator() {
 		return deck.iterator();
