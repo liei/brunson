@@ -5,7 +5,7 @@ public abstract class Player {
 	
 	private Hand hand;
 	private int stack;
-	private 
+	private HoleCards holeCards;
 	
 	//Value from 0 - 100 indicating how aggressive the player is.
 	protected int aggression;
@@ -19,12 +19,21 @@ public abstract class Player {
 	protected int bluffy;
 	
 	protected Player(int buyin, int aggression, int vpip, int bluffy) {
+		this.holeCards = new HoleCards();
 		this.stack = buyin;
 		this.aggression = aggression;
 		this.vpip = vpip;
 		this.bluffy = bluffy;
 	}
 	
+	public void setHoleCards(Pile cards) {
+		this.holeCards.setHoleCards(cards);
+	}
+	
+	public HoleCards getHoleCards() {
+		return this.holeCards;
+	}
+		
 	public void setHand(Hand hand) {
 		this.hand = hand;
 	}
