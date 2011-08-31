@@ -31,8 +31,11 @@ public class GameManager {
 	}
 	
 	private void playHand(){
+		
+		for(Player player : players) {
+		}
 		CommunityCards communityCards = new CommunityCards();
-		communityCards.setFlop
+		
 	}
 	
 }

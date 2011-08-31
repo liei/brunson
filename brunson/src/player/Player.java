@@ -5,6 +5,7 @@ public abstract class Player {
 	
 	private Hand hand;
 	private int stack;
+	private 
 	
 	//Value from 0 - 100 indicating how aggressive the player is.
 	protected int aggression;
