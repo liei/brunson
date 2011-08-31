@@ -31,8 +31,11 @@ public class GameManager {
 	}
 	
 	private void playHand(){
-		
+		int dealer = 0;
+		//deal holecards
 		for(Player player : players) {
+			player.addHoleCard(deck.pop());
+			player.addHoleCard(deck.pop());
 		}
 		CommunityCards communityCards = new CommunityCards();
 		

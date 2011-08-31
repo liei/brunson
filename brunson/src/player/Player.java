@@ -33,6 +33,10 @@ public abstract class Player {
 	public HoleCards getHoleCards() {
 		return this.holeCards;
 	}
+	
+	public void addHoleCard(Card card) {
+		this.holeCards.addHoleCard(card);
+	}
 		
 	public void setHand(Hand hand) {
 		this.hand = hand;
