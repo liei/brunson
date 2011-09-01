@@ -3,7 +3,6 @@ import cards.*;
 
 public abstract class Player {
 	
-	private Hand hand;
 	private int stack;
 	private HoleCards holeCards;
 	
@@ -36,13 +35,6 @@ public abstract class Player {
 	
 	public void addHoleCard(Card card) {
 		this.holeCards.addHoleCard(card);
-	}
-		
-	public void setHand(Hand hand) {
-		this.hand = hand;
-	}
-	public Hand getHand() {
-		return this.hand;
 	}
 	
 	public int getStackSize() {
