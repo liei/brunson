@@ -3,6 +3,7 @@ import cards.*;
 
 public abstract class Player {
 	
+	private Pile hand;
 	private int stack;
 	private HoleCards holeCards;
 	
@@ -25,9 +26,17 @@ public abstract class Player {
 		this.bluffy = bluffy;
 	}
 	
-	public void setHoleCards(Pile cards) {
-		this.holeCards.setHoleCards(cards);
+	public void addCard(Card card) {
+		hand.add(card);
 	}
+	
+	public Pile getHand() {
+		return hand;
+	}
+	
+//	public void setHoleCards(Pile cards) {
+//		this.holeCards.setHoleCards(cards);
+//	}
 	
 	public HoleCards getHoleCards() {
 		return this.holeCards;

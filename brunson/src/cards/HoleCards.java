@@ -8,7 +8,6 @@ public class HoleCards {
 	
 	public HoleCards(Pile pile) {
 		this.holeCards = pile;
-		
 	}
 	
 	public HoleCards(Card card, Card card2) {

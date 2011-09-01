@@ -2,6 +2,8 @@ package player;
 
 import java.util.Random;
 
+import cards.Card;
+
 public class BasicPlayer extends Player{
 	
 	Random random = new Random();
@@ -13,5 +15,4 @@ public class BasicPlayer extends Player{
 	public int getAction() {
 		return random.nextInt(3);
 	}
-
 }
