@@ -12,7 +12,7 @@ public class Deck implements Iterable<Card>{
 		this.deck = new ArrayList<Card>();
 		for(Value value : Value.values()) {
 			for(Suit suit : Suit.values()) {
-				deck.add(new Card(suit, value));
+				deck.add(new Card(value, suit));
 			}
 		}
 		

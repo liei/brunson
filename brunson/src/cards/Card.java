@@ -5,10 +5,16 @@ public class Card implements Comparable<Card>{
 	private Value value;
 	private Suit suit;	
 	
-	public Card(Suit suit,Value value){
-		this.suit = suit;
+	
+	public Card(Value value, Suit suit){
 		this.value = value;
+		this.suit = suit;
 	}
+	
+//	public Card(Suit suit,Value value){
+//		this.suit = suit;
+//		this.value = value;
+//	}
 	
 	public Card(String s){
 		if(s.length() != 2) {
