@@ -8,10 +8,13 @@ public class Pile implements Iterable<Card>{
 	
 	ArrayList<Card> cards;
 	
-	public Pile(){
+	public Pile(Card... newCards) {
 		this.cards = new ArrayList<Card>();
+		
+		for(Card card : newCards)
+			add(card);
 	}
-	
+
 	public void add(Card card){
 		cards.add(card);
 	}
@@ -22,14 +25,6 @@ public class Pile implements Iterable<Card>{
 	
 	public Card getCard(int index){
 		return (0 <= index && index < cards.size()) ? cards.get(index) : null;
-	}
-		
-	public Card[] getCards(){
-		Card[] arr = new Card[cards.size()];
-		for (int i = 0; i < arr.length; i++) {
-			arr[i] = cards.get(i);
-		}
-		return arr;
 	}
 		
 	public void remove(Card card){
