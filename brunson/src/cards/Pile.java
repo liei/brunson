@@ -1,12 +1,13 @@
 package cards;
 
+import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
 public class Pile implements Iterable<Card>{
 	
-	ArrayList<Card> cards;
+	List<Card> cards;
 	
 	public Pile(Card... newCards) {
 		this.cards = new ArrayList<Card>();
@@ -53,12 +54,27 @@ public class Pile implements Iterable<Card>{
 	public void sort() {
 		Collections.sort(cards);
 	}
+
+	public void shuffle() {
+		Collections.shuffle(cards);
+	}
 	
 	public static Pile newPile(String... cards){
 		Pile pile = new Pile();
 		for(String card : cards)
-			pile.add(new Card(card));
+			pile.add(Deck.getCard(card));
 		return pile;
-		
+	}
+
+	public int size() {
+		return cards.size();
+	}
+
+	public Card pop() {
+		return cards.remove(0);
+	}
+
+	public Pile copy() {
+		return  new Pile((Card[]) cards.toArray());
 	}
 }
