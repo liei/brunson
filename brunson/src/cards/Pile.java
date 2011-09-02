@@ -75,6 +75,9 @@ public class Pile implements Iterable<Card>{
 	}
 
 	public Pile copy() {
-		return  new Pile((Card[]) cards.toArray());
+		Pile pile = new Pile();
+		for(Card card : cards)
+			pile.add(card);
+		return pile;
 	}
 }

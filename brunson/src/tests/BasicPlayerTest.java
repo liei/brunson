@@ -18,10 +18,10 @@ public class BasicPlayerTest {
 	}
 
 	@Test
-	public void testSetHand() {
+	public void testAddCard() {
 		BasicPlayer player = new BasicPlayer(100, 30, 25, 25);
-		player.addCard(new Card("5d"));
-		player.addCard(new Card("9s"));
+		player.addCard(Deck.getCard("5d"));
+		player.addCard(Deck.getCard("9s"));
 		assertEquals(Suit.DIAMONDS,player.getHand().getCard(0).getSuit());
 		assertEquals(Suit.SPADES,player.getHand().getCard(1).getSuit());
 		assertEquals(Value.FIVE,player.getHand().getCard(0).getValue());

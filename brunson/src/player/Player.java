@@ -19,6 +19,7 @@ public abstract class Player {
 	protected int bluffy;
 	
 	protected Player(int buyin, int aggression, int vpip, int bluffy) {
+		hand = new Pile();
 		this.holeCards = new HoleCards();
 		this.stack = buyin;
 		this.aggression = aggression;
