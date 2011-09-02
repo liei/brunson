@@ -2,43 +2,32 @@ package cards;
 
 import java.util.*;
 
-public class Deck implements Iterable<Card>{
+public class Deck {
+
+	private static Pile deck = new Pile();
+	private static Map<String,Card> cardMap = new HashMap<String,Card>();	
 	
-	ArrayList<Card> deck;
-	Random random = new Random();
-	
-	//Constructor
-	public Deck() {
-		this.deck = new ArrayList<Card>();
-		for(Value value : Value.values()) {
-			for(Suit suit : Suit.values()) {
-				deck.add(new Card(value, suit));
+	static {
+		for(Value value : Value.values()){
+			for(Suit suit : Suit.values()){
+				Card card = new Card(value,suit);
+				deck.add(card);
+				cardMap.put(card.toString(),card);
 			}
-		}
-		
-	}
-	public ArrayList<Card> getDeck() {
-		return deck;
-	}
-	
-	//Remove a random card from the deck. Somewhat easier than actually shuffling the entire deck.
-	public Card pop() {
-		int index = random.nextInt(deck.size());
-		return deck.remove(index);
-	}
-	public Pile getFlop() {
-		Pile flop = new Pile();
-		flop.add(this.pop());
-		flop.add(this.pop());
-		flop.add(this.pop());
-		return flop;
-	}
-	@Override
-	public Iterator<Card> iterator() {
-		return deck.iterator();
-	}
-	
+		}	
+	}	
 
-	
+	private Deck(){};
 
+	public static Pile fullDeck(){
+		return deck.copy();
+	}
+
+	public static Card getCard(Value value,Suit suit){
+		return getCard(value.toString() + suit.toString());			
+	}
+
+	public static Card getCard(String key){
+		return cardMap.get(key);
+	}
 }

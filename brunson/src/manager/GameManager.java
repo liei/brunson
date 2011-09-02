@@ -8,7 +8,7 @@ import player.*;
 public class GameManager {
 	
 	List<Player> players;
-	Deck deck;
+	Pile deck;
 	
 	
 	private int pot;
@@ -16,7 +16,7 @@ public class GameManager {
 	
 	public GameManager(){
 		players = new ArrayList<Player>();
-		deck = new Deck();
+		deck = Deck.fullDeck();
 	}
 	
 	public void addPlayer(Player p){
