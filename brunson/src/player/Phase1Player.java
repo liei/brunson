@@ -2,13 +2,11 @@ package player;
 
 import java.util.Random;
 
-import cards.Card;
-
-public class BasicPlayer extends Player{
+public class Phase1Player extends AIPlayer{
 	
 	Random random = new Random();
 	
-	public BasicPlayer(int buyin, int aggression, int vpip, int bluffy) {
+	public Phase1Player(int buyin, int aggression, int vpip, int bluffy) {
 		super(buyin, aggression, vpip, bluffy);
 	}
 	

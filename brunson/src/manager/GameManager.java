@@ -10,7 +10,6 @@ public class GameManager {
 	List<Player> players;
 	Pile deck;
 	
-	
 	private int pot;
 	private int bet;
 	
@@ -27,18 +26,15 @@ public class GameManager {
 		for(int i=0; i < hands; i++) {
 			playHand();
 		}
-		
 	}
 	
 	private void playHand(){
 		int dealer = 0;
 		//deal holecards
 		for(Player player : players) {
-			player.addHoleCard(deck.pop());
-			player.addHoleCard(deck.pop());
+			player.addCard(deck.pop());
+			player.addCard(deck.pop());
 		}
 		CommunityCards communityCards = new CommunityCards();
-		
 	}
-	
 }

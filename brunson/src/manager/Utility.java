@@ -456,12 +456,6 @@ public class Utility {
 		return rating;
 	}
 	
-	private static <T> T[] concat(T[] first, T[] second) {
-		T[] result = Arrays.copyOf(first, first.length + second.length);
-		System.arraycopy(second, 0, result, first.length, second.length);
-		return result;
-	}
-	
 	private static int[] sort(int[] array) {
 		Arrays.sort(array);
 		int[] a = new int[array.length];

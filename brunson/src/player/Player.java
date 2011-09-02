@@ -4,27 +4,10 @@ import cards.*;
 public abstract class Player {
 	
 	private Pile hand;
-	private int stack;
-	private HoleCards holeCards;
-	
-	//Value from 0 - 100 indicating how aggressive the player is.
-	protected int aggression;
-	
-	//VP$IP, short for voluntarily put money in put. Standard metric indicating how picky the player is pre-flop.
-	//A vpip above 30 is generally regarded as too loose in 6-max games, the player plays 30% of the deck.
-	//A vpip below 15 is extremely tight, or 'nitty'.
-	protected int vpip;
-	
-	//Value from 0-100 indicating how willing the player is to run big bluffs.
-	protected int bluffy;
-	
-	protected Player(int buyin, int aggression, int vpip, int bluffy) {
-		hand = new Pile();
-		this.holeCards = new HoleCards();
-		this.stack = buyin;
-		this.aggression = aggression;
-		this.vpip = vpip;
-		this.bluffy = bluffy;
+	private int chips;
+		
+	public Player(int buyin){
+		chips = buyin;
 	}
 	
 	public void addCard(Card card) {
@@ -35,24 +18,12 @@ public abstract class Player {
 		return hand;
 	}
 	
-//	public void setHoleCards(Pile cards) {
-//		this.holeCards.setHoleCards(cards);
-//	}
-	
-	public HoleCards getHoleCards() {
-		return this.holeCards;
-	}
-	
-	public void addHoleCard(Card card) {
-		this.holeCards.addHoleCard(card);
-	}
-	
 	public int getStackSize() {
-		return this.stack;
+		return chips;
 	}
 	
 	public void updateStack(int delta) {
-		stack+=delta;
+		chips += delta;
 	}
 	
 	//Returns the player's chosen action. 0 for fold, 1 for call and 2 for raise.
