@@ -38,7 +38,7 @@ public class Action {
 		return new Action(Type.CHECK,0);
 	}
 	
-	static enum Type {
+	public static enum Type {
 		BET,
 		RAISE,
 		CHECK,

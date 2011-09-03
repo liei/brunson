@@ -28,6 +28,6 @@ public abstract class Player {
 	}
 	
 	//Returns the player's chosen action. 0 for fold, 1 for call and 2 for raise.
-	public abstract int getAction();
+	public abstract Action getAction();
 
 }
