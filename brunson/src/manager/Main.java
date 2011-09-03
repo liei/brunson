@@ -12,19 +12,16 @@ public class Main {
 	
 	public static void main(String[] args) {
 		
-		Pile deck = Deck.fullDeck();
-		deck.shuffle();
-		Pile community = deck.deal(3);
-		Pile pile1 = deck.deal(2);
-		Pile pile2 = deck.deal(2);
-		
-		int[] r1 = Utility.calcCardPower(community,pile1);
-		int[] r2 = Utility.calcCardPower(community,pile2);
-		
-		Comparator<int[]> rating = new RatingComparator(); 
-
-		System.out.println(new Pile(pile1,community));
-		System.out.println(new Pile(pile2,community));
-		System.out.println(rating.compare(r1,r2));
+		for(int i = 0; i < 1000; i++){
+			Pile deck = Deck.fullDeck();
+			deck.shuffle();
+			Pile pile = deck.deal(5);
+			try{
+				Utility.calcCardPower(pile);
+			} catch (Exception e){
+				e.printStackTrace();
+				System.out.println(pile);
+			}
+		}
 	}
 }
