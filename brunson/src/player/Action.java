@@ -7,7 +7,5 @@ public class Action {
 		CHECK,
 		CALL,
 		FOLD;		
-	}
-
-	
+	}	
 }
