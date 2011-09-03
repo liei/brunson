@@ -10,8 +10,7 @@ public class CalcCardPowerTest {
 
 	@Test
 	public void testCalcCardPower() {
-		
-		
+
 		Pile pile = new Pile();
 		int[] powerRating;
 		
@@ -377,4 +376,13 @@ public class CalcCardPowerTest {
 	
 	}
 
+	@Test
+	public void testRandomHands(){
+		//calculate hand rating for 1000 random hands
+		for(int i = 0; i < 1000; i++){
+			Pile deck = Deck.fullDeck();
+			deck.shuffle();
+			Utility.calcCardPower(deck.deal(5));
+		}
+	}
 }
