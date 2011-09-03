@@ -7,6 +7,7 @@ public abstract class Player {
 	private int chips;
 		
 	public Player(int buyin){
+		this.hand = new Pile();
 		chips = buyin;
 	}
 	
