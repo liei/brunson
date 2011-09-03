@@ -1,5 +1,6 @@
 package manager;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
 import cards.*;
@@ -7,51 +8,70 @@ import player.*;
 
 public class GameManager {
 	
-	private ArrayList<Player> players;
+	private List<Player> players;
 	private Pile deck;
-	private CommunityCards communityCards;
+	private Pile communityCards;
 	
 	
 	private int pot;
 	private int bet;
-	private int button;
 	
 	public GameManager(){
 		players = new ArrayList<Player>();
 		deck = Deck.fullDeck();
-		this.button = 0;
 	}
 	
 	public void addPlayer(Player p){
 		players.add(p);
 	}
 	
-	private void playGame(int hands) {
-		for(int i=0; i < hands; i++) {
-			playHand();
+	public void playGames(int hands) {
+		for(int i = 0; i < hands; i++) {
+			playHand(i % players.size());
 		}
 	}
 	
-	private void playHand(){
-		ArrayList<Player> activePlayers = players;
+	private void playHand(int button){
+//		ArrayList<Player> activePlayers = players; 
+//		this will make activePlayers a reference to players, if we run remove on activePlayers, 
+//		they will be removed from players too
+		
+		List<Player> activePlayers = new ArrayList<Player>();
+		Collections.copy(activePlayers,players);
+		
 		bet = 0;
 		dealHoleCards();
-		postBlinds();
 		
-		//Action starts with the player sitting three places to the left of the button.
-		int index = (button+3) % players.size();
-		for(int i = 0; i < players.size(); i++) {
-			Action action = players.get(index).getAction();
+		
+		// Preflop	
+		int index = button;
+		
+		// Small blind
+		index = (index + 1) % activePlayers.size(); 
+		activePlayers.get(index).updateStack(-1);
+		updatePot(1);
+		
+		// Big blind
+		index = (index + 1) % activePlayers.size(); 
+		activePlayers.get(index).updateStack(-21);
+		updatePot(2);
+		
+		
+		
+		for(; activePlayers.size() > 1; index = (index + 1) % activePlayers.size()) {
+			Player player = players.get(index);
+			Action action = player.act(Round.PREFLOP,communityCards);
 			switch(action.getType()) {
 			case FOLD: 
-				activePlayers.remove(index); break;
+				activePlayers.remove(player);
+				break;
 			case CALL:
 				//TODO: This implementation forces the player to pay max bet and doesn't give him any discounts so he can call (max bet - his previous bet)
-				activePlayers.get(index).updateStack(-bet);
+				player.updateStack(-bet);
 				updatePot(bet);
 				break;
 			case RAISE:
-				//TODO: implement this with a soltion to the problem in CALL.
+				//TODO: implement this with a solution to the problem in CALL.
 				break;
 			case BET:
 				activePlayers.get(index).updateStack(-bet);
@@ -76,14 +96,5 @@ public class GameManager {
 		this.pot += delta;
 		
 	}
-	
-	private void postBlinds() {
-		//sb
-		players.get((button-2) % players.size()).updateStack(-1);
-		//bb
-		players.get((button-1) % players.size()).updateStack(-2);
-		this.updatePot(3);
-		
-		
-	}
+
 }

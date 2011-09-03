@@ -1,7 +1,7 @@
 package player;
 
-import java.util.Random;
-import manager.*;
+import manager.Round;
+import cards.Pile;
 
 public class Phase1Player extends AIPlayer{
 	
@@ -9,8 +9,9 @@ public class Phase1Player extends AIPlayer{
 		super(buyin, aggression, vpip, bluffy);
 	}
 	
-	public Action getAction() {
-		//TODO: This player needs some idea about the community cards so he can call Utility.getPowerRating(Pile (communityCards+holeCards))
-		return Action.call();
+	@Override
+	public Action act(Round round, Pile communityCards) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

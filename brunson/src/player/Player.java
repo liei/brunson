@@ -1,4 +1,5 @@
 package player;
+import manager.Round;
 import cards.*;
 
 public abstract class Player {
@@ -27,7 +28,6 @@ public abstract class Player {
 		chips += delta;
 	}
 	
-	//Returns the player's chosen action. 0 for fold, 1 for call and 2 for raise.
-	public abstract Action getAction();
+	public abstract Action act(Round round,Pile communityCards);
 
 }
