@@ -1,6 +1,8 @@
 package manager;
 
-import cards.Card;
+import java.util.Comparator;
+
+import preflop.RatingComparator;
 import cards.Deck;
 import cards.Pile;
 
@@ -11,34 +13,18 @@ public class Main {
 	public static void main(String[] args) {
 		
 		Pile deck = Deck.fullDeck();
-		Card card1 = Deck.getCard("9s");
-		Card card2 = Deck.getCard("9s");
+		deck.shuffle();
+		Pile community = deck.deal(3);
+		Pile pile1 = deck.deal(2);
+		Pile pile2 = deck.deal(2);
 		
-		if(card1 == card2)
-			System.out.println("Success");
-		else 
-			System.out.println("Fail");
+		int[] r1 = Utility.calcCardPower(community,pile1);
+		int[] r2 = Utility.calcCardPower(community,pile2);
 		
-		card1 = new Card("9s");
-		card1 = new Card("9s");
-		
-		if(card1 == card2)
-			System.out.println("Success");
-		else
-			System.out.println("Fail");
-		
-		
-		System.out.println(card1);
-		System.out.println(deck);
-		
-		Pile pile = Pile.newPile("9s","9d","9c","2s","3s","2h","Qd");
-		int[] powerRating = Utility.calcCardPower(pile);
-		
-		System.out.println(pile);
-		for(int i : powerRating)
-			System.out.printf(" %2d",i);
-		System.out.println();
-		
-		
+		Comparator<int[]> rating = new RatingComparator(); 
+
+		System.out.println(new Pile(pile1,community));
+		System.out.println(new Pile(pile2,community));
+		System.out.println(rating.compare(r1,r2));
 	}
 }

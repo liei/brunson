@@ -23,6 +23,12 @@ public class Deck {
 		return deck.copy();
 	}
 
+	public static Pile incompleteDeck(Pile... piles){
+		Pile pile = deck.copy();
+		pile.remove(piles);
+		return pile;
+	}
+	
 	public static Card getCard(Value value,Suit suit){
 		return getCard(value.toString() + suit.toString());			
 	}

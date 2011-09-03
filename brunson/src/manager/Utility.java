@@ -8,8 +8,9 @@ public class Utility {
 	
 	private Utility(){}
 	
-	public static int[] calcCardPower(Pile pile) {
-			
+	public static int[] calcCardPower(Pile... piles) {
+		Pile pile = new Pile(piles);
+		
 		//Pair
 		
 		if(onePair(pile)) {
