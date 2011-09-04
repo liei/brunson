@@ -1,6 +1,6 @@
 package cards;
 
-public class CommunityCards{
+public class CommunityCards extends Pile{
 	
 	private Pile flop;
 	private Pile turn;
