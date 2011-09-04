@@ -12,12 +12,13 @@ public class BasicPlayerTest {
 
 	//TODO: Fix the testAction() test
 	
-//	@Test
-//	public void testAction() {
-//		Phase1Player player = new Phase1Player(100, 30, 25, 25);
-//		int action = player.getAction();
-//		assertTrue(action== 0 | action == 1 | action == 2);
-//	}
+	@Test
+	public void testAction() {
+		Phase1Player player = new Phase1Player(100, 30, 25, 25);
+		CommunityCards communityCards = new CommunityCards()
+		//Player has 1 pair on flop and should call!
+		assertTrue(player.act(FLOP, communityCards, bet, raises, pot));
+	}
 
 	@Test
 	public void testAddCard() {

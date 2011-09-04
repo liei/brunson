@@ -1,13 +1,12 @@
 package cards;
 
-public class CommunityCards extends Pile{
+public class CommunityCards{
 	
 	private Pile flop;
 	private Pile turn;
 	private Pile river;
 	
 	public CommunityCards() {
-		super();
 		this.flop = new Pile();
 		this.turn = new Pile();
 		this.river = new Pile();		
