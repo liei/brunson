@@ -28,6 +28,6 @@ public abstract class Player {
 		chips += delta;
 	}
 	
-	public abstract Action act(Round round,Pile communityCards);
+	public abstract Action act(Round round, Pile communityCards, int bet, int raises, int pot);
 
 }

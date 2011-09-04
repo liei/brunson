@@ -468,6 +468,26 @@ public class Utility {
 		return a;
 		
 	}
+	
+	private static boolean isFlushDraw(Pile pile) {
+		int c = 0;
+		int h = 0;
+		int s = 0;
+		int d = 0;
+		
+		for(int i = 0; i < pile.getCardCount(); i++) {
+			switch(pile.getCard(i).getSuit()) {
+			case CLUBS: c++; continue;
+			case HEARTS:  h++; continue;
+			case SPADES: s++; continue;
+			case DIAMONDS: d++; continue;
+			}
+		}
+		if(s > 3 || c > 3 || h > 3 || d > 3) {
+			return true;
+		}
+		return false;
+	}
 }
 	
 	

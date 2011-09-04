@@ -96,5 +96,4 @@ public class GameManager {
 		this.pot += delta;
 		
 	}
-
 }
