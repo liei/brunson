@@ -286,7 +286,7 @@ public class Utility {
 			if(j==highPair || j==highPair + 1 || j==lowPair ||j==lowPair+1) {
 				continue;
 			}
-			rating[4] = values[j];
+			rating[3] = values[j];
 		}					
 		return rating;
 	}
