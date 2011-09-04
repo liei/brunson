@@ -32,10 +32,10 @@ public class Pile implements Iterable<Card>{
 	}
 
 	public void add(Pile... piles) {
-			for(Pile pile : piles){
-				for(Card card : pile)
-					add(card);
-			}
+		for(Pile pile : piles){
+			for(Card card : pile)
+				add(card);
+		}
 	}
 	
 	public int getCardCount(){
