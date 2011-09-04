@@ -311,7 +311,7 @@ public class Utility {
 			}
 		}
 		//if we find trips we have to make sure we cannot find another pair as this would mean a full house.
-		for(int i = 0; i < values.length; i++) {
+		for(int i = 0; i < values.length - 1; i++) {
 			//we found trips, skip index containing this value, check for pair.
 			if(tripIndex != - 1 && i != tripIndex && i != tripIndex + 1 && i != tripIndex + 2) {
 				if(values[i] == values[i+1]) {
@@ -368,7 +368,7 @@ public class Utility {
 			}
 		}
 		//if we find trips we have to make sure we find another pair as this would mean a full house.
-		for(int i = 0; i < values.length; i++) {
+		for(int i = 0; i < values.length - 1; i++) {
 			//we found trips, skip index containing this value, check for pair.
 			if(tripIndex != - 1 && i != tripIndex && i != tripIndex + 1 && i != tripIndex + 2) {
 				if(values[i] == values[i+1]) {
