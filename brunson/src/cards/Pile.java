@@ -1,5 +1,6 @@
 package cards;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -114,5 +115,24 @@ public class Pile implements Iterable<Card>{
 			pile.add(card);
 		return pile;
 	}
+	
+	public List<Pile> combinations(int length){
+		List<Pile> piles = new ArrayList<Pile>();
+		Card[] comb = new Card[length];
+		Card[] rest = cards.toArray(new Card[]{});
+		findCombinations(piles,comb,rest,0,0);
+		return piles; 
+	}
+	
 
+	private void findCombinations(List<Pile> piles,Card[] comb,Card[] rest,int location,int start){
+		if(location == comb.length){
+			piles.add(new Pile(comb));
+		} else {
+			for (int i = start;i < rest.length;i++) {
+				comb[location] = rest[i];
+				findCombinations(piles,comb,rest,location+1,i+1);
+			}
+		}
+	}
 }
