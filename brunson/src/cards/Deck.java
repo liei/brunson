@@ -34,6 +34,20 @@ public class Deck {
 	}
 
 	public static Card getCard(String key){
-		return cardMap.get(key);
+		Card card = cardMap.get(key);
+		if(card == null)
+			throw new IllegalArgumentException(String.format("%s is not a legal card",key));
+		return card;
+	}
+		
+	public static Pile getPile(String... cards){
+		Pile pile = new Pile();
+		for(String card : cards)
+			pile.add(getCard(card));
+		return pile;
+	}
+	
+	public static Pile getPile(String cards){
+		return getPile(cards.split("(?<=\\G..)"));
 	}
 }
