@@ -85,6 +85,7 @@ public class Pile implements Iterable<Card>{
 		Collections.shuffle(cards);
 	}
 	
+	@Deprecated
 	public static Pile newPile(String... cards){
 		Pile pile = new Pile();
 		for(String card : cards)
