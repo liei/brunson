@@ -40,6 +40,7 @@ public class GameManager {
 		Collections.copy(activePlayers,players);
 		
 		bet = 0;
+		int raises = 0;
 		dealHoleCards();
 		
 		
@@ -60,7 +61,7 @@ public class GameManager {
 		
 		for(; activePlayers.size() > 1; index = (index + 1) % activePlayers.size()) {
 			Player player = players.get(index);
-			Action action = player.act(Round.PREFLOP,communityCards);
+			Action action = player.act(Round.PREFLOP,communityCards, bet, raises, pot);
 			switch(action.getType()) {
 			case FOLD: 
 				activePlayers.remove(player);
