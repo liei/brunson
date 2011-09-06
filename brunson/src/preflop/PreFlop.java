@@ -4,14 +4,11 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.io.PrintWriter;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-
-import preflop.PreFlopSim.Simulation;
 
 import manager.Utility;
 
@@ -24,8 +21,7 @@ public class PreFlop {
 
 	private static Comparator<int[]> compareRating = new RatingComparator();
 	
-	private static Map<String,Double> table;
-	
+	private static Map<String,Double> table = null;
 	
 	private PreFlop(){
 	}
@@ -82,6 +78,7 @@ public class PreFlop {
 	}
 	
 	public static void load(String filepath) throws IOException{
+		table = new HashMap<String,Double>();
 		BufferedReader br = null; 
 
 		br = new BufferedReader(new FileReader(filepath));
