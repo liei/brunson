@@ -138,7 +138,7 @@ public class HandRating implements Comparable<HandRating>{
 		Value[] tie = new Value[5];
 		for(int i = 0; i < tie.length; i++)
 			tie[i] = flush.getCard(i).getValue();
-		return null;
+		return new HandRating(PokerHands.FLUSH,tie);
 	}
 	
 	private static HandRating straight(Pile straight){ 
