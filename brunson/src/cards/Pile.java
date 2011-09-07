@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Iterator;
 
-public class Pile implements Iterable<Card>{
+public class Pile implements Iterable<Card>,Comparable<Pile>{
 	
 	List<Card> cards;
 	
@@ -132,6 +132,16 @@ public class Pile implements Iterable<Card>{
 				comb[location] = rest[i];
 				findCombinations(piles,comb,rest,location+1,i+1);
 			}
+		}
+	}
+
+	@Override
+	public int compareTo(Pile that) {
+		int diffSize = that.size() - this.size();
+		if(diffSize == 0 && size() > 0){
+			return this.getCard(0).compareTo(that.getCard(0));
+		} else {
+			return diffSize;
 		}
 	}
 }
