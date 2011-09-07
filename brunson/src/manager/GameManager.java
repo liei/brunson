@@ -57,9 +57,8 @@ public class GameManager {
 		activePlayers.get(index).updateAmountWagered(2);
 		updatePot(2);
 		
-		
 		//Cycle through each remaining active player.
-		for(; activePlayers.size() > 1; index = (index + 1) % activePlayers.size()) {
+		while(true) {
 			Player player = players.get(index);
 			Action action = player.act(Round.PREFLOP,communityCards, bet, raises, pot);
 			switch(action.getType()) {
@@ -88,7 +87,26 @@ public class GameManager {
 				bet = action.getBet();
 				break;	
 			}
+			for(Player p : activePlayers) {
+				int callCount = 0;
+				//Check if the last player action was to call.
+				if(p.getPreFlopActions().get(p.getFlopActions().size() - 1).getType() == Action.Type.CALL) {
+					callCount++;
+				}
+				//If all but one player has called it's time to see a flop.
+				if(callCount == activePlayers.size() - 1) {
+					break;
+				}
+			}
+			index = (index + 1) % activePlayers.size();
+			
+			//All but one have folded and the hand ends.
+			if(activePlayers.size() == 1) {
+				activePlayers.get(index).updateStack(pot);
+				break;
+			}
 		}
+		
 		communityCards.clear();
 	}
 	
