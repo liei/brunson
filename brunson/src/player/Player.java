@@ -8,10 +8,12 @@ public abstract class Player {
 	private Pile hand;
 	private int chips;
 	private ArrayList<Action>[] actions;
+	private int amountWagered;
 		
 	public Player(int buyin){
 		this.hand = new Pile();
-		chips = buyin;
+		this.chips = buyin;
+		this.amountWagered = 0;
 		this.actions = new ArrayList[4];
 		//List of actions this player took pre-flop, on flop, and on river.
 		this.actions[0] = new ArrayList<Action>();
@@ -67,5 +69,13 @@ public abstract class Player {
 	}
 	public void setRiverAction(Action action) {
 		this.actions[3].add(action);
+	}
+	
+	public void updateAmountWagered(int chips) {
+		this.amountWagered +=chips;
+	}
+	
+	public int getAmountWagered() {
+		return this.amountWagered;
 	}
 }
