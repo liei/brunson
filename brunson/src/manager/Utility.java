@@ -488,6 +488,10 @@ public class Utility {
 		}
 		return false;
 	}
+	
+	public float potOdds(int pot, int toCall) {
+		return toCall / (pot + toCall);
+	}
 }
 	
 	
