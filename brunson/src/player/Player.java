@@ -55,4 +55,17 @@ public abstract class Player {
 	public ArrayList<Action> getRiverActions() {
 		return this.actions[3];
 	}
+	
+	public void setPreFlopAction(Action action) {
+		this.actions[0].add(action);
+	}
+	public void setFlopAction(Action action) {
+		this.actions[1].add(action);
+	}
+	public void setTurnAction(Action action) {
+		this.actions[2].add(action);
+	}
+	public void setRiverAction(Action action) {
+		this.actions[3].add(action);
+	}
 }
