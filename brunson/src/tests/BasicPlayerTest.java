@@ -14,7 +14,7 @@ import player.Phase1Player;
 
 public class BasicPlayerTest {
 
-	//TODO: Fix the testAction() test
+	//TODO: Add some more tests.
 	
 	@Test
 	public void testAction() {

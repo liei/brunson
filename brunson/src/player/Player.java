@@ -78,4 +78,6 @@ public abstract class Player {
 	public int getAmountWagered() {
 		return this.amountWagered;
 	}
+
+	
 }

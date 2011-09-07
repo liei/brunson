@@ -46,7 +46,7 @@ public class GameManager {
 		int index = button;
 		
 		// Small blind
-		index = (index + 1) % (activePlayers.size() -1); 
+		index = (index + 1) % activePlayers.size(); 
 		activePlayers.get(index).updateStack(-1);
 		activePlayers.get(index).updateAmountWagered(1);
 		updatePot(1);
