@@ -32,15 +32,13 @@ public class GameManager {
 	}
 	
 	private void playHand(int button){
-//		ArrayList<Player> activePlayers = players; 
-//		this will make activePlayers a reference to players, if we run remove on activePlayers, 
-//		they will be removed from players too
-		
+	
 		List<Player> activePlayers = new ArrayList<Player>();
 		Collections.copy(activePlayers,players);
 		
 		bet = 0;
 		int raises = 0;
+		boolean raise = false;
 		dealHoleCards();
 		
 		
@@ -48,38 +46,47 @@ public class GameManager {
 		int index = button;
 		
 		// Small blind
-		index = (index + 1) % activePlayers.size(); 
+		index = (index + 1) % (activePlayers.size() -1); 
 		activePlayers.get(index).updateStack(-1);
+		activePlayers.get(index).updateAmountWagered(1);
 		updatePot(1);
 		
 		// Big blind
 		index = (index + 1) % activePlayers.size(); 
-		activePlayers.get(index).updateStack(-21);
+		activePlayers.get(index).updateStack(-2);
+		activePlayers.get(index).updateAmountWagered(2);
 		updatePot(2);
 		
 		
-		
+		//Cycle through each remaining active player.
 		for(; activePlayers.size() > 1; index = (index + 1) % activePlayers.size()) {
 			Player player = players.get(index);
 			Action action = player.act(Round.PREFLOP,communityCards, bet, raises, pot);
 			switch(action.getType()) {
 			case FOLD: 
+				player.setPreFlopAction(Action.fold());
 				activePlayers.remove(player);
 				break;
 			case CALL:
-				//TODO: This implementation forces the player to pay max bet and doesn't give him any discounts so he can call (max bet - his previous bet)
-				player.updateStack(-bet);
+				player.setPreFlopAction(Action.call());
+				player.updateStack(player.getAmountWagered()-bet);
+				player.updateAmountWagered(bet- player.getAmountWagered());
 				updatePot(bet);
 				break;
 			case RAISE:
-				//TODO: implement this with a solution to the problem in CALL.
+				player.setPreFlopAction(Action.raise(3*bet));
+				player.updateAmountWagered(3*bet);
+				player.updateStack(-3*bet);
+				updatePot(3*bet);
+				raises++;
 				break;
 			case BET:
 				activePlayers.get(index).updateStack(-bet);
+				player.setPreFlopAction(Action.bet(bet));
+				player.updateAmountWagered(bet);
 				updatePot(bet);
 				bet = action.getBet();
-				break;
-				
+				break;	
 			}
 		}
 		communityCards.clear();
