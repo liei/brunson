@@ -21,12 +21,18 @@ public class HandRating implements Comparable<HandRating>{
 	
 	public static void main(String[] args) {
 		Random r = new Random();
-		for(int i = 0; i < 50; i++){
+		for(int i = 0; i < 1000000; i++){
 			Pile deck = Deck.fullDeck();
 			deck.shuffle();
-			Pile pile = deck.deal(r.nextInt(3) + 5); 
-			HandRating rating = rate(pile);
-			System.out.printf("%s \t-- %s%n",pile,rating);
+			Pile pile = deck.deal(r.nextInt(3) + 5);
+			try{
+				HandRating hr = rate(pile);
+				if(hr.toString().equals("Royal Flush"))
+					System.out.println(pile);
+			} catch (Exception e){
+				System.out.println(pile);
+				e.printStackTrace();
+			}
 		}
 	}
 	
@@ -48,7 +54,7 @@ public class HandRating implements Comparable<HandRating>{
 			return straightFlush(straight);
 		} else if(partitions.get(0).size() == 4){
 			return quad(partitions);
-		} else if(partitions.get(0).size() == 3 && partitions.get(1).size() == 2){
+		} else if(partitions.get(0).size() == 3 && partitions.get(1).size() >= 2){
 			return boat(partitions);
 		} else if(flush != null){
 			return flush(flush);
@@ -85,23 +91,21 @@ public class HandRating implements Comparable<HandRating>{
 
 	private static Pile findStraight(Pile hand) {
 		hand.sort();
-		Pile straight = new Pile();
-		Card lastCard = hand.getCard(0);
-		straight.add(lastCard);
-		for(int i = 1; i < hand.size(); i++){
-			Card card = hand.getCard(i);
-			int comp = lastCard.compareTo(card);
+		Card[] straight = new Card[5];
+		int i = 0;
+		straight[i] = hand.getCard(0);
+		for (Card card : hand) {
+			int comp = straight[i].compareTo(card);
 			if(comp == -1){
-				straight.add(card);
-				lastCard = card;
-				if(straight.size() == 5)
-					return straight;
+				straight[++i] = card;
+				if(i == 4)
+					return new Pile(straight);
 			} else if (comp < -1){
-				straight.clear();
-				straight.add(card);
+				straight[i = 0] = card;
 			}
-			lastCard = card;
 		}
+		if(i == 3 && straight[0].getValue() == Value.FIVE && (straight[4] = hand.getCard(0)).getValue() == Value.ACE)
+			return new Pile(straight);
 		return null;
 	}
 	
@@ -199,30 +203,27 @@ public class HandRating implements Comparable<HandRating>{
 		switch(type){
 		
 		case HIGHCARD: 
-			return String.format("Highcards %s %s %s %s %s",t[0].singular,t[1].singular,
-					t[2].singular,t[3].singular,t[4].singular);
+			return String.format("Highcards %c %c %c %c %c",t[0].pip,t[1].pip,t[2].pip,t[3].pip,t[4].pip);
 		case ONEPAIR: 
-			return String.format("Pair of %s, %s %s %s kickers",t[0].plural,t[1].singular,
-					t[2].singular,t[3].singular);
+			return String.format("Pair of %s, %c %c %c kickers",t[0].plural,t[1].pip,t[2].pip,t[3].pip);
 		case TWOPAIR: 
-			return String.format("Two pair %s and %s, %s kicker",t[0].plural,t[1].plural,t[2].singular);
+			return String.format("Two pair %s and %s, %c kicker",t[0].plural,t[1].plural,t[2].pip);
 		case TRIPS:
-			return String.format("Three of a Kind %s, %s %s kickers",t[0].plural,t[1].singular,t[2].singular);
+			return String.format("Three of a Kind %s, %c %c kickers",t[0].plural,t[1].pip,t[2].pip);
 		case STRAIGHT:
 			return String.format("Straight %s high",t[0].singular);
 		case FLUSH:
-			return String.format("Flush %s high, %s %s %s %s kickers",t[0].singular,t[1].singular,
-					t[2].singular,t[3].singular,t[4].singular);
+			return String.format("Flush %s high, %s %s %s %s kickers",t[0].singular,t[1].pip,t[2].pip,t[3].pip,t[4].pip);
 		case BOAT: 
 			return String.format("Full House %s full of %s",t[0].plural,t[1].plural);
 		case QUAD:
-			return String.format("Four of a Kind %s, %s kicker",t[0].plural,t[1].singular);
+			return String.format("Four of a Kind %s, %c kicker",t[0].plural,t[1].pip);
 		case STRAIGHTFLUSH:
 			if(t[0] == Value.ACE)
 				return "Royal Flush";
 			return String.format("Straight Flush %s high",t[0].singular);
 		}
-		return "Nada";
+		throw new RuntimeException("This shouldn't happen!");
 	}
 	
 	static enum PokerHands {
