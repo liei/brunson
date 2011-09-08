@@ -28,19 +28,4 @@ public enum Value {
 	public String toString(){
 		return Character.toString(pip);
 	}
-	
-	@Deprecated
-	public static Value getValueFromInt(int v){
-		return Value.values()[v+2];
-	}
-	
-	@Deprecated
-	public static Value getValueFromPip(char v) {
-		for(Value value : Value.values()){
-			if(v == value.pip) {
-				return value;
-			}
-		}
-		throw new IllegalArgumentException();	
-	}
 }

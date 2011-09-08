@@ -11,20 +11,6 @@ public class Card implements Comparable<Card>{
 		this.suit = suit;
 	}
 	
-//	public Card(Suit suit,Value value){
-//		this.suit = suit;
-//		this.value = value;
-//	}
-	
-	public Card(String s){
-		if(s.length() != 2) {
-			throw new IllegalArgumentException();
-		}
-		value = Value.getValueFromPip(s.charAt(0));
-		suit = Suit.getSuitFromPip(s.charAt(1));
-	}
-	
-	
 	public Value getValue(){
 		return value;
 	}

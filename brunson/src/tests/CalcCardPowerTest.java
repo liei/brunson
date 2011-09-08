@@ -11,17 +11,11 @@ public class CalcCardPowerTest {
 	@Test
 	public void testCalcCardPower() {
 
-		Pile pile = new Pile();
+		Pile pile;
 		int[] powerRating;
 		
 		//high cards
-		pile.add(new Card("5s"));
-		pile.add(new Card("Kd"));
-		pile.add(new Card("Ac"));
-		pile.add(new Card("Jd"));
-		pile.add(new Card("9h"));
-		pile.add(new Card("7c"));
-		pile.add(new Card("2c"));
+		pile = Deck.getPile("5sKdAcJd9h7c2c");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(1, powerRating[0]);
 		assertEquals(14, powerRating[1]);
@@ -32,12 +26,7 @@ public class CalcCardPowerTest {
 		pile.clear();	
 		
 		//high cards 6, pile
-		pile.add(new Card("5s"));
-		pile.add(new Card("Kd"));
-		pile.add(new Card("Ac"));
-		pile.add(new Card("Jd"));
-		pile.add(new Card("9h"));
-		pile.add(new Card("7c"));
+		pile = Deck.getPile("5sKdAcJd9h7c");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(1, powerRating[0]);
 		assertEquals(14, powerRating[1]);
@@ -48,11 +37,7 @@ public class CalcCardPowerTest {
 		pile.clear();	
 		
 		//high cards, 5 pile
-		pile.add(new Card("Kd"));
-		pile.add(new Card("Ac"));
-		pile.add(new Card("Jd"));
-		pile.add(new Card("9h"));
-		pile.add(new Card("7c"));
+		pile = Deck.getPile("KdAcJd9h7c");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(1, powerRating[0]);
 		assertEquals(14, powerRating[1]);
@@ -63,13 +48,7 @@ public class CalcCardPowerTest {
 		pile.clear();
 		
 		//pair of queens
-		pile.add(new Card("Qs"));
-		pile.add(new Card("7d"));
-		pile.add(new Card("9c"));
-		pile.add(new Card("8h"));
-		pile.add(new Card("6d"));
-		pile.add(new Card("Ah"));
-		pile.add(new Card("Qd"));
+		pile = Deck.getPile("Qs7d9c8h6dAhQd");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(2, powerRating[0]);
 		assertEquals(12, powerRating[1]);
@@ -79,12 +58,7 @@ public class CalcCardPowerTest {
 		pile.clear();
 		
 		//pair of queens, 6 pile
-		pile.add(new Card("Qs"));
-		pile.add(new Card("7d"));
-		pile.add(new Card("9c"));
-		pile.add(new Card("8h"));
-		pile.add(new Card("Ah"));
-		pile.add(new Card("Qd"));
+		pile = Deck.getPile("Qs7d9c8hAhQd");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(2, powerRating[0]);
 		assertEquals(12, powerRating[1]);
@@ -94,11 +68,8 @@ public class CalcCardPowerTest {
 		pile.clear();
 		
 		//pair of queens, 5 pile
-		pile.add(new Card("Qs"));
-		pile.add(new Card("9c"));
-		pile.add(new Card("8h"));
-		pile.add(new Card("Ah"));
-		pile.add(new Card("Qd"));
+
+		pile = Deck.getPile("Qs9c8hAhQd");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(2, powerRating[0]);
 		assertEquals(12, powerRating[1]);
@@ -108,12 +79,7 @@ public class CalcCardPowerTest {
 		pile.clear();
 		
 		//pair of 5s
-		pile.add(new Card("5s"));
-		pile.add(new Card("5d"));
-		pile.add(new Card("Ac"));
-		pile.add(new Card("Jd"));
-		pile.add(new Card("9h"));
-		pile.add(new Card("7c"));
+		pile = Deck.getPile("5s5dAcJd9h7c");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(2, powerRating[0]);
 		assertEquals(5, powerRating[1]);
@@ -123,13 +89,7 @@ public class CalcCardPowerTest {
 		pile.clear();	
 		
 		//trips
-		pile.add(new Card("5s"));
-		pile.add(new Card("5d"));
-		pile.add(new Card("5c"));
-		pile.add(new Card("Jd"));
-		pile.add(new Card("9h"));
-		pile.add(new Card("7c"));
-		pile.add(new Card("Ac"));
+		pile = Deck.getPile("5s5d5cJd9h7cAc");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(4, powerRating[0]);
 		assertEquals(5, powerRating[1]);
@@ -138,12 +98,7 @@ public class CalcCardPowerTest {
 		pile.clear();	
 		
 		//trips, 6 pile
-		pile.add(new Card("5s"));
-		pile.add(new Card("5d"));
-		pile.add(new Card("5c"));
-		pile.add(new Card("Jd"));
-		pile.add(new Card("9h"));
-		pile.add(new Card("Ac"));
+		pile = Deck.getPile("5s5d5cJd9hAc");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(4, powerRating[0]);
 		assertEquals(5, powerRating[1]);
@@ -152,11 +107,7 @@ public class CalcCardPowerTest {
 		pile.clear();	
 		
 		//trips, 5 pile
-		pile.add(new Card("5s"));
-		pile.add(new Card("5d"));
-		pile.add(new Card("5c"));
-		pile.add(new Card("Jd"));
-		pile.add(new Card("Ac"));
+		pile = Deck.getPile("5s5d5cJdAc");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(4, powerRating[0]);
 		assertEquals(5, powerRating[1]);
@@ -165,95 +116,56 @@ public class CalcCardPowerTest {
 		pile.clear();	
 		
 		//straight, 9 high
-		pile.add(new Card("5s"));
-		pile.add(new Card("7d"));
-		pile.add(new Card("9c"));
-		pile.add(new Card("8h"));
-		pile.add(new Card("6d"));
-		pile.add(new Card("Ah"));
-		pile.add(new Card("Qd"));
+		pile = Deck.getPile("5s7d9c8h6dAhQd");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(5, powerRating[0]);
 		assertEquals(9, powerRating[1]);
 		pile.clear();
 		
 		//straight, 9 high, 6 pile
-		pile.add(new Card("5s"));
-		pile.add(new Card("7d"));
-		pile.add(new Card("9c"));
-		pile.add(new Card("8h"));
-		pile.add(new Card("6d"));
-		pile.add(new Card("Ah"));
+		pile = Deck.getPile("5s7d9c8h6dAh");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(5, powerRating[0]);
 		assertEquals(9, powerRating[1]);
 		pile.clear();
 		
 		//straight, 9 high, 5 pile
-		pile.add(new Card("5s"));
-		pile.add(new Card("7d"));
-		pile.add(new Card("9c"));
-		pile.add(new Card("8h"));
-		pile.add(new Card("6d"));
+		pile = Deck.getPile("5s7d9c8h6d");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(5, powerRating[0]);
 		assertEquals(9, powerRating[1]);
 		pile.clear();
 				
 		//straight, the wheel
-		pile.add(new Card("5s"));
-		pile.add(new Card("4d"));
-		pile.add(new Card("3c"));
-		pile.add(new Card("2h"));
-		pile.add(new Card("Ad"));
+		pile = Deck.getPile("5s4d3c2hAd");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(5, powerRating[0]);
 		assertEquals(5, powerRating[1]);
 		pile.clear();
 		
 		//flush, 9 high
-		pile.add(new Card("2s"));
-		pile.add(new Card("7s"));
-		pile.add(new Card("9s"));
-		pile.add(new Card("4s"));
-		pile.add(new Card("3s"));
-		pile.add(new Card("Ah"));
-		pile.add(new Card("Qd"));
+		pile = Deck.getPile("2s7s9s4s3sAhQd");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(6, powerRating[0]);
 		assertEquals(9, powerRating[1]);
 		pile.clear();
 		
 		//flush, 9 high 5 pile
-		pile.add(new Card("2s"));
-		pile.add(new Card("7s"));
-		pile.add(new Card("9s"));
-		pile.add(new Card("4s"));
-		pile.add(new Card("3s"));
+		pile = Deck.getPile("2s7s9s4s3s");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(6, powerRating[0]);
 		assertEquals(9, powerRating[1]);
 		pile.clear();
 		
 		//flush, 9 high 6 pile
-		pile.add(new Card("2s"));
-		pile.add(new Card("7s"));
-		pile.add(new Card("9s"));
-		pile.add(new Card("4s"));
-		pile.add(new Card("3s"));
+		pile = Deck.getPile("2s7s9s4s3s");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(6, powerRating[0]);
 		assertEquals(9, powerRating[1]);
 		pile.clear();
 		
 		//Boat,  99922
-		pile.add(new Card("9s"));
-		pile.add(new Card("9d"));
-		pile.add(new Card("9c"));
-		pile.add(new Card("2s"));
-		pile.add(new Card("3s"));
-		pile.add(new Card("2h"));
-		pile.add(new Card("Qd"));
+		pile = Deck.getPile("9s9d9c2s3s2hQd");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(7, powerRating[0]);
 		assertEquals(9, powerRating[1]);
@@ -261,12 +173,7 @@ public class CalcCardPowerTest {
 		pile.clear();
 		
 		//Boat,  99922, 6 pile
-		pile.add(new Card("9s"));
-		pile.add(new Card("9d"));
-		pile.add(new Card("9c"));
-		pile.add(new Card("2s"));
-		pile.add(new Card("2h"));
-		pile.add(new Card("Qd"));
+		pile = Deck.getPile("9s9d9c2s2hQd");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(7, powerRating[0]);
 		assertEquals(9, powerRating[1]);
@@ -274,11 +181,7 @@ public class CalcCardPowerTest {
 		pile.clear();
 		
 		//Boat,  99922, 5 pile
-		pile.add(new Card("9s"));
-		pile.add(new Card("9d"));
-		pile.add(new Card("9c"));
-		pile.add(new Card("2s"));
-		pile.add(new Card("2h"));
+		pile = Deck.getPile("9s9d9c2s2h");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(7, powerRating[0]);
 		assertEquals(9, powerRating[1]);
@@ -286,13 +189,8 @@ public class CalcCardPowerTest {
 		pile.clear();
 		
 		//Quad 9s, A kicker
-		pile.add(new Card("9s"));
-		pile.add(new Card("9d"));
-		pile.add(new Card("9c"));
-		pile.add(new Card("9h"));
-		pile.add(new Card("Ah"));
-		pile.add(new Card("2h"));
-		pile.add(new Card("5h"));
+
+		pile = Deck.getPile("9s9d9c9hAh2h5h");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(8, powerRating[0]);
 		assertEquals(9, powerRating[1]);
@@ -300,12 +198,7 @@ public class CalcCardPowerTest {
 		pile.clear();
 		
 		//Quad 9s, A kicker, 6 pile
-		pile.add(new Card("9s"));
-		pile.add(new Card("9d"));
-		pile.add(new Card("9c"));
-		pile.add(new Card("9h"));
-		pile.add(new Card("Ah"));
-		pile.add(new Card("Ad"));
+		pile = Deck.getPile("9s9d9c9hAhAd");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(8, powerRating[0]);
 		assertEquals(9, powerRating[1]);
@@ -313,11 +206,7 @@ public class CalcCardPowerTest {
 		pile.clear();
 		
 		//Quad 9s, A kicker, 5 pile
-		pile.add(new Card("9s"));
-		pile.add(new Card("9d"));
-		pile.add(new Card("9c"));
-		pile.add(new Card("9h"));
-		pile.add(new Card("Ah"));
+		pile = Deck.getPile("9s9d9c9hAh");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(8, powerRating[0]);
 		assertEquals(9, powerRating[1]);
@@ -325,13 +214,7 @@ public class CalcCardPowerTest {
 		pile.clear();
 		
 		//Quad 9s, A kicker, 7 pile
-		pile.add(new Card("9s"));
-		pile.add(new Card("9d"));
-		pile.add(new Card("9c"));
-		pile.add(new Card("9h"));
-		pile.add(new Card("Ah"));
-		pile.add(new Card("Ad"));
-		pile.add(new Card("Ac"));
+		pile = Deck.getPile("9s9d9c9hAhAdAc");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(8, powerRating[0]);
 		assertEquals(9, powerRating[1]);
@@ -339,36 +222,21 @@ public class CalcCardPowerTest {
 		pile.clear();
 		
 		//5 high straight flush
-		pile.add(new Card("9s"));
-		pile.add(new Card("2d"));
-		pile.add(new Card("5d"));
-		pile.add(new Card("6h"));
-		pile.add(new Card("3d"));
-		pile.add(new Card("Ad"));
-		pile.add(new Card("4d"));
+		pile = Deck.getPile("9s2d5d6h3dAd4d");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(9, powerRating[0]);
 		assertEquals(5, powerRating[1]);
 		pile.clear();
 		
 		//5 high straight flush, 6 pile
-		pile.add(new Card("9s"));
-		pile.add(new Card("8s"));
-		pile.add(new Card("5s"));
-		pile.add(new Card("6s"));
-		pile.add(new Card("7s"));
-		pile.add(new Card("Ad"));
+		pile = Deck.getPile("9s8s5s6s7sAd");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(9, powerRating[0]);
 		assertEquals(9, powerRating[1]);
 		pile.clear();
 		
 		//5 high straight flush, 5 pile
-		pile.add(new Card("Js"));
-		pile.add(new Card("Ts"));
-		pile.add(new Card("As"));
-		pile.add(new Card("Ks"));
-		pile.add(new Card("Qs"));
+		pile = Deck.getPile("JsTsAsKsQs");
 		powerRating = Utility.calcCardPower(pile);
 		assertEquals(9, powerRating[0]);
 		assertEquals(14, powerRating[1]);
