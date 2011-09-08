@@ -5,6 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Random;
 
 import cards.Card;
 import cards.Deck;
@@ -19,10 +20,13 @@ public class HandRating implements Comparable<HandRating>{
 	
 	
 	public static void main(String[] args) {
-		for(int i = 0; i < 1000; i++){
+		Random r = new Random();
+		for(int i = 0; i < 50; i++){
 			Pile deck = Deck.fullDeck();
 			deck.shuffle();
-			rate(deck.deal(5));
+			Pile pile = deck.deal(r.nextInt(3) + 5); 
+			HandRating rating = rate(pile);
+			System.out.printf("%s \t-- %s%n",pile,rating);
 		}
 	}
 	
@@ -188,6 +192,37 @@ public class HandRating implements Comparable<HandRating>{
 				return diff;
 		}
 		return 0;
+	}
+	
+	public String toString(){
+		Value[] t = tieInfo;
+		switch(type){
+		
+		case HIGHCARD: 
+			return String.format("Highcards %s %s %s %s %s",t[0].singular,t[1].singular,
+					t[2].singular,t[3].singular,t[4].singular);
+		case ONEPAIR: 
+			return String.format("Pair of %s, %s %s %s kickers",t[0].plural,t[1].singular,
+					t[2].singular,t[3].singular);
+		case TWOPAIR: 
+			return String.format("Two pair %s and %s, %s kicker",t[0].plural,t[1].plural,t[2].singular);
+		case TRIPS:
+			return String.format("Three of a Kind %s, %s %s kickers",t[0].plural,t[1].singular,t[2].singular);
+		case STRAIGHT:
+			return String.format("Straight %s high",t[0].singular);
+		case FLUSH:
+			return String.format("Flush %s high, %s %s %s %s kickers",t[0].singular,t[1].singular,
+					t[2].singular,t[3].singular,t[4].singular);
+		case BOAT: 
+			return String.format("Full House %s full of %s",t[0].plural,t[1].plural);
+		case QUAD:
+			return String.format("Four of a Kind %s, %s kicker",t[0].plural,t[1].singular);
+		case STRAIGHTFLUSH:
+			if(t[0] == Value.ACE)
+				return "Royal Flush";
+			return String.format("Straight Flush %s high",t[0].singular);
+		}
+		return "Nada";
 	}
 	
 	static enum PokerHands {
