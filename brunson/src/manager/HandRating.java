@@ -24,13 +24,12 @@ public class HandRating implements Comparable<HandRating>{
 		for(int i = 0; i < 1000000; i++){
 			Pile deck = Deck.fullDeck();
 			deck.shuffle();
-			Pile pile = deck.deal(r.nextInt(3) + 5);
+			Pile com = deck.deal(5);
+			Pile hand = deck.deal(2);
 			try{
-				HandRating hr = rate(pile);
-				if(hr.toString().equals("Royal Flush"))
-					System.out.println(pile);
+				HandRating hr = rate(hand,com);
 			} catch (Exception e){
-				System.out.println(pile);
+				System.out.println(hand + " " + com);
 				e.printStackTrace();
 			}
 		}
@@ -46,7 +45,8 @@ public class HandRating implements Comparable<HandRating>{
 	
 	public static HandRating rate(Pile... piles){
 		Pile pile = new Pile(piles);
-		
+		if(pile.size() < 5 || pile.size() > 7)
+			throw new IllegalArgumentException();
 		List<Pile> partitions = partition(pile);
 		Pile flush,straight;
 		
