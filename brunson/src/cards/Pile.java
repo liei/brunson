@@ -46,7 +46,7 @@ public class Pile implements Iterable<Card>,Comparable<Pile>{
 		return (0 <= index && index < cards.size()) ? cards.get(index) : null;
 	}
 	
-	public void remove(Card... card){
+	public void remove(Card card){
 		cards.remove(card);
 	}
 		
