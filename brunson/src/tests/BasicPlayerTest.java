@@ -7,7 +7,6 @@ import manager.Round;
 import org.junit.Test;
 
 import cards.*;
-import player.*;
 import player.Action.Type;
 
 import player.Phase1Player;

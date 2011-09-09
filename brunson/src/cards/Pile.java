@@ -38,6 +38,7 @@ public class Pile implements Iterable<Card>,Comparable<Pile>{
 		}
 	}
 	
+	@Deprecated
 	public int getCardCount(){
 		return cards.size();
 	}
