@@ -41,8 +41,6 @@ public class HandRating implements Comparable<HandRating>{
 		this.tieInfo = tieInfo;
 	}
 	
-	
-	
 	public static HandRating rate(Pile... piles){
 		Pile pile = new Pile(piles);
 		if(pile.size() < 5 || pile.size() > 7)
@@ -70,7 +68,6 @@ public class HandRating implements Comparable<HandRating>{
 		}
 		return highcard(partitions);
 	}
-
 
 	private static Pile findFlush(Pile hand) {
 		Map<Suit,Pile> map = new HashMap<Suit,Pile>();
