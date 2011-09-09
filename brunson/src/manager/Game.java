@@ -12,7 +12,7 @@ import player.Player;
 public class Game {
 	
 	private List<Player> players;
-	private int button;
+	//private int button;
 	private int pot;
 	private int bet;
 	private int raises;
