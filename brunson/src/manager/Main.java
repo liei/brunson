@@ -1,16 +1,11 @@
 package manager;
 
-<<<<<<< HEAD
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Comparator;
 import java.util.Random;
 
-import preflop.RatingComparator;
-=======
->>>>>>> branch 'master' of git@github.com:liei/brunson.git
-import cards.Card;
 import cards.Deck;
+import cards.Pile;
 
 public class Main {
 
