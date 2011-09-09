@@ -1,9 +1,7 @@
 package manager;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.ArrayList;
-import cards.*;
 import player.*;
 
 public class GameManager {

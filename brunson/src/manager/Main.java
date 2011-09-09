@@ -1,11 +1,7 @@
 package manager;
 
-import java.util.Comparator;
-
-import preflop.RatingComparator;
 import cards.Card;
 import cards.Deck;
-import cards.Pile;
 
 public class Main {
 
