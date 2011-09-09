@@ -24,10 +24,10 @@ public class HandRating implements Comparable<HandRating>{
 		for(int i = 0; i < 1000000; i++){
 			Pile deck = Deck.fullDeck();
 			deck.shuffle();
-			Pile com = deck.deal(5);
+			Pile com = deck.deal(r.nextInt(3) + 3);
 			Pile hand = deck.deal(2);
 			try{
-				HandRating hr = rate(hand,com);
+				rate(hand,com);
 			} catch (Exception e){
 				System.out.println(hand + " " + com);
 				e.printStackTrace();
