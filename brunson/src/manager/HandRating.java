@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Random;
+import util.PileUtil;
 
 import cards.Card;
 import cards.Deck;
@@ -20,21 +20,18 @@ public class HandRating implements Comparable<HandRating>{
 	
 	
 	public static void main(String[] args) {
-		Random r = new Random();
-		for(int i = 0; i < 1000000; i++){
-			Pile deck = Deck.fullDeck();
-			deck.shuffle();
-			Pile com = deck.deal(r.nextInt(3) + 3);
-			Pile hand = deck.deal(2);
-			try{
-				rate(hand,com);
-			} catch (Exception e){
-				System.out.println(hand + " " + com);
-				e.printStackTrace();
-			}
-		}
+		int numCards = 7;
+		long start = System.currentTimeMillis();
+		int[] numHands = new int[PokerHands.values().length];
+		for(Pile pile : PileUtil.combinations(Deck.fullDeck(),numCards))
+			numHands[rate(pile).type.ordinal()]++;
+		long stop = System.currentTimeMillis();
+		long time = stop - start;
+		System.out.printf("numCards: %d, took: %d s%n",numCards,time/1000);
+		for(PokerHands hand : PokerHands.values())
+			System.out.printf("%s: %d hands.%n",hand.name(),numHands[hand.ordinal()]);
+		
 	}
-	
 	
 	private HandRating(PokerHands type, Value[] tieInfo){
 		this.type = type;
