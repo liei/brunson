@@ -62,27 +62,37 @@ public class Game {
 		index = (button + 1) % activePlayers.size();
 		flop(index, pot, activePlayers);
 		if(isWinner(activePlayers)) {
+			activePlayers.get(0).updateStack(pot);
 			return;
 		}
 		communityCards.add(deck.deal(1));
 		index = (button + 1) % activePlayers.size();
 		turn(index, pot, activePlayers);
 		if(isWinner(activePlayers)) {
+			activePlayers.get(0).updateStack(pot);
 			return;
 		}
 		communityCards.add(deck.deal(1));
 		index = (button + 1) % activePlayers.size();
 		river(index, pot, activePlayers);
 		if(isWinner(activePlayers)) {
+			activePlayers.get(0).updateStack(pot);
 			return;
 		}
-		
+		//Determine winner(s) at showdown
+		showdown(activePlayers);
+		for(Player player : activePlayers) {
+			player.updateStack(pot / activePlayers.size());
+		}
+		return;
 	}
 	
 	
 	private void preFlop(int index, List<Player> activePlayers) {
 		bet = 2;
 		int raises = 0;
+		int loop = 1000;
+		int count = 0;
 		//Cycle through each remaining active player.
 		while(true) {
 			Player player = players.get(index);
@@ -124,12 +134,18 @@ public class Game {
 				activePlayers.get(index).updateStack(pot);
 				return;
 			}
+			if(count > loop) {
+				throw new RuntimeException("infinite loop");
+			}
+			count++;
 		}
 	}
 	
 	private void flop(int index, int pot, List<Player> activePlayers) {
 		bet = 0;
 		int raises = 0;
+		int loop = 1000;
+		int count = 0;
 		for(Player player : players) {
 			player.resetAmountWagered();
 		}
@@ -174,12 +190,18 @@ public class Game {
 				activePlayers.get(index).updateStack(pot);
 				return;
 			}
+			if(count > loop) {
+				throw new RuntimeException("infinite loop");
+			}
+			count++;
 		}
 	}
 	
 	private void turn(int index, int pot, List<Player> activePlayers) {
 		bet = 0;
 		int raises = 0;
+		int loop = 1000;
+		int count = 0;
 		for(Player player : players) {
 			player.resetAmountWagered();
 		}
@@ -224,12 +246,18 @@ public class Game {
 				activePlayers.get(index).updateStack(pot);
 				return;
 			}
+			if(count > loop) {
+				throw new RuntimeException("infinite loop");
+			}
+			count++;
 		}
 	}
 	
 	private void river(int index, int pot, List<Player> activePlayers) {
 		bet = 0;
 		int raises = 0;
+		int loop = 1000;
+		int count = 0;
 		for(Player player : players) {
 			player.resetAmountWagered();
 		}
@@ -274,6 +302,48 @@ public class Game {
 				activePlayers.get(index).updateStack(pot);
 				return;
 			}
+			if(count > loop) {
+				throw new RuntimeException("infinite loop");
+			}
+			count++;
+		}
+	}
+	
+	private void showdown(List<Player> activePlayers) {
+		int loop = 1000;
+		int count = 0;
+		int index = 0;
+		for(Player player : players) {
+			player.setHandRating(communityCards);
+		}
+		HandRating bestHand = activePlayers.get(0).getHandRating();
+		index = 1;
+		boolean draw = true;
+		while(activePlayers.size() > 1) {
+			//Remove player with losing hand from consideration.
+			if(activePlayers.get(index).getHandRating().compareTo(bestHand) < 0) {
+				activePlayers.remove(index);
+			}
+			else if(activePlayers.get(index).getHandRating().compareTo(bestHand) > 0) {
+				bestHand =activePlayers.get(index).getHandRating();
+			}
+			//Check for winner
+			if(activePlayers.size() == 1) {
+				return;
+			}
+			for(Player player : activePlayers) {
+				if(player.getHandRating().compareTo(bestHand) != 0){
+					draw = false;
+					return;
+				}	
+			}
+			if(draw){
+				return;
+			}
+			if(count > loop) {
+				throw new RuntimeException("infinite loop");
+			}
+			count++;
 		}
 	}
 	private void dealHoleCards() {
