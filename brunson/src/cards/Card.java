@@ -5,25 +5,10 @@ public class Card implements Comparable<Card>{
 	private Value value;
 	private Suit suit;	
 	
-	
-	public Card(Value value, Suit suit){
+	Card(Value value, Suit suit){
 		this.value = value;
 		this.suit = suit;
 	}
-	
-//	public Card(Suit suit,Value value){
-//		this.suit = suit;
-//		this.value = value;
-//	}
-	
-	public Card(String s){
-		if(s.length() != 2) {
-			throw new IllegalArgumentException();
-		}
-		value = Value.getValueFromPip(s.charAt(0));
-		suit = Suit.getSuitFromPip(s.charAt(1));
-	}
-	
 	
 	public Value getValue(){
 		return value;
@@ -36,7 +21,8 @@ public class Card implements Comparable<Card>{
 	public String toString(){
 		return String.format("%s%s",value,suit);
 	}
-	
+
+	@Deprecated
 	public int getIntValue() {
 		for(int i = 0; i< Value.values().length; i++) {
 			if(this.value == Value.values()[i]) {

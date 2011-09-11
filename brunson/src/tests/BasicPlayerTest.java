@@ -7,7 +7,6 @@ import manager.Round;
 import org.junit.Test;
 
 import cards.*;
-import player.*;
 import player.Action.Type;
 
 import player.Phase1Player;
@@ -20,15 +19,15 @@ public class BasicPlayerTest {
 	public void testAction() {
 		Phase1Player player = new Phase1Player(100, 30, 25, 25);
 		Pile communityCards = Deck.getPile("As9h2d");
-		player.addCard(new Card("Ac"));
-		player.addCard(new Card("5d"));
+		player.addCard(Deck.getCard("Ac"));
+		player.addCard(Deck.getCard("5d"));
 		//Player has 1 pair on flop and should call!
 		assertTrue(player.act(Round.FLOP, communityCards, 4, 0, 6).getType() == Type.CALL);
 		
 		//Player has a set and should raise the flop.
 		player.clearHand();
-		player.addCard(new Card("Ac"));
-		player.addCard(new Card("As"));
+		player.addCard(Deck.getCard("Ac"));
+		player.addCard(Deck.getCard("As"));
 		assertTrue(player.act(Round.FLOP, communityCards, 4, 0, 6).getType() == Type.RAISE);
 	}
 

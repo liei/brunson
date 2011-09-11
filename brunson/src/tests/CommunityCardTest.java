@@ -7,12 +7,12 @@ import org.junit.Test;
 public class CommunityCardTest {
 
 	CommunityCards CC = new CommunityCards();
-	Pile flop = Pile.newPile(new String[] {"Ts", "As", "3c"});
-	Pile turn = Pile.newPile(new String[] {"2h"});
-	Pile river= Pile.newPile(new String[] {"7c"});
+	Pile flop = Deck.getPile("TsAs3c");
+	Pile turn = Deck.getPile("2h");
+	Pile river= Deck.getPile("7c");
 	@Test
 	public void testGetFlop() {
-		assertTrue(flop.getCardCount() == 3);
+		assertTrue(flop.size() == 3);
 		assertTrue(flop.getCard(0).toString().compareTo("Ts") == 0);
 		assertTrue(flop.getCard(1).toString().compareTo("As") == 0);
 		assertTrue(flop.getCard(2).toString().compareTo("3c") == 0);
@@ -20,13 +20,13 @@ public class CommunityCardTest {
 
 	@Test
 	public void testGetTurn() {
-		assertTrue(turn.getCardCount() == 1);
+		assertTrue(turn.size() == 1);
 		assertTrue(turn.getCard(0).toString().compareTo("2h") == 0);
 	}
 	
 	@Test
 	public void testGetRiver() {
-		assertTrue(river.getCardCount() == 1);
+		assertTrue(river.size() == 1);
 		assertTrue(river.getCard(0).toString().compareTo("7c") == 0);
 	}
 
