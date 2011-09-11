@@ -49,17 +49,38 @@ public class Game {
 		
 		dealHoleCards();
 		
-		activePlayers = preFlop(index, players);
+		preFlop(index, players);
 		
-		if(activePlayers.size() == 1) {
+		//Check if we have a winner already.
+		if(isWinner(activePlayers)) {
 			return;
 		}
+		//Deal flop
 		communityCards.clear();
 		communityCards.add(deck.deal(3));	
+		
+		index = (button + 1) % activePlayers.size();
+		flop(index, pot, activePlayers);
+		if(isWinner(activePlayers)) {
+			return;
+		}
+		communityCards.add(deck.deal(1));
+		index = (button + 1) % activePlayers.size();
+		turn(index, pot, activePlayers);
+		if(isWinner(activePlayers)) {
+			return;
+		}
+		communityCards.add(deck.deal(1));
+		index = (button + 1) % activePlayers.size();
+		river(index, pot, activePlayers);
+		if(isWinner(activePlayers)) {
+			return;
+		}
+		
 	}
 	
-	//Takes in an index which is the first player to act pre-flop as well as a list of players and returns a list of active players.
-	private List<Player> preFlop(int index, List<Player> activePlayers) {
+	
+	private void preFlop(int index, List<Player> activePlayers) {
 		bet = 2;
 		int raises = 0;
 		//Cycle through each remaining active player.
@@ -93,7 +114,7 @@ public class Game {
 				}
 				//If all but one player has called it's time to see a flop.
 				if(callCount == activePlayers.size() - 1) {
-					return activePlayers;
+					return;
 				}
 			}
 			index = (index + 1) % activePlayers.size();
@@ -101,24 +122,159 @@ public class Game {
 			//All but one have folded and the hand ends.
 			if(activePlayers.size() == 1) {
 				activePlayers.get(index).updateStack(pot);
-				return activePlayers;
+				return;
 			}
 		}
 	}
 	
-	private List<Player> Flop(int index, int pot, List<Player> activePlayers) {
-		//TODO Implement flop play!
-		return activePlayers;
+	private void flop(int index, int pot, List<Player> activePlayers) {
+		bet = 0;
+		int raises = 0;
+		for(Player player : players) {
+			player.resetAmountWagered();
+		}
+		//Cycle through each remaining active player.
+		while(true) {
+			Player player = players.get(index);
+			Action action = player.act(Round.FLOP,communityCards, bet, raises, pot);
+			switch(action.getType()) {
+			case FOLD: 
+				player.setFlopAction(Action.fold());
+				activePlayers.remove(player);
+				break;
+			case CALL:
+				player.setFlopAction(Action.call());
+				player.updateStack(player.getAmountWagered()-bet);
+				player.updateAmountWagered(bet- player.getAmountWagered());
+				updatePot(bet-player.getAmountWagered());
+				break;
+			case RAISE:
+				player.setFlopAction(Action.raise(3*bet));
+				player.updateAmountWagered(3*bet);
+				player.updateStack(-3*bet);
+				updatePot(3*bet);
+				raises++;
+				break;
+			}
+			for(Player p : activePlayers) {
+				int callCount = 0;
+				//Check if the last player action was to call.
+				if(p.getPreFlopActions().get(p.getFlopActions().size() - 1).getType() == Action.Type.CALL) {
+					callCount++;
+				}
+				//If all but one player has called it's time to see a flop.
+				if(callCount == activePlayers.size() - 1) {
+					return;
+				}
+			}
+			index = (index + 1) % activePlayers.size();
+			
+			//All but one have folded and the hand ends.
+			if(activePlayers.size() == 1) {
+				activePlayers.get(index).updateStack(pot);
+				return;
+			}
+		}
 	}
 	
-	private List<Player> Turn(int index, int pot, List<Player> activePlayers) {
-		//TODO Implement turn play!
-		return activePlayers;
+	private void turn(int index, int pot, List<Player> activePlayers) {
+		bet = 0;
+		int raises = 0;
+		for(Player player : players) {
+			player.resetAmountWagered();
+		}
+		//Cycle through each remaining active player.
+		while(true) {
+			Player player = players.get(index);
+			Action action = player.act(Round.TURN,communityCards, bet, raises, pot);
+			switch(action.getType()) {
+			case FOLD: 
+				player.setTurnAction(Action.fold());
+				activePlayers.remove(player);
+				break;
+			case CALL:
+				player.setTurnAction(Action.call());
+				player.updateStack(player.getAmountWagered()-bet);
+				player.updateAmountWagered(bet- player.getAmountWagered());
+				updatePot(bet-player.getAmountWagered());
+				break;
+			case RAISE:
+				player.setTurnAction(Action.raise(3*bet));
+				player.updateAmountWagered(3*bet);
+				player.updateStack(-3*bet);
+				updatePot(3*bet);
+				raises++;
+				break;
+			}
+			for(Player p : activePlayers) {
+				int callCount = 0;
+				//Check if the last player action was to call.
+				if(p.getPreFlopActions().get(p.getTurnActions().size() - 1).getType() == Action.Type.CALL) {
+					callCount++;
+				}
+				//If all but one player has called it's time to see a flop.
+				if(callCount == activePlayers.size() - 1) {
+					return;
+				}
+			}
+			index = (index + 1) % activePlayers.size();
+			
+			//All but one have folded and the hand ends.
+			if(activePlayers.size() == 1) {
+				activePlayers.get(index).updateStack(pot);
+				return;
+			}
+		}
 	}
 	
-	private List<Player> River(int index, int pot, List<Player> activePlayers) {
-		//TODO Implement river play!
-		return activePlayers;
+	private void river(int index, int pot, List<Player> activePlayers) {
+		bet = 0;
+		int raises = 0;
+		for(Player player : players) {
+			player.resetAmountWagered();
+		}
+		//Cycle through each remaining active player.
+		while(true) {
+			Player player = players.get(index);
+			Action action = player.act(Round.RIVER,communityCards, bet, raises, pot);
+			switch(action.getType()) {
+			case FOLD: 
+				player.setRiverAction(Action.fold());
+				activePlayers.remove(player);
+				break;
+			case CALL:
+				player.setRiverAction(Action.call());
+				player.updateStack(player.getAmountWagered()-bet);
+				player.updateAmountWagered(bet- player.getAmountWagered());
+				updatePot(bet-player.getAmountWagered());
+				break;
+			case RAISE:
+				player.setRiverAction(Action.raise(3*bet));
+				player.updateAmountWagered(3*bet);
+				player.updateStack(-3*bet);
+				updatePot(3*bet);
+				raises++;
+				break;
+			}
+			for(Player p : activePlayers) {
+				int callCount = 0;
+				//Check if the last player action was to call.
+				if(p.getPreFlopActions().get(p.getRiverActions().size() - 1).getType() == Action.Type.CALL) {
+					callCount++;
+				}
+				//If all but one player has called it's time to see a flop.
+				if(callCount == activePlayers.size() - 1) {
+					return;
+				}
+			}
+			index = (index + 1) % activePlayers.size();
+			
+			//All but one have folded and the hand ends.
+			if(activePlayers.size() == 1) {
+				activePlayers.get(index).updateStack(pot);
+				return;
+			}
+		}
 	}
 	private void dealHoleCards() {
 		for(Player player : players) {
@@ -131,6 +287,13 @@ public class Game {
 	private void updatePot(int delta) {
 		this.pot += delta;
 		
+	}
+	
+	private boolean isWinner(List<Player> activePlayers) {
+		if(activePlayers.size() == 1) {
+			return true;
+		}
+		return false;
 	}
 
 }
