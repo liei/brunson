@@ -4,13 +4,12 @@ import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import manager.Utility;
+import manager.HandRating;
 
 import cards.Card;
 import cards.Deck;
@@ -19,7 +18,6 @@ import cards.Value;
 
 public class PreFlop {
 
-	private static Comparator<int[]> compareRating = new RatingComparator();
 	
 	private static Map<String,Double> table = null;
 	
@@ -129,19 +127,16 @@ public class PreFlop {
 		}
 		
 		private void runHand(Pile myHand,int players) {
-			Pile deck = Deck.fullDeck();
-			deck.remove(myHand);
-			deck.shuffle();
+			Pile deck = Deck.incompleteDeck(myHand).shuffle();
 			Pile community = deck.deal(3);
 			boolean tie = false;
-			int[] myRating = Utility.calcCardPower(myHand,community);
-			for(int i = 0; i < players; i++){
-				Pile theirHand = deck.deal(2);
-				int[] theirRating = Utility.calcCardPower(theirHand,community);
-				int result = compareRating.compare(myRating,theirRating);
-				if(result  < 0){
+			HandRating myRating = HandRating.rate(myHand,community);
+			for(int i = 1; i < players; i++){
+				HandRating theirRating = HandRating.rate(deck.deal(2),community);
+				int comp = myRating.compareTo(theirRating);
+				if(comp  < 0){
 					return;
-				} else if(result == 0){
+				} else if(comp == 0){
 					tie = true;
 				}
 			}
