@@ -1,5 +1,15 @@
 package manager;
 
 public enum Round {
-	PREFLOP,FLOP,TURN,RIVER;
+	PREFLOP(0),FLOP(3),TURN(1),RIVER(1);
+
+	private int cards; 
+	
+	private Round(int cards){
+		this.cards = cards;
+	}
+	
+	public int cardsDealt() {
+		return cards;
+	}
 }

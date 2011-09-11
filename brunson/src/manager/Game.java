@@ -9,6 +9,7 @@ import cards.*;
 
 import player.Action;
 import player.Player;
+import player.PlayerCycler;
 import util.Util;
 
 public class Game {
@@ -33,13 +34,7 @@ public class Game {
 		
 		dealHoleCards();
 		
-		// Preflop	
-		
-		Iterator<Player> players = Util.playerCycler(playerList,button);
-		
-		//Skip player on button
-		if(players.hasNext())
-			players.next();
+		PlayerCycler players = PlayerCycler.cycler(playerList,button);
 		
 		//Small blind
 		if(players.hasNext())
@@ -48,45 +43,24 @@ public class Game {
 		// Big blind
 		if(players.hasNext())
 			pot += players.next().bet(2);
-		
-		
-		playRound(Round.PREFLOP,players,2);
-		//Check if we have a winner already.
-		if(playerList.size() == 1){
-			playerList.get(0).updateStack(pot);
-			return;
-		}
 
-		//Flop
-		communityCards.add(deck.deal(3));	
-		playRound(Round.FLOP,players,0);
-
-		if(playerList.size() == 1) {
-			playerList.get(0).updateStack(pot);
-			return;
+		
+		for(Round round : Round.values()){
+			communityCards.add(deck.deal(round.cardsDealt()));	
+			playRound(round,players,0);
+			
+			if(playerList.size() == 1) {
+				playerList.get(0).updateStack(pot);
+				return;
+			}
+			players.reset();
 		}
 		
-		//Turn
-		communityCards.add(deck.deal(1));
-		playRound(Round.TURN,players,0);
-		if(playerList.size() == 1) {
-			playerList.get(0).updateStack(pot);
-			return;
-		}
-		//River
-		communityCards.add(deck.deal(1));
-		playRound(Round.TURN,players,0);
-		if(playerList.size() == 1) {
-			playerList.get(0).updateStack(pot);
-			return;
-		}
-
 		//Determine winner(s) at showdown
-		showdown();
-		for(Player player : playerList) {
-			player.updateStack(pot / playerList.size());
-		}
-		return;
+		List<Player> winners = showdown();
+		int potSlice = pot/winners.size();
+		for(Player player : winners)
+			player.updateStack(potSlice);
 	}
 	
 	private List<Player> showdown() {
@@ -108,7 +82,7 @@ public class Game {
 	
 	public void playRound(Round round,Iterator<Player> players,int bet){
 		int raises = 0;
-		//Cycle through each remaining active player, hasNext return false when there are only one player left.
+		//Cycle through each remaining active player, hasNext return false when there's only one player left.
 		while(players.hasNext()) {
 			Player player = players.next();
 			if(player.getAmountWagered() == bet)
