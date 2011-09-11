@@ -2,7 +2,7 @@ package manager;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
+import java.util.EnumMap;
 import java.util.List;
 import java.util.Map;
 import util.PileUtil;
@@ -20,7 +20,7 @@ public class HandRating implements Comparable<HandRating>{
 	
 	
 	public static void main(String[] args) {
-		int numCards = 7;
+		int numCards = 5;
 		long start = System.currentTimeMillis();
 		int[] numHands = new int[PokerHands.values().length];
 		for(Pile pile : PileUtil.combinations(Deck.fullDeck(),numCards))
@@ -67,7 +67,7 @@ public class HandRating implements Comparable<HandRating>{
 	}
 
 	private static Pile findFlush(Pile hand) {
-		Map<Suit,Pile> map = new HashMap<Suit,Pile>();
+		Map<Suit,Pile> map = new EnumMap<Suit,Pile>(Suit.class);
 		for(Card card : hand){
 			Pile pile = map.get(card.getSuit());
 			if(pile == null)
@@ -104,7 +104,7 @@ public class HandRating implements Comparable<HandRating>{
 	}
 	
 	private static List<Pile> partition(Pile hand) {
-		Map<Value,Pile> map = new HashMap<Value,Pile>();
+		Map<Value,Pile> map = new EnumMap<Value,Pile>(Value.class);
 		for(Card card : hand){
 			Pile pile = map.get(card.getValue());
 			if(pile == null)
