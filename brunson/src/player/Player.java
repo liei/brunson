@@ -90,5 +90,11 @@ public abstract class Player {
 		handRating = HandRating.rate(communityCards, hand);
 	}
 
+
+	public void addChips(int pot) {
+		// TODO Auto-generated method stub
+		
+	}
+
 	
 }
