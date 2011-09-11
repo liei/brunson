@@ -82,8 +82,9 @@ public class Pile implements Iterable<Card>,Comparable<Pile>{
 		Collections.sort(cards);
 	}
 
-	public void shuffle() {
+	public Pile shuffle() {
 		Collections.shuffle(cards);
+		return this;
 	}
 	
 	@Deprecated

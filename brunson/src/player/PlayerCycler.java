@@ -19,6 +19,10 @@ public class PlayerCycler implements Iterator<Player>,Iterable<Player>{
 		index = start = startIndex;
 		hasCurrent = false;
 	}
+
+	public List<Player> list(){
+		return list;
+	}
 	
 	public boolean hasNext() {
 		return list.size() > 1;
