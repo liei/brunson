@@ -11,10 +11,7 @@ public class Phase1Player extends AIPlayer{
 	
 	public Action act(Round round, Pile communityCards, int bet, int raises, int pot) {
 
-		Pile p = communityCards;
-		p.add(getHand().getCard(0));
-		p.add(getHand().getCard(1));
-		int[] powerRating = manager.Utility.calcCardPower(p);
+		HandRating powerRating = HandRating.rate(getHand(),communityCards);
 		
 		switch(round) {
 		
@@ -48,7 +45,7 @@ public class Phase1Player extends AIPlayer{
 			return Action.raise(3);
 		}
 		
-	private Action getFlopAction(int bet, int raises, int pot, int[] powerRating) {
+	private Action getFlopAction(int bet, int raises, int pot, HandRating powerRating) {
 		Random randomGenerator = new Random();
 		int r = randomGenerator.nextInt(100) + 1;
 		
@@ -89,7 +86,7 @@ public class Phase1Player extends AIPlayer{
 	throw new IllegalArgumentException();
 	}
 	
-	private Action getTurnAction(int bet, int raises, int pot, int[] powerRating) {
+	private Action getTurnAction(int bet, int raises, int pot, HandRating powerRating) {
 		Random randomGenerator = new Random();
 		int r = randomGenerator.nextInt(100) + 1;
 		

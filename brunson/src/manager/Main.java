@@ -22,9 +22,7 @@ public class Main {
 			piles.add(deck.deal(r.nextInt(3) + 5));
 		}
 		
-		long start,stop;
 		System.out.println("**Start HandRating**");
-		start = System.currentTimeMillis();
 		for(Pile pile : piles){
 			try{
 				HandRating.rate(pile);
@@ -33,23 +31,5 @@ public class Main {
 				e.printStackTrace();
 			}
 		}
-		stop = System.currentTimeMillis();
-		long hrTime = stop - start;
-		
-		System.out.println("**Start CardPower**");
-		start = System.currentTimeMillis();
-		for(Pile pile : piles){
-			try{
-				Utility.calcCardPower(pile);
-			} catch (Exception e){
-				System.out.println(pile);
-				e.printStackTrace();
-			}
-		}
-		stop = System.currentTimeMillis();
-		long cpTime = stop - start;
-		
-		System.out.printf("hrTime: %d s, cpTime: %d s%n",hrTime/1000,cpTime/1000);
-		
 	}
 }
