@@ -1,14 +1,16 @@
 package player;
 import manager.Round;
 import cards.*;
-import java.util.ArrayList;
 
+import java.util.ArrayList;
+import manager.*;
 public abstract class Player {
 	
 	private Pile hand;
 	private int chips;
 	private ArrayList<Action>[] actions;
 	private int amountWagered;
+	private HandRating handRating;
 		
 	public Player(int buyin){
 		this.hand = new Pile();
@@ -81,6 +83,14 @@ public abstract class Player {
 	
 	public void resetAmountWagered() {
 		amountWagered = 0;
+	}
+	
+	public HandRating getHandRating() {
+		return handRating;
+	}
+	
+	public void setHandRating(Pile communityCards) {
+		handRating = HandRating.rate(communityCards, hand);
 	}
 
 	
