@@ -79,7 +79,7 @@ public class Game {
 			activePlayers.get(0).updateStack(pot);
 			return;
 		}
-		//Determine winner(s) at showdown.
+		//Determine winner(s) at showdown
 		showdown(activePlayers);
 		for(Player player : activePlayers) {
 			player.updateStack(pot / activePlayers.size());
