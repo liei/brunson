@@ -3,26 +3,32 @@ import manager.Round;
 import cards.*;
 
 import java.util.ArrayList;
+import java.util.EnumMap;
+import java.util.List;
+import java.util.Map;
+
 import manager.*;
 public abstract class Player {
 	
 	private Pile hand;
 	private int chips;
-	private ArrayList<Action>[] actions;
 	private int amountWagered;
+	
+	private Map<Round,List<Action>> actions;
 	private HandRating handRating;
 		
 	public Player(int buyin){
-		this.hand = new Pile();
-		this.chips = buyin;
-		this.amountWagered = 0;
-		this.actions = new ArrayList[4];
+		hand = new Pile();
+		chips = buyin;
+		amountWagered = 0;
+		actions = new EnumMap<Round,List<Action>>(Round.class);
 		//List of actions this player took pre-flop, on flop, and on river.
-		this.actions[0] = new ArrayList<Action>();
-		this.actions[1] = new ArrayList<Action>();
-		this.actions[2] = new ArrayList<Action>();
-		this.actions[3] = new ArrayList<Action>();
+		actions.put(Round.PREFLOP,new ArrayList<Action>());
+		actions.put(Round.FLOP,new ArrayList<Action>());
+		actions.put(Round.TURN,new ArrayList<Action>());
+		actions.put(Round.RIVER,new ArrayList<Action>());
 	}
+	
 	
 	public void addCard(Card card) {
 		hand.add(card);
@@ -44,33 +50,24 @@ public abstract class Player {
 		hand.clear();
 	}
 	
+	public final int bet(int bet){
+		int diff = bet - amountWagered;
+		chips -= diff;
+		amountWagered = bet;
+		return diff;
+	}
+	
 	public abstract Action act(Round round, Pile communityCards, int bet, int raises, int pot);
 	
-	public ArrayList<Action> getPreFlopActions() {
-		return this.actions[0];
-	}
-
-	public ArrayList<Action> getFlopActions() {
-		return this.actions[1];
-	}
-	public ArrayList<Action> getTurnActions() {
-		return this.actions[2];
-	}
-	public ArrayList<Action> getRiverActions() {
-		return this.actions[3];
+	public List<Action> getActions(Round round) {
+		return actions.get(round);
 	}
 	
-	public void setPreFlopAction(Action action) {
-		this.actions[0].add(action);
-	}
-	public void setFlopAction(Action action) {
-		this.actions[1].add(action);
-	}
-	public void setTurnAction(Action action) {
-		this.actions[2].add(action);
-	}
-	public void setRiverAction(Action action) {
-		this.actions[3].add(action);
+	public void addAction(Round round,Action action) {
+		List<Action> list = actions.get(round);
+		if(list == null)
+			throw new NullPointerException();
+		list.add(action);
 	}
 	
 	public void updateAmountWagered(int chips) {

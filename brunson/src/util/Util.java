@@ -42,7 +42,7 @@ public class Util {
 		}
 		
 		public boolean hasNext() {
-			return list.size() > 0;
+			return list.size() > 1;
 		}
 	
 		public Player next() {

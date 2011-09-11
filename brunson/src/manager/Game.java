@@ -2,6 +2,7 @@ package manager;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 
 import cards.*;
@@ -31,24 +32,13 @@ public class Game {
 		
 		List<Player> activePlayers = new ArrayList<Player>();
 		Collections.copy(activePlayers,players);
+
+		dealHoleCards();
 		
 		// Preflop	
 		int index = button;
 		
 		// Small blind
-		index = (index + 1) % activePlayers.size(); 
-		activePlayers.get(index).updateStack(-1);
-		activePlayers.get(index).updateAmountWagered(1);
-		updatePot(1);
-		
-		// Big blind
-		index = (index + 1) % activePlayers.size(); 
-		activePlayers.get(index).updateStack(-2);
-		activePlayers.get(index).updateAmountWagered(2);
-		updatePot(2);
-		
-		dealHoleCards();
-		
 		preFlop(index, players);
 		
 		//Check if we have a winner already.
@@ -88,56 +78,45 @@ public class Game {
 	}
 	
 	
-	private void preFlop(int index, List<Player> activePlayers) {
+	private void preFlop(Iterator<Player> players) {
+
+		//Skip player on button
+		if(players.hasNext())
+			players.next();
+		
+		//Small blind
+		if(players.hasNext())
+			pot += players.next().bet(1);
+		
+		// Big blind
+		if(players.hasNext())
+			pot += players.next().bet(2);
+		
+		
 		bet = 2;
 		int raises = 0;
-		int loop = 1000;
-		int count = 0;
-		//Cycle through each remaining active player.
-		while(true) {
-			Player player = players.get(index);
+		//Cycle through each remaining active player, hasNext return false when there are only one player left.
+		while(players.hasNext()) {
+			Player player = players.next();
+			if(player.getAmountWagered() == bet)
+				break;
 			Action action = player.act(Round.PREFLOP,communityCards, bet, raises, pot);
+			player.addAction(Round.PREFLOP,action);
 			switch(action.getType()) {
 			case FOLD: 
-				player.setPreFlopAction(Action.fold());
-				activePlayers.remove(player);
+				players.remove();
 				break;
+			case CHECK:
 			case CALL:
-				player.setPreFlopAction(Action.call());
-				player.updateStack(player.getAmountWagered()-bet);
-				player.updateAmountWagered(bet- player.getAmountWagered());
-				updatePot(bet-player.getAmountWagered());
+				pot += player.bet(bet);
 				break;
+			case BET:
 			case RAISE:
-				player.setPreFlopAction(Action.raise(3*bet));
-				player.updateAmountWagered(3*bet);
-				player.updateStack(-3*bet);
-				updatePot(3*bet);
+				bet = action.getBet();
+				pot += player.bet(bet);
 				raises++;
 				break;
 			}
-			for(Player p : activePlayers) {
-				int callCount = 0;
-				//Check if the last player action was to call.
-				if(p.getPreFlopActions().get(p.getPreFlopActions().size() - 1).getType() == Action.Type.CALL) {
-					callCount++;
-				}
-				//If all but one player has called it's time to see a flop.
-				if(callCount == activePlayers.size() - 1) {
-					return;
-				}
-			}
-			index = (index + 1) % activePlayers.size();
-			
-			//All but one have folded and the hand ends.
-			if(activePlayers.size() == 1) {
-				activePlayers.get(index).updateStack(pot);
-				return;
-			}
-			if(count > loop) {
-				throw new RuntimeException("infinite loop");
-			}
-			count++;
 		}
 	}
 	
