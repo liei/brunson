@@ -25,12 +25,15 @@ public class Util {
 		}
 	}
 
+	public static Iterator<Player> playerCycler(List<Player> list, int index){
+		return new PlayerCycler(list,index);
+	}
+	
 	static class PlayerCycler implements Iterator<Player>,Iterable<Player>{
 	
 		private List<Player> list;
 		int index;
 		boolean hasCurrent;
-		
 		
 		public PlayerCycler(List<Player> list,int index){
 			this.list = list;
