@@ -78,6 +78,10 @@ public abstract class Player {
 	public int getAmountWagered() {
 		return this.amountWagered;
 	}
+	
+	public void resetAmountWagered() {
+		amountWagered = 0;
+	}
 
 	
 }
