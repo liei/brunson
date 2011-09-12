@@ -1,4 +1,4 @@
-package edu.ntnu.no.brunson.manager;
+package edu.ntnu.brunson.manager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -11,7 +11,7 @@ import edu.ntnu.brunson.cards.Deck;
 import edu.ntnu.brunson.cards.Pile;
 import edu.ntnu.brunson.cards.Suit;
 import edu.ntnu.brunson.cards.Value;
-import edu.ntnu.no.brunson.util.PileUtil;
+import edu.ntnu.brunson.util.PileUtil;
 
 public class HandRating implements Comparable<HandRating>{
 

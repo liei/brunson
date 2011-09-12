@@ -1,4 +1,4 @@
-package edu.ntnu.no.brunson.tests;
+package edu.ntnu.brunson.tests;
 
 import static org.junit.Assert.*;
 

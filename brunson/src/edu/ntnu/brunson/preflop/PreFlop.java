@@ -1,4 +1,4 @@
-package edu.ntnu.no.brunson.preflop;
+package edu.ntnu.brunson.preflop;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -20,7 +20,7 @@ import edu.ntnu.brunson.cards.Card;
 import edu.ntnu.brunson.cards.Deck;
 import edu.ntnu.brunson.cards.Pile;
 import edu.ntnu.brunson.cards.Value;
-import edu.ntnu.no.brunson.manager.HandRating;
+import edu.ntnu.brunson.manager.HandRating;
 
 public class PreFlop {
 

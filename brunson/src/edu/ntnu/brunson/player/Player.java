@@ -1,4 +1,4 @@
-package edu.ntnu.no.brunson.player;
+package edu.ntnu.brunson.player;
 
 import java.util.ArrayList;
 import java.util.EnumMap;
@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import edu.ntnu.brunson.cards.*;
-import edu.ntnu.no.brunson.manager.*;
+import edu.ntnu.brunson.manager.*;
 
 public abstract class Player {
 	

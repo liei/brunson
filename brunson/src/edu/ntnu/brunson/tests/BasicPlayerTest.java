@@ -1,4 +1,4 @@
-package edu.ntnu.no.brunson.tests;
+package edu.ntnu.brunson.tests;
 
 import static org.junit.Assert.*;
 
@@ -6,9 +6,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import edu.ntnu.brunson.cards.*;
-import edu.ntnu.no.brunson.manager.Round;
-import edu.ntnu.no.brunson.player.Phase1Player;
-import edu.ntnu.no.brunson.player.Action.Type;
+import edu.ntnu.brunson.manager.Round;
+import edu.ntnu.brunson.player.Phase1Player;
+import edu.ntnu.brunson.player.Action.Type;
 
 
 public class BasicPlayerTest {

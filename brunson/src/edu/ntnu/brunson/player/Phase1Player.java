@@ -1,9 +1,9 @@
-package edu.ntnu.no.brunson.player;
+package edu.ntnu.brunson.player;
 
 import java.util.Random;
 
 import edu.ntnu.brunson.cards.Pile;
-import edu.ntnu.no.brunson.manager.*;
+import edu.ntnu.brunson.manager.*;
 public class Phase1Player extends AIPlayer{
 	
 	public Phase1Player(int buyin, int aggression, int vpip, int bluffy) {

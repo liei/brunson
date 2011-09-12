@@ -1,4 +1,4 @@
-package edu.ntnu.no.brunson.manager;
+package edu.ntnu.brunson.manager;
 
 import java.util.LinkedList;
 import java.util.List;

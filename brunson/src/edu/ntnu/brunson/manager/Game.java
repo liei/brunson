@@ -1,13 +1,13 @@
-package edu.ntnu.no.brunson.manager;
+package edu.ntnu.brunson.manager;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import edu.ntnu.brunson.cards.*;
-import edu.ntnu.no.brunson.player.Action;
-import edu.ntnu.no.brunson.player.Player;
-import edu.ntnu.no.brunson.player.PlayerCycler;
+import edu.ntnu.brunson.player.Action;
+import edu.ntnu.brunson.player.Player;
+import edu.ntnu.brunson.player.PlayerCycler;
 
 
 public class Game {

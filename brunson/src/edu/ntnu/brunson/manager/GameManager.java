@@ -1,9 +1,9 @@
-package edu.ntnu.no.brunson.manager;
+package edu.ntnu.brunson.manager;
 
 import java.util.List;
 import java.util.ArrayList;
 
-import edu.ntnu.no.brunson.player.*;
+import edu.ntnu.brunson.player.*;
 
 public class GameManager {
 	

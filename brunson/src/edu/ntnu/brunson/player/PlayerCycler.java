@@ -1,4 +1,4 @@
-package edu.ntnu.no.brunson.player;
+package edu.ntnu.brunson.player;
 
 import java.util.Iterator;
 import java.util.List;

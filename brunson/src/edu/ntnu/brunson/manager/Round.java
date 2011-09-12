@@ -1,4 +1,4 @@
-package edu.ntnu.no.brunson.manager;
+package edu.ntnu.brunson.manager;
 
 public enum Round {
 	PREFLOP(0),FLOP(3),TURN(1),RIVER(1);

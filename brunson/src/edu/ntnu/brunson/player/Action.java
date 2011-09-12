@@ -1,4 +1,4 @@
-package edu.ntnu.no.brunson.player;
+package edu.ntnu.brunson.player;
 
 public class Action {
 	

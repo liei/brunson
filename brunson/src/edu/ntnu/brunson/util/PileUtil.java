@@ -1,4 +1,4 @@
-package edu.ntnu.no.brunson.util;
+package edu.ntnu.brunson.util;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
