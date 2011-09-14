@@ -1,8 +1,6 @@
 package edu.ntnu.brunson.preflop;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.IOException;
 import java.io.PrintStream;
@@ -35,45 +33,12 @@ public class PreFlop {
 	
 	private static ExecutorService service = Executors.newFixedThreadPool(4);
 	
-	private static HashMap<String, Integer> table = null;
+	private static Map<String, Integer> table = null;
 	
 	private static int players = -1; 
 	
 	private PreFlop(){}
 
-	public static void main(String[] args) {
-		String filename = "preflop.txt";
-//		try {
-//			PrintStream out = new PrintStream(new FileOutputStream(filename));
-//			generate(out,1000);
-//		} catch (FileNotFoundException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-		try {
-			load(filename);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		Pile[] piles = new Pile[3];
-		piles[0] = Deck.getPile("AsAh");
-		piles[1] = Deck.getPile("4hKs");
-		piles[2] = Deck.getPile("4hKh");
-		for(Pile pile : piles){
-			System.out.printf("%s:",pile);
-			for(int i = 2; i <= 10; i++)
-				System.out.printf(" %d",get(pile,i));
-			System.out.println();
-			
-			
-		}
-	}
-	
 	public static void generate(PrintStream out,int runs){
 		long start = System.currentTimeMillis();
 
