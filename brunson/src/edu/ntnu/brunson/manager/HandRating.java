@@ -179,6 +179,19 @@ public class HandRating implements Comparable<HandRating>{
 			tie[i] = partitions.get(i).getCard(0).getValue();
 	}
 
+	@Deprecated
+	/**
+	 * dirty dirty hack, returns the power rating in the int[] format. 
+	 * @return
+	 */
+	public int[] asIntArray(){
+		int[] rating = new int[tieInfo.length + 1];
+		rating[0] = type.ordinal() + 1;
+		for(int i = 1; i < tieInfo.length; i++)
+			rating[i] = tieInfo[i-1].ordinal() + 2;
+		return rating;
+	}
+	
 	@Override
 	public int compareTo(HandRating that) {
 		int diff = this.type.ordinal() - that.type.ordinal();

@@ -1,9 +1,8 @@
 package edu.ntnu.brunson.player;
 
-import java.util.Random;
-
 import edu.ntnu.brunson.cards.Pile;
 import edu.ntnu.brunson.manager.*;
+import edu.ntnu.brunson.util.Util;
 public class Phase1Player extends AIPlayer{
 	
 	public Phase1Player(int buyin, int aggression, int vpip, int bluffy) {
@@ -19,36 +18,26 @@ public class Phase1Player extends AIPlayer{
 		case PREFLOP:
 			return getPreflopAction(bet,raises);
 		case FLOP:
-			return getFlopAction(bet, raises, pot, powerRating);
+			return getFlopAction(bet,raises,pot,powerRating);
 		case TURN:
-			return getTurnAction(bet, raises, pot, powerRating);
+			return getTurnAction(bet,raises,pot,powerRating);
 		case RIVER:
-			return getRiverAction(bet, raises, pot, powerRating);
+			return getRiverAction(bet,raises,pot,powerRating);
+		default:
+			throw new RuntimeException("Not possible!");
 		}		
-		throw new IllegalArgumentException();
+	}
+	
+	private Action getPreflopAction(int bet, int raises) {
+		//Call or Raise VPIP % of the time
+		if(Util.randomBoolean(vpip)){
+			return raises > 0 ? Action.call() : Action.raise(3);
+		}
+		return Action.fold();
 	}
 		
-		private Action getPreflopAction(int bet, int raises) {
-			Random randomGenerator = new Random();
-			int r = randomGenerator.nextInt(100) + 1;
-			//Call VPIP % of the time if someone raises.
-			if(raises == 1) {
-				if(r > vpip) {
-					return Action.call();
-				}
-				return Action.fold();
-			}
-			//Raise VPIP % of the time, otherwise fold.
-			if(r > vpip) {
-				return Action.fold();
-			}
-
-			return Action.raise(3);
-		}
-		
-	private Action getFlopAction(int bet, int raises, int pot, HandRating powerRating) {
-		Random randomGenerator = new Random();
-		int r = randomGenerator.nextInt(100) + 1;
+	private Action getFlopAction(int bet, int raises, int pot, HandRating rating) {
+		int[] powerRating = rating.asIntArray(); 
 		
 		// Someone bet, we have a pair, call.
 		if(bet > 0) {
@@ -62,6 +51,7 @@ public class Phase1Player extends AIPlayer{
 			//We have air and should fold.
 			return Action.fold();
 		}
+		
 		//Someone has raised before it's our turn to act so we only continue with two pairs or better. If we can beat two pair we'll raise.
 		if(raises > 0) {
 			if(powerRating[0] == 3) {
@@ -77,19 +67,18 @@ public class Phase1Player extends AIPlayer{
 				return Action.bet(3/4 * pot);
 			}
 			// 25% of the time we will cbet or donk on flop with complete air and hope everyone else folds.
-			else if(r > 75) {
+			else if(Util.randomBoolean(25)) {
 				return Action.bet(3/4 * pot);
 			}
 			
 			return Action.check();
 				
 		}
-	throw new IllegalArgumentException();
+		throw new IllegalArgumentException();
 	}
 	
-	private Action getTurnAction(int bet, int raises, int pot, HandRating powerRating) {
-		Random randomGenerator = new Random();
-		int r = randomGenerator.nextInt(100) + 1;
+	private Action getTurnAction(int bet, int raises, int pot, HandRating rating) {
+		int[] powerRating = rating.asIntArray(); 
 		
 		// Someone bet, we'll continue with a pair of 9s or better if the pot is larger than 12.
 		if(bet > 0) {
@@ -122,7 +111,7 @@ public class Phase1Player extends AIPlayer{
 				return Action.bet(3/4 * pot);
 			}
 			// 20% of the time we will cbet or donk on flop with complete air and hope everyone else folds.
-			else if(r > 80) {
+			else if(Util.randomBoolean(20)) {
 				return Action.bet(3/4 * pot);
 			}
 			
@@ -132,10 +121,8 @@ public class Phase1Player extends AIPlayer{
 	throw new IllegalArgumentException();
 	}
 	
-	private Action getRiverAction(int bet, int raises, int pot, int[] powerRating) {
-		Random randomGenerator = new Random();
-		int r = randomGenerator.nextInt(100) + 1;
-		
+	private Action getRiverAction(int bet, int raises, int pot, HandRating rating) {
+		int[] powerRating = rating.asIntArray(); 
 		// Someone bet, we'll continue with a pair of kings or better if the pot is larger than 30.
 		if(bet > 0) {
 			if(powerRating[0] == 2 && pot < 13) {
@@ -170,7 +157,7 @@ public class Phase1Player extends AIPlayer{
 				return Action.bet(3/4 * pot);
 			}
 			// 10% of the time we will cbet or donk on flop with complete air and hope everyone else folds.
-			else if(r > 90) {
+			else if(Util.randomBoolean(10)) {
 				return Action.bet(3/4 * pot);
 			}
 			
