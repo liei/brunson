@@ -7,6 +7,7 @@ import org.apache.commons.cli.GnuParser;
 import org.apache.commons.cli.Option;
 import org.apache.commons.cli.Options;
 import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.PosixParser;
 
 public class BrunsonPfrSim {
 	
@@ -22,19 +23,21 @@ public class BrunsonPfrSim {
 	}
 	
 	public static void main(String[] args) {
-		CommandLineParser clp = new GnuParser();
+		for(String s : args)
+			System.out.println(s);
+		
+		CommandLineParser clp = new BasicParser();
 		CommandLine cl = null;
 		try {
-			clp.parse(options,args);
+			cl = clp.parse(options,args);
+			System.out.println("testing");
+			for(String s : cl.getArgs()){
+				System.out.println(s);
+			}
 		} catch (ParseException e) {
 			e.printStackTrace();
 			System.out.println(USAGE);
 			System.exit(1);
 		}
-		for(String s : cl.getArgs()){
-			System.out.println(s);
-		}
-		
 	}
-	
 }

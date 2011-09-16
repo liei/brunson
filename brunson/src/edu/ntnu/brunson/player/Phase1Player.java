@@ -39,6 +39,7 @@ public class Phase1Player extends AIPlayer{
 	private Action getFlopAction(int bet, int raises, int pot, HandRating rating) {
 		int[] powerRating = rating.asIntArray(); 
 		
+		
 		// Someone bet, we have a pair, call.
 		if(bet > 0) {
 			if(powerRating[0] == 2) {
