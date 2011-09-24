@@ -51,4 +51,8 @@ public class PlayerCycler implements Iterator<Player>,Iterable<Player>{
 	public Iterator<Player> iterator() {
 		return this;
 	}
+	
+	public int getSize() {
+		return list.size();
+	}
 }
