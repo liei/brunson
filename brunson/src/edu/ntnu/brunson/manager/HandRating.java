@@ -66,7 +66,7 @@ public class HandRating implements Comparable<HandRating>{
 		return highcard(partitions);
 	}
 
-	public static double strength(Pile hole,Pile community){
+	public static double strength(Pile hole,Pile community,int players){
 		Pile deck = Deck.incompleteDeck(hole,community);
 		HandRating myRating = HandRating.rate(hole,community);
 		int wins = 0;
@@ -82,7 +82,7 @@ public class HandRating implements Comparable<HandRating>{
 				ties++;
 			}
 		}
-		return (wins + ties/2.0)/(wins + ties + losses); 
+		return Math.pow((wins + ties/2.0)/(wins + ties + losses),players); 
 	}
 	
 	private static Pile findFlush(Pile hand) {
