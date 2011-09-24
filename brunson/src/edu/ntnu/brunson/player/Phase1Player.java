@@ -4,11 +4,19 @@ import edu.ntnu.brunson.cards.Pile;
 import edu.ntnu.brunson.cards.Value;
 import edu.ntnu.brunson.manager.*;
 import edu.ntnu.brunson.util.Util;
+
 public class Phase1Player extends AIPlayer{
 	
-	public Phase1Player(int buyin, int aggression, int vpip, int bluffy) {
-		super(buyin, aggression, vpip, bluffy);
+	private static int playerCount = 0;
+	
+	public Phase1Player(String name,int buyin, int aggression, int vpip, int bluffy){
+		super(name,buyin, aggression,vpip,bluffy);
 	}
+	
+	public Phase1Player(int buyin, int aggression, int vpip, int bluffy) {
+		this(String.format("Phase1-%d",playerCount++),buyin, aggression, vpip, bluffy);
+	}
+	
 	
 	public Action act(Round round, Pile communityCards, int bet, int raises, int pot) {
 

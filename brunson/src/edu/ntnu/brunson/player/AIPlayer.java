@@ -13,8 +13,8 @@ public abstract class AIPlayer extends Player{
 	//Value from 0-100 indicating how willing the player is to run big bluffs.
 	protected int bluffy;
 
-	public AIPlayer(int buyin,int aggression,int vpip,int bluffy){
-		super(buyin);
+	public AIPlayer(String name,int buyin,int aggression,int vpip,int bluffy){
+		super(name, buyin);
 		this.aggression = aggression;
 		this.vpip = vpip;
 		this.bluffy = bluffy;
