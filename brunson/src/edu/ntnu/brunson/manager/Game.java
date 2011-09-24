@@ -34,8 +34,8 @@ public class Game {
 		// Big blind
 		if(players.hasNext())
 			pot += players.next().bet(2);
-
 		
+		dealHoleCards(players);
 		for(Round round : Round.values()){
 			community.add(deck.deal(round.cardsDealt()));	
 			writeToHH(round, null, 0);
@@ -132,6 +132,17 @@ public class Game {
 			}
 			return;
 		default: throw new RuntimeException("Failed to print HH properly.");
+		}
+	}
+	
+	private void dealHoleCards(PlayerCycler pc) {
+		while(true) {
+			Player player = pc.next();
+			if(player.getHand().size() == 2) {
+				return;
+			}
+			pc.next().addCard(deck.pop());
+			pc.next().addCard(deck.pop());
 		}
 	}
 	
