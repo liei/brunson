@@ -207,6 +207,11 @@ public class HandRating implements Comparable<HandRating>{
 		return 0;
 	}
 	
+	//TODO: Implement this.
+	public boolean inPercentile(Pile hand, int players, int percentile) {
+		return true;
+	}
+	
 	public String toString(){
 		Value[] t = tieInfo;
 		switch(type){
@@ -237,5 +242,50 @@ public class HandRating implements Comparable<HandRating>{
 	
 	static enum PokerHands {
 		HIGHCARD,ONEPAIR,TWOPAIR,TRIPS,STRAIGHT,FLUSH,BOAT,QUAD,STRAIGHTFLUSH;
+	}
+	
+	public static HandRating pair(Value kicker1, Value kicker2, Value kicker3, Value kicker4, Value kicker5) {
+		Value[] tieInfo = {kicker1, kicker2, kicker3, kicker4, kicker5};
+		return new HandRating(PokerHands.HIGHCARD, tieInfo);
+	}
+	
+	public static HandRating pair(Value pair, Value kicker1, Value kicker2, Value kicker3) {
+		Value[] tieInfo = {pair, kicker1, kicker2, kicker3};
+		return new HandRating(PokerHands.ONEPAIR, tieInfo);
+	}
+	
+	public static HandRating twoPair(Value pair, Value pair2, Value kicker) {
+		Value[] tieInfo = {pair, pair2, kicker};
+		return new HandRating(PokerHands.TWOPAIR, tieInfo);
+	}
+	
+	public static HandRating trips(Value trip, Value kicker1, Value kicker2) {
+		Value[] tieInfo = {trip, kicker1, kicker2};
+		return new HandRating(PokerHands.TRIPS, tieInfo);
+	}
+	
+	public static HandRating straight(Value highCard) {
+		Value[] tieInfo = {highCard};
+		return new HandRating(PokerHands.STRAIGHT, tieInfo);
+	}
+	
+	public static HandRating Flush(Value highCard, Value kicker1, Value kicker2, Value kicker3, Value kicker4) {
+		Value[] tieInfo = {highCard, kicker1, kicker2, kicker3, kicker4};
+		return new HandRating(PokerHands.FLUSH, tieInfo);
+	}
+	
+	public static HandRating boat(Value trips, Value pair, Value kicker) {
+		Value[] tieInfo = {trips, pair};
+		return new HandRating(PokerHands.BOAT, tieInfo);
+	}
+	
+	public static HandRating quads(Value quad, Value kicker) {
+		Value[] tieInfo = {quad, kicker};
+		return new HandRating(PokerHands.QUAD, tieInfo);
+	}
+	
+	public static HandRating straightFlush(Value highCard) {
+		Value[] tieInfo = {highCard};
+		return new HandRating(PokerHands.STRAIGHTFLUSH, tieInfo);
 	}
 }
