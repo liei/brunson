@@ -66,6 +66,25 @@ public class HandRating implements Comparable<HandRating>{
 		return highcard(partitions);
 	}
 
+	public static double strength(Pile hole,Pile community,int players){
+		Pile deck = Deck.incompleteDeck(hole,community);
+		HandRating myRating = HandRating.rate(hole,community);
+		int wins = 0;
+		int ties = 0;
+		int losses = 0;
+		for(Pile theirHand : PileUtil.combinations(deck,2)){
+			int comp = myRating.compareTo(HandRating.rate(theirHand,community));
+			if(comp > 0){
+				wins++;
+			} else if (comp < 0){
+				losses++;
+			} else {
+				ties++;
+			}
+		}
+		return Math.pow((wins + ties/2.0)/(wins + ties + losses),players); 
+	}
+	
 	private static Pile findFlush(Pile hand) {
 		Map<Suit,Pile> map = new EnumMap<Suit,Pile>(Suit.class);
 		for(Card card : hand){
