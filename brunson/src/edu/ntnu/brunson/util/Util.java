@@ -18,7 +18,7 @@ public class Util {
 		return RNG.nextInt(100) + 1 <= chance;
 	}
 	
-	public float potOdds(int pot, int bet) {
+	public static float potOdds(int pot, int bet) {
 		float fPot = pot;
 		float fBet = bet;
 		return fBet / (fPot + fBet);
