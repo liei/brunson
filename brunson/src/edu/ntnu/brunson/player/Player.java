@@ -13,6 +13,7 @@ public abstract class Player {
 	private Pile hand;
 	private int chips;
 	private int amountWagered;
+	private String name;
 	
 	private Map<Round,List<Action>> actions;
 	private HandRating handRating;
@@ -95,6 +96,13 @@ public abstract class Player {
 		// TODO Auto-generated method stub
 		
 	}
-
+	
+	public void setName(String name) {
+		this.name = name;
+	}
+	
+	public String getName() {
+		return name;
+	}
 	
 }
