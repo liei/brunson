@@ -62,6 +62,7 @@ public class Phase1Player extends AIPlayer{
 			else if (rating.isBetter(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR))) {
 				return Action.raise(bet * 3);
 			}
+			return Action.fold();
 		}
 		//Nobody has bet so we're betting if we have a pair or better.
 		else if(bet == 0) {
