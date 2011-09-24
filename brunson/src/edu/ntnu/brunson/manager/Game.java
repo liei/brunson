@@ -86,10 +86,10 @@ public class Game {
 	private List<Player> showdown(List<Player> playerList) {
 		List<Player> winners = new ArrayList<Player>();
 		writeToHH(null, playerList, 1);
-		HandRating best = HandRating.rate(playerList.get(0).getHand());
+		HandRating best = HandRating.rate(playerList.get(0).getHand(), community);
 		for(Player player : playerList){
 			
-			HandRating rating = HandRating.rate(player.getHand());
+			HandRating rating = HandRating.rate(player.getHand(), community);
 			int comp = best.compareTo(rating);
 			if(comp == 0)
 				winners.add(player);
