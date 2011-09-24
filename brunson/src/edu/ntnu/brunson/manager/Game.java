@@ -38,6 +38,7 @@ public class Game {
 		
 		for(Round round : Round.values()){
 			community.add(deck.deal(round.cardsDealt()));	
+			writeToHH(round, null, 0);
 			boolean winner = playRound(round,players,0);
 			if(winner) {
 				players.list().get(0).updateStack(pot);
@@ -84,9 +85,10 @@ public class Game {
 	
 	private List<Player> showdown(List<Player> playerList) {
 		List<Player> winners = new ArrayList<Player>();
-		
+		writeToHH(null, playerList, 1);
 		HandRating best = HandRating.rate(playerList.get(0).getHand());
 		for(Player player : playerList){
+			
 			HandRating rating = HandRating.rate(player.getHand());
 			int comp = best.compareTo(rating);
 			if(comp == 0)
@@ -96,7 +98,40 @@ public class Game {
 				winners.add(player);
 			}
 		}
+		writeToHH(null, winners, 2);
 		return winners;
+	}
+	//Need to print the community cards, what happens at showdown and who the winners are.
+	private void writeToHH(Round round, List<Player> players, int i) {
+		switch(round) {
+		
+		//community cards
+		case FLOP: Output.addToHH("Dealing flop: [" + community.getCard(0).toString() + ", "  + community.getCard(1).toString() + ", "  + community.getCard(2).toString() + "]"); return;
+		case TURN: Output.addToHH("Dealing turn: [ " + community.getCard(3).toString() +"]"); return;
+		case RIVER: Output.addToHH("Dealing river: [ " + community.getCard(4).toString() +"]"); return;
+
+		}
+		switch(i) {
+		case 0: return;
+		case 1: 
+			//showdown
+			if(players == null) {
+				throw new RuntimeException("This is not good.");
+			}
+			Output.addToHH("Showdown: ");
+			for(Player player : players) {
+				Output.addToHH(player.getName() + " shows " + player.getHand().toString() +".");
+			}
+			
+			return;
+		case 2:
+			Output.addToHH("Final pot is: " +java.lang.Integer.toString(pot));
+			for(Player player : players) {
+				Output.addToHH(player.getName() + " wins " +java.lang.Integer.toString(pot / players.size()) + player.getHand().toString() +".");	
+			}
+			return;
+		default: throw new RuntimeException("Failed to print HH properly.");
+		}
 	}
 	
 }
