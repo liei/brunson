@@ -22,8 +22,9 @@ public class GameManager {
 	
 	public void playGames(int hands) {
 		for(int i = 0; i < hands; i++) {
-			new Game(players,button);
+			Game game = new Game(players,button);
 			button = (button + 1) % players.size();
+			game.playHand();
 			Output.printHH();
 		}
 	}

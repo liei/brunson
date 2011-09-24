@@ -143,8 +143,8 @@ public class Game {
 			if(player.getHand().size() == 2) {
 				return;
 			}
-			pc.next().addCard(deck.pop());
-			pc.next().addCard(deck.pop());
+			player.addCard(deck.pop());
+			player.addCard(deck.pop());
 		}
 	}
 	
