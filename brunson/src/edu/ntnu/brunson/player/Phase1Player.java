@@ -45,7 +45,7 @@ public class Phase1Player extends AIPlayer{
 				return Action.call();
 			}
 			//We flopped a value hand and should raise.
-			else if(0 < rating.compareTo(HandRating.pair(Value.ACE, Value.KING, Value.FOUR, Value.FIVE))) {
+			else if(rating.isBetter(HandRating.pair(Value.ACE, Value.KING, Value.FOUR, Value.FIVE))) {
 				return Action.raise(bet * 3);
 			}
 			//We have air and should fold.
@@ -86,7 +86,7 @@ public class Phase1Player extends AIPlayer{
 			}
 
 			//We have three of a kind and should raise.
-			else if((rating.compareTo(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR)) > 0)) {
+			else if(rating.isBetter(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR))) {
 				return Action.raise(bet * 3);
 			}
 			
@@ -129,15 +129,15 @@ public class Phase1Player extends AIPlayer{
 			}
 			
 			//We have three of a kind or better and should raise.
-			else if((rating.compareTo(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR)) > 0)) {
+			else if(rating.isBetter(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR))) {
 				return Action.raise(bet * 3);
 			}
 
-			else if(rating.compareTo(HandRating.pair(Value.KING, Value.THREE, Value.FOUR, Value.SIX)) > 0 && pot > 30) {
+			else if(rating.isBetter(HandRating.pair(Value.KING, Value.THREE, Value.FOUR, Value.SIX))&& pot > 30) {
 				return Action.call();
 			}
 			
-			else if(rating.compareTo(HandRating.pair(Value.NINE, Value.THREE, Value.FOUR, Value.SIX)) > 0 && pot > 12) {
+			else if(rating.isBetter(HandRating.pair(Value.NINE, Value.THREE, Value.FOUR, Value.SIX)) && pot > 12) {
 				return Action.call();
 			}
 			//Our hand isn't strong enough to continue.
