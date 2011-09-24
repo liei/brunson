@@ -244,7 +244,7 @@ public class HandRating implements Comparable<HandRating>{
 		HIGHCARD,ONEPAIR,TWOPAIR,TRIPS,STRAIGHT,FLUSH,BOAT,QUAD,STRAIGHTFLUSH;
 	}
 	
-	public static HandRating pair(Value kicker1, Value kicker2, Value kicker3, Value kicker4, Value kicker5) {
+	public static HandRating highCards(Value kicker1, Value kicker2, Value kicker3, Value kicker4, Value kicker5) {
 		Value[] tieInfo = {kicker1, kicker2, kicker3, kicker4, kicker5};
 		return new HandRating(PokerHands.HIGHCARD, tieInfo);
 	}
