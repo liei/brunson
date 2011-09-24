@@ -258,8 +258,8 @@ public class HandRating implements Comparable<HandRating>{
 		return new HandRating(PokerHands.ONEPAIR, tieInfo);
 	}
 	
-	public static HandRating twoPair(Value pair, Value pair2, Value kicker) {
-		Value[] tieInfo = {pair, pair2, kicker};
+	public static HandRating twoPair(Value pair1, Value pair2, Value kicker) {
+		Value[] tieInfo = {pair1, pair2, kicker};
 		return new HandRating(PokerHands.TWOPAIR, tieInfo);
 	}
 	
@@ -273,7 +273,7 @@ public class HandRating implements Comparable<HandRating>{
 		return new HandRating(PokerHands.STRAIGHT, tieInfo);
 	}
 	
-	public static HandRating Flush(Value highCard, Value kicker1, Value kicker2, Value kicker3, Value kicker4) {
+	public static HandRating flush(Value highCard, Value kicker1, Value kicker2, Value kicker3, Value kicker4) {
 		Value[] tieInfo = {highCard, kicker1, kicker2, kicker3, kicker4};
 		return new HandRating(PokerHands.FLUSH, tieInfo);
 	}
@@ -311,22 +311,18 @@ public class HandRating implements Comparable<HandRating>{
 	
 	public boolean isStraight() {
 		return type == PokerHands.STRAIGHT;
-			
 	}
 
 	public boolean isFlush() {
 		return type == PokerHands.FLUSH;
-			
 	}
 	
 	public boolean isBoat() {
 		return type == PokerHands.BOAT;
-			
 	}
 	
 	public boolean isQuad() {
 		return type == PokerHands.QUAD;
-			
 	}
 	
 	public boolean isStraightFlush() {
@@ -334,7 +330,7 @@ public class HandRating implements Comparable<HandRating>{
 	}
 	
 	public boolean isBetter(HandRating that) {
-		return this.compareTo(that) > 0;
+		return this.compareTo(that) >= 0;
 	}
 
 }
