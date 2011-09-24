@@ -77,7 +77,6 @@ public class Game {
 				return false;
 
 			Action action = player.act(round,community, bet, raises, pot, players.getSize());
-			Action action = player.act(round,community, bet, raises, pot);
 			Output.printf("%s %s%n",player.getName(),action);
 			player.addAction(round,action);
 			switch(action.getType()) {
