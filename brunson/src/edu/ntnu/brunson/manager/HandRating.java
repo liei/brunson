@@ -288,4 +288,44 @@ public class HandRating implements Comparable<HandRating>{
 		Value[] tieInfo = {highCard};
 		return new HandRating(PokerHands.STRAIGHTFLUSH, tieInfo);
 	}
+	
+	public PokerHands getType() {
+		return type;
+	}
+	
+	public boolean isPair() {
+		return type == PokerHands.ONEPAIR;
+	}
+	
+	public boolean isTwoPair() {
+		return type == PokerHands.TWOPAIR;
+	}
+	
+	public boolean isTrips() {
+		return type == PokerHands.TRIPS;
+	}
+	
+	public boolean isStraight() {
+		return type == PokerHands.STRAIGHT;
+			
+	}
+
+	public boolean isFlush() {
+		return type == PokerHands.FLUSH;
+			
+	}
+	
+	public boolean isBoat() {
+		return type == PokerHands.BOAT;
+			
+	}
+	
+	public boolean isQuad() {
+		return type == PokerHands.QUAD;
+			
+	}
+	
+	public boolean isStraightFlush() {
+		return type == PokerHands.STRAIGHTFLUSH;		
+	}
 }
