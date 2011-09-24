@@ -55,14 +55,14 @@ public class Game {
 	}
 	
 	
-	private boolean playRound(Round round,Iterator<Player> players,int bet){
+	private boolean playRound(Round round,PlayerCycler players,int bet){
 		int raises = 0;
 		//Cycle through each remaining active player, hasNext return false when there's only one player left.
 		while(players.hasNext()) {
 			Player player = players.next();
 			if(player.getAmountWagered() == bet)
 				return false;
-			Action action = player.act(round,community, bet, raises, pot);
+			Action action = player.act(round,community, bet, raises, pot, players.getSize());
 			player.addAction(round,action);
 			switch(action.getType()) {
 			case FOLD: 

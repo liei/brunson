@@ -228,7 +228,7 @@ public class HandRating implements Comparable<HandRating>{
 	
 	//TODO: Implement this.
 	public boolean inPercentile(Pile hand, int players, int percentile) {
-		return true;
+		throw new RuntimeException("Not yet implemented!");
 	}
 	
 	public String toString(){

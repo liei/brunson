@@ -10,11 +10,10 @@ public class Phase1Player extends AIPlayer{
 		super(buyin, aggression, vpip, bluffy);
 	}
 	
-	public Action act(Round round, Pile communityCards, int bet, int raises, int pot) {
+	public Action act(Round round, Pile communityCards, int bet, int raises, int pot, int players) {
 
 		if(round == Round.PREFLOP) {
 			return getPreflopAction(bet,raises);
-			
 		}
 		HandRating powerRating = HandRating.rate(getHand(),communityCards);
 		switch(round) {

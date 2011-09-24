@@ -61,7 +61,7 @@ public abstract class Player {
 		return diff;
 	}
 	
-	public abstract Action act(Round round, Pile communityCards, int bet, int raises, int pot);
+	public abstract Action act(Round round, Pile communityCards, int bet, int raises, int pot, int players);
 	
 	public List<Action> getActions(Round round) {
 		return actions.get(round);
@@ -118,5 +118,7 @@ public abstract class Player {
 		default: throw new RuntimeException("This shouldn't happen!");
 		}
 	}
+
+
 	
 }
