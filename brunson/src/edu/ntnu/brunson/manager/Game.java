@@ -35,13 +35,24 @@ public class Game {
 		if(players.hasNext())
 			pot += players.next().bet(2);
 		
-		dealHoleCards(players);
+		//deal cards
+		for(Player player : players.list())
+			player.addCards(deck.deal(2));
+		
+		for(Player player : players.list()){
+			Output.println(player.toString());
+		}
+		
 		for(Round round : Round.values()){
-			community.add(deck.deal(round.cardsDealt()));	
-			writeToHH(round, null, 0);
-			boolean winner = playRound(round,players,0);
-			if(winner) {
-				players.list().get(0).updateStack(pot);
+			Output.printf("===%s====================%n",round);
+			Output.println(players.toString());
+			community.add(deck.deal(round.cardsDealt()));
+			Output.printf("community: %s%n",community);
+//			writeToHH(round, null, 0);
+			if(playRound(round,players,0)) {
+				Player winner = players.list().get(0);
+				winner.updateStack(pot);
+				Output.printf("%s won pot %d%n",winner.getName(),pot);
 				return;
 			}
 			players.reset();
@@ -50,6 +61,8 @@ public class Game {
 		//Determine winner(s) at showdown
 		List<Player> winners = showdown(players.list());
 		int potSlice = pot/winners.size();
+		Output.println("-=Showdown=-");
+		Output.println(winners.toString());
 		for(Player player : winners)
 			player.updateStack(potSlice);
 	}
@@ -62,7 +75,10 @@ public class Game {
 			Player player = players.next();
 			if(player.getAmountWagered() == bet)
 				return false;
+
 			Action action = player.act(round,community, bet, raises, pot, players.getSize());
+			Action action = player.act(round,community, bet, raises, pot);
+			Output.printf("%s %s%n",player.getName(),action);
 			player.addAction(round,action);
 			switch(action.getType()) {
 			case FOLD: 
@@ -85,7 +101,7 @@ public class Game {
 	
 	private List<Player> showdown(List<Player> playerList) {
 		List<Player> winners = new ArrayList<Player>();
-		writeToHH(null, playerList, 1);
+//		writeToHH(null, playerList, 1);
 		HandRating best = HandRating.rate(playerList.get(0).getHand(), community);
 		for(Player player : playerList){
 			
@@ -98,54 +114,42 @@ public class Game {
 				winners.add(player);
 			}
 		}
-		writeToHH(null, winners, 2);
+//		writeToHH(null, winners, 2);
 		return winners;
 	}
 	
 	//Need to print the community cards, what happens at showdown and who the winners are.
-	private void writeToHH(Round round, List<Player> players, int i) {
-		if(round != null) {
-			switch(round) {
-		
-			//community cards
-			case FLOP: Output.addToHH("Dealing flop: [" + community.getCard(0).toString() + ", "  + community.getCard(1).toString() + ", "  + community.getCard(2).toString() + "]"); return;
-			case TURN: Output.addToHH("Dealing turn: [ " + community.getCard(3).toString() +"]"); return;
-			case RIVER: Output.addToHH("Dealing river: [ " + community.getCard(4).toString() +"]"); return;
-
-			}
-		}
-		switch(i) {
-		case 0: return;
-		case 1: 
-			//showdown
-			if(players == null) {
-				throw new RuntimeException("This is not good.");
-			}
-			Output.addToHH("Showdown: ");
-			for(Player player : players) {
-				Output.addToHH(player.getName() + " shows " + player.getHand().toString() +".");
-			}
-			
-			return;
-		case 2:
-			Output.addToHH("Final pot is: " +java.lang.Integer.toString(pot));
-			for(Player player : players) {
-				Output.addToHH(player.getName() + " wins " +java.lang.Integer.toString(pot / players.size()) + player.getHand().toString() +".");	
-			}
-			return;
-		default: throw new RuntimeException("Failed to print HH properly.");
-		}
-	}
-	
-	private void dealHoleCards(PlayerCycler pc) {
-		while(true) {
-			Player player = pc.next();
-			if(player.getHand().size() == 2) {
-				return;
-			}
-			player.addCard(deck.pop());
-			player.addCard(deck.pop());
-		}
-	}
-	
+//	private void writeToHH(Round round, List<Player> players, int i) {
+//		if(round != null) {
+//			switch(round) {
+//		
+//			//community cards
+//			case FLOP: Output.addToHH("Dealing flop: [" + community.getCard(0).toString() + ", "  + community.getCard(1).toString() + ", "  + community.getCard(2).toString() + "]"); return;
+//			case TURN: Output.addToHH("Dealing turn: [ " + community.getCard(3).toString() +"]"); return;
+//			case RIVER: Output.addToHH("Dealing river: [ " + community.getCard(4).toString() +"]"); return;
+//
+//			}
+//		}
+//		switch(i) {
+//		case 0: return;
+//		case 1: 
+//			//showdown
+//			if(players == null) {
+//				throw new RuntimeException("This is not good.");
+//			}
+//			Output.addToHH("Showdown: ");
+//			for(Player player : players) {
+//				Output.addToHH(player.getName() + " shows " + player.getHand().toString() +".");
+//			}
+//			
+//			return;
+//		case 2:
+//			Output.addToHH("Final pot is: " + java.lang.Integer.toString(pot));
+//			for(Player player : players) {
+//				Output.addToHH(player.getName() + " wins " +java.lang.Integer.toString(pot / players.size()) + player.getHand().toString() +".");	
+//			}
+//			return;
+//		default: throw new RuntimeException("Failed to print HH properly.");
+//		}
+//	}
 }

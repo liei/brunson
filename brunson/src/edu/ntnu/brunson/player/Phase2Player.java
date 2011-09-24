@@ -7,8 +7,8 @@ import edu.ntnu.brunson.manager.Round;
 public class Phase2Player extends Player{
 	private int vpip;
 
-	public Phase2Player(int buyin, int vpip) {
-		super(buyin);
+	public Phase2Player(int buyin, int vpip, String name) {
+		super(name, buyin);
 		this.vpip = vpip;
 		
 	}

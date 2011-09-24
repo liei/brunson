@@ -13,6 +13,18 @@ public class Output {
 		
 	}
 	
+	public static void println(String line){
+		System.out.println(line);
+	}
+	
+	public static void print(String line){
+		System.out.print(line);
+	}
+	
+	public static void printf(String line,Object... os){
+		System.out.printf(line,os);
+	}
+	
 	public static void addToHH(String s) {
 		handHistory.add(s);
 	}

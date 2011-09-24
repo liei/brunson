@@ -69,12 +69,14 @@ public class Pile implements Iterable<Card>,Comparable<Pile>{
 	
 	public String toString(){
 		StringBuilder sb = new StringBuilder();
+		Iterator<Card> it = cards.iterator();
 		sb.append("{");
-		for(Card card : cards){
-			sb.append(card);
+		sb.append(it.hasNext() ? it.next() : "");
+		while(it.hasNext()){
 			sb.append(",");
+			sb.append(it.next());
 		}
-		sb.setCharAt(sb.length() - 1 , '}');
+		sb.append('}');
 		return sb.toString();
 	}
 

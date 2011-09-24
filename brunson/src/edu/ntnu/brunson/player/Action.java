@@ -45,4 +45,15 @@ public class Action {
 		CALL,
 		FOLD;		
 	}
+	
+	public String toString(){
+		switch(type){
+		case BET: return String.format("bets %d",bet);
+		case RAISE: return String.format("raises to %d",bet);
+		case CHECK: return "checks";
+		case CALL: return "calls";
+		case FOLD: return "folds";
+		default: throw new RuntimeException("type can't be null");
+		}
+	}
 }

@@ -1,5 +1,6 @@
 package edu.ntnu.brunson.player;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -15,7 +16,7 @@ public class PlayerCycler implements Iterator<Player>,Iterable<Player>{
 	boolean hasCurrent;
 	
 	public PlayerCycler(List<Player> list,int startIndex){
-		this.list = list;
+		this.list = new ArrayList<Player>(list);
 		index = start = startIndex;
 		hasCurrent = false;
 	}
@@ -54,5 +55,14 @@ public class PlayerCycler implements Iterator<Player>,Iterable<Player>{
 	
 	public int getSize() {
 		return list.size();
+	}
+	
+	public String toString(){
+		StringBuilder sb = new StringBuilder();
+		for(Player player : list){
+			sb.append(player.getName());
+			sb.append(" ");
+		}
+		return sb.toString();
 	}
 }

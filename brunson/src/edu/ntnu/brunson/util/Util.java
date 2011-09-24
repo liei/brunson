@@ -18,6 +18,7 @@ public class Util {
 		return RNG.nextInt(100) + 1 <= chance;
 	}
 	
+	public float potOdds()
 	
 	
 }
