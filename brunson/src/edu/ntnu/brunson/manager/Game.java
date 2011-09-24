@@ -104,13 +104,15 @@ public class Game {
 	
 	//Need to print the community cards, what happens at showdown and who the winners are.
 	private void writeToHH(Round round, List<Player> players, int i) {
-		switch(round) {
+		if(round != null) {
+			switch(round) {
 		
-		//community cards
-		case FLOP: Output.addToHH("Dealing flop: [" + community.getCard(0).toString() + ", "  + community.getCard(1).toString() + ", "  + community.getCard(2).toString() + "]"); return;
-		case TURN: Output.addToHH("Dealing turn: [ " + community.getCard(3).toString() +"]"); return;
-		case RIVER: Output.addToHH("Dealing river: [ " + community.getCard(4).toString() +"]"); return;
+			//community cards
+			case FLOP: Output.addToHH("Dealing flop: [" + community.getCard(0).toString() + ", "  + community.getCard(1).toString() + ", "  + community.getCard(2).toString() + "]"); return;
+			case TURN: Output.addToHH("Dealing turn: [ " + community.getCard(3).toString() +"]"); return;
+			case RIVER: Output.addToHH("Dealing river: [ " + community.getCard(4).toString() +"]"); return;
 
+			}
 		}
 		switch(i) {
 		case 0: return;
