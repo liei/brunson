@@ -1,6 +1,7 @@
 package edu.ntnu.brunson.player;
 
 import edu.ntnu.brunson.cards.Pile;
+import edu.ntnu.brunson.cards.Value;
 import edu.ntnu.brunson.manager.*;
 import edu.ntnu.brunson.util.Util;
 public class Phase1Player extends AIPlayer{
@@ -36,17 +37,15 @@ public class Phase1Player extends AIPlayer{
 		return Action.fold();
 	}
 		
-	private Action getFlopAction(int bet, int raises, int pot, HandRating rating) {
-		int[] powerRating = rating.asIntArray(); 
-		
+	private Action getFlopAction(int bet, int raises, int pot, HandRating rating) {	
 		
 		// Someone bet, we have a pair, call.
 		if(bet > 0) {
-			if(powerRating[0] == 2) {
+			if(rating.isPair()) {
 				return Action.call();
 			}
 			//We flopped a value hand and should raise.
-			else if(powerRating[0] > 3) {
+			else if(0 < rating.compareTo(HandRating.pair(Value.ACE, Value.KING, Value.FOUR, Value.FIVE))) {
 				return Action.raise(bet * 3);
 			}
 			//We have air and should fold.
@@ -55,16 +54,16 @@ public class Phase1Player extends AIPlayer{
 		
 		//Someone has raised before it's our turn to act so we only continue with two pairs or better. If we can beat two pair we'll raise.
 		if(raises > 0) {
-			if(powerRating[0] == 3) {
+			if(rating.isTwoPair()) {
 				return Action.call();
 			}
-			else if (powerRating[0] > 3) {
+			else if (rating.isBetter(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR))) {
 				return Action.raise(bet * 3);
 			}
 		}
 		//Nobody has bet so we're betting if we have a pair or better.
 		else if(bet == 0) {
-			if(powerRating[0] > 1) {
+			if(rating.isBetter(HandRating.pair(Value.TWO, Value.THREE, Value.FOUR, Value.SIX))) {
 				return Action.bet(3/4 * pot);
 			}
 			// 25% of the time we will cbet or donk on flop with complete air and hope everyone else folds.
@@ -79,40 +78,40 @@ public class Phase1Player extends AIPlayer{
 	}
 	
 	private Action getTurnAction(int bet, int raises, int pot, HandRating rating) {
-		int[] powerRating = rating.asIntArray(); 
 		
 		// Someone bet, we'll continue with a pair of 9s or better if the pot is larger than 12.
 		if(bet > 0) {
-			if(powerRating[0] == 2 && pot < 13) {
+			if(rating.isPair() && pot < 13) {
 				return Action.call();
 			}
-			else if(powerRating[0] == 2 && powerRating[1] > 8 && pot > 12) {
-				return Action.call();
-			}
+
 			//We have three of a kind and should raise.
-			else if(powerRating[0] > 4) {
+			else if((rating.compareTo(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR)) > 0)) {
 				return Action.raise(bet * 3);
+			}
+			
+			else if(rating.compareTo(HandRating.pair(Value.NINE, Value.THREE, Value.FOUR, Value.SIX)) > 0 && pot > 12) {
+				return Action.call();
 			}
 			//Our hand isn't strong enough to continue.
 			return Action.fold();
 		}
-		//Someone has raised before it's our turn to act so we only continue if we can beat two pairs.
+		//Someone has raised before it's our turn to act so we only continue with two pairs or better. If we can beat two pair we'll raise.
 		if(raises > 0) {
-			if(powerRating[0] == 5) {
+			if(rating.isTwoPair()) {
 				return Action.call();
 			}
-			//We have the effective nuts and should re-raise.
-			else if (powerRating[0] > 7) {
+			else if (rating.isBetter(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR))) {
 				return Action.raise(bet * 3);
 			}
 		}
-		//Nobody has bet so we're betting if we have a pair or better.
+		//Nobody has bet so we're betting if we have a pair of 8s or better.
 		else if(bet == 0) {
-			if(powerRating[0] > 3) {
+			if(rating.isBetter(HandRating.pair(Value.EIGHT, Value.THREE, Value.FOUR, Value.SIX))) {
 				return Action.bet(3/4 * pot);
 			}
-			// 20% of the time we will cbet or donk on flop with complete air and hope everyone else folds.
-			else if(Util.randomBoolean(20)) {
+			// 15% of the time we will cbet or donk on flop with complete air and hope everyone else folds.
+			else if(Util.randomBoolean(15)) {
 				return Action.bet(3/4 * pot);
 			}
 			
@@ -123,41 +122,42 @@ public class Phase1Player extends AIPlayer{
 	}
 	
 	private Action getRiverAction(int bet, int raises, int pot, HandRating rating) {
-		int[] powerRating = rating.asIntArray(); 
 		// Someone bet, we'll continue with a pair of kings or better if the pot is larger than 30.
 		if(bet > 0) {
-			if(powerRating[0] == 2 && pot < 13) {
+			if(rating.isPair() && pot < 13) {
 				return Action.call();
 			}
-			else if(powerRating[0] == 2 && powerRating[1] > 8 && pot > 12) {
-				return Action.call();
-			}
-			else if(powerRating[0] == 2 && powerRating[1] > 13 && pot > 30) {
-				return Action.call();
-			}
-			//We have three of a kind and should raise.
-			else if(powerRating[0] > 4) {
+			
+			//We have three of a kind or better and should raise.
+			else if((rating.compareTo(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR)) > 0)) {
 				return Action.raise(bet * 3);
+			}
+
+			else if(rating.compareTo(HandRating.pair(Value.KING, Value.THREE, Value.FOUR, Value.SIX)) > 0 && pot > 30) {
+				return Action.call();
+			}
+			
+			else if(rating.compareTo(HandRating.pair(Value.NINE, Value.THREE, Value.FOUR, Value.SIX)) > 0 && pot > 12) {
+				return Action.call();
 			}
 			//Our hand isn't strong enough to continue.
 			return Action.fold();
 		}
-		//Someone has raised before it's our turn to act so we only continue if we can beat two pairs.
+		//Someone has raised before it's our turn to act so we only continue with two pairs or better. Raising straights.
 		if(raises > 0) {
-			if(powerRating[0] == 5) {
+			if(rating.isTwoPair()) {
 				return Action.call();
 			}
-			//We have the effective nuts and should re-raise.
-			else if (powerRating[0] > 7) {
+			else if (rating.isBetter(HandRating.straight(Value.FIVE))) {
 				return Action.raise(bet * 3);
 			}
 		}
-		//Nobody has bet so we're betting if we have a pair of queens or better.
+		//Nobody has bet so we're betting if we have a pair of Qs or better.
 		else if(bet == 0) {
-			if(powerRating[0] > 12) {
+			if(rating.isBetter(HandRating.pair(Value.QUEEN, Value.THREE, Value.FOUR, Value.SIX))) {
 				return Action.bet(3/4 * pot);
 			}
-			// 10% of the time we will cbet or donk on flop with complete air and hope everyone else folds.
+			// 10% of the time we will cbet or donk and hope everyone else folds.
 			else if(Util.randomBoolean(10)) {
 				return Action.bet(3/4 * pot);
 			}

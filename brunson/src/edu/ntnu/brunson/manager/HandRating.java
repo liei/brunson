@@ -328,4 +328,9 @@ public class HandRating implements Comparable<HandRating>{
 	public boolean isStraightFlush() {
 		return type == PokerHands.STRAIGHTFLUSH;		
 	}
+	
+	public boolean isBetter(HandRating that) {
+		return this.compareTo(that) >= 0;
+	}
+
 }
