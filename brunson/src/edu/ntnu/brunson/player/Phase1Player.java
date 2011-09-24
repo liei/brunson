@@ -12,12 +12,14 @@ public class Phase1Player extends AIPlayer{
 	
 	public Action act(Round round, Pile communityCards, int bet, int raises, int pot) {
 
+		if(round == Round.PREFLOP) {
+			return getPreflopAction(bet,raises);
+			
+		}
 		HandRating powerRating = HandRating.rate(getHand(),communityCards);
-		
 		switch(round) {
 		
-		case PREFLOP:
-			return getPreflopAction(bet,raises);
+
 		case FLOP:
 			return getFlopAction(bet,raises,pot,powerRating);
 		case TURN:
