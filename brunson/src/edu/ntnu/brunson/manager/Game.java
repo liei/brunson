@@ -16,7 +16,7 @@ public class Game {
 	private int pot;
 	private Pile community;
 	private Pile deck;
-	
+
 	public Game(List<Player> playerList,int button){
 		players = PlayerCycler.cycler(playerList,button);
 		pot = 0;
@@ -98,4 +98,5 @@ public class Game {
 		}
 		return winners;
 	}
+	
 }
