@@ -8,12 +8,9 @@ import edu.ntnu.brunson.player.*;
 public class GameManager {
 	
 	private List<Player> players;
-	private int button;
 	
 	public GameManager(){
 		players = new ArrayList<Player>();
-		button = 0;
-		
 	}
 	
 	public void addPlayer(Player p){
@@ -21,11 +18,18 @@ public class GameManager {
 	}
 	
 	public void playGames(int hands) {
-		for(int i = 0; i < hands; i++) {
+		for(int hand = 0; hand < hands; hand++) {
+			Output.printf("===== Hand %4d ==========%n",hand + 1);
+			int button = hand % players.size();
+			for (int i = 0; i < players.size(); i++)
+				Output.printf("%s %s%n",players.get(i), button == i ? "(*)" : "");
+			
 			Game game = new Game(players,button);
-			button = (button + 1) % players.size();
 			game.playHand();
-			Output.printHH();
+			
+			Output.println("==========================");
+			Output.println();
+//			Output.printHH();
 		}
 	}
 	

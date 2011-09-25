@@ -31,13 +31,17 @@ public class Game {
 		
 		//Small blind
 		if(players.hasNext()){
-			pot += players.next().bet(1);
+			Player sb = players.next();
+			Output.printf("%s posts small blind, $%d.%n",sb.getName(),1);
+			pot += sb.bet(1);
 			bet = 1;
 		}
 		
 		// Big blind
 		if(players.hasNext()){
-			pot += players.next().bet(2);
+			Player bb = players.next();
+			Output.printf("%s posts small blind, $%d.%n",bb.getName(),2);
+			pot += bb.bet(2);
 			bet = 2;
 		}
 		
@@ -45,9 +49,6 @@ public class Game {
 		for(Player player : players.list()){
 			player.clearHand();
 			player.addCards(deck.deal(2));
-		}
-		for(Player player : players.list()){
-			Output.println(player.toString());
 		}
 		
 		for(Round round : Round.values()){
@@ -62,7 +63,7 @@ public class Game {
 				Output.printf("%s won pot %d%n",winner.getName(),pot);
 				return;
 			}
-			bet = 0;
+			bet = -1;
 			players.reset();
 		}
 		
