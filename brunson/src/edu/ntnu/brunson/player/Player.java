@@ -32,10 +32,16 @@ public abstract class Player {
 	}
 	
 	public void addCard(Card card){
+		if(hand.size() == 2) {
+			throw new RuntimeException("A player cannot have more than two holecards!");
+		}
 		hand.add(card);
 	}
 	
 	public void addCards(Pile pile) {
+		if(hand.size() == 2) {
+			throw new RuntimeException("A player cannot have more than two holecards!");
+		}
 		hand.add(pile);
 	}
 	
