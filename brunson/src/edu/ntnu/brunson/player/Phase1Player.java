@@ -48,7 +48,12 @@ public class Phase1Player extends AIPlayer{
 	private Action getPreflopAction(int bet, int raises) {
 		//Call or raise VPIP % of the time
 		if(Util.randomBoolean(vpip)){
-			return raises > 0 ? Action.call() : Action.raise(3);
+			if(bet > 2 && raises == 0) {
+				return Action.call();
+			}
+			else if(bet == 2) {
+				return Action.bet(3*bet);
+			}
 		}
 		return Action.fold();
 	}
