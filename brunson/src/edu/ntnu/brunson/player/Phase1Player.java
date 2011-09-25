@@ -61,7 +61,7 @@ public class Phase1Player extends AIPlayer{
 	private Action getFlopAction(int bet, int raises, int pot, HandRating rating) {	
 		
 		// Someone bet, we have a pair, call.
-		if(bet > 0) {
+		if(bet > 0 && raises == 0) {
 			if(rating.isPair()) {
 				return Action.call();
 			}
@@ -74,7 +74,7 @@ public class Phase1Player extends AIPlayer{
 		}
 		
 		//Someone has raised before it's our turn to act so we only continue with two pairs or better. If we can beat two pair we'll raise.
-		if(raises > 0) {
+		if(raises > 0 && bet > 0) {
 			if(rating.isTwoPair()) {
 				return Action.call();
 			}
@@ -100,7 +100,7 @@ public class Phase1Player extends AIPlayer{
 	private Action getTurnAction(int bet, int raises, int pot, HandRating rating) {
 		
 		// Someone bet, we'll continue with a pair of 9s or better if the pot is larger than 12.
-		if(bet > 0) {
+		if(bet > 0 && raises == 0) {
 			if(rating.isPair() && pot < 13) {
 				return Action.call();
 			}
@@ -117,7 +117,7 @@ public class Phase1Player extends AIPlayer{
 			return Action.fold();
 		}
 		//Someone has raised before it's our turn to act so we only continue with two pairs or better. If we can beat two pair we'll raise.
-		if(raises > 0) {
+		if(raises > 0 && bet > 0) {
 			if(rating.isTwoPair()) {
 				return Action.call();
 			}
@@ -143,7 +143,7 @@ public class Phase1Player extends AIPlayer{
 	
 	private Action getRiverAction(int bet, int raises, int pot, HandRating rating) {
 		// Someone bet, we'll continue with a pair of kings or better if the pot is larger than 30.
-		if(bet > 0) {
+		if(bet > 0 && raises == 0) {
 			if(rating.isPair() && pot < 13) {
 				return Action.call();
 			}
@@ -164,7 +164,7 @@ public class Phase1Player extends AIPlayer{
 			return Action.fold();
 		}
 		//Someone has raised before it's our turn to act so we only continue with two pairs or better. Raising straights.
-		if(raises > 0) {
+		if(raises > 0 && bet > 0) {
 			if(rating.isTwoPair()) {
 				return Action.call();
 			}
