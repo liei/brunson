@@ -93,6 +93,7 @@ public class Game {
 				players.remove();
 				break;
 			case CHECK:
+				break;
 			case CALL:
 				pot += player.bet(bet);
 				break;
@@ -106,6 +107,9 @@ public class Game {
 				raises++;
 				break;
 			}
+		}
+		for(Player player : players.list()){
+			player.resetAmountWagered();
 		}
 		return true;
 	}
