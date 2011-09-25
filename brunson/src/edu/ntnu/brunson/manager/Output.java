@@ -63,6 +63,10 @@ public class Output {
 		printf(SPARSE,line,os);
 	}
 	
+	public static void sparse(Object o) {
+		printf(SPARSE,"%s",o);
+	}
+	
 	public static void results(String line,Object... os){
 		printf(RESULTS,line,os);
 	}
@@ -91,6 +95,8 @@ public class Output {
 		if(debug)
 			System.out.printf("##DEBUG## %s%n",String.format(line,os));
 	}
+
+
 
 
 }

@@ -28,11 +28,10 @@ public class GameManager {
 			game.playHand();
 			
 			Output.verbose("==========================");
-//			Output.printHH();
 		}
 		Output.results("==RESULTS==");
 		for (int i = 0; i < players.size(); i++)
-			Output.results("%s%n",players.get(i));
+			Output.results("%s",players.get(i));
 	}
 	
 

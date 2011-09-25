@@ -36,7 +36,7 @@ public class Game {
 		if(players.hasNext()){
 			Player sb = players.next();
 			Output.verbose("%s posts small blind, $%d.",sb.getName(),1);
-			bet = bet(sb,2);
+			bet = bet(sb,1);
 		}
 		
 		// Big blind
@@ -63,7 +63,7 @@ public class Game {
 			if(playRound(round,players,bet)) {
 				Player winner = players.list().get(0);
 				winner.updateStack(pot);
-				Output.sparse("%s won pot %d%n",winner.getName(),pot);
+				Output.sparse("%s wins pot, %d",winner.getName(),pot);
 				return;
 			}
 			
@@ -77,10 +77,16 @@ public class Game {
 		//Determine winner(s) at showdown
 		List<Player> winners = showdown(players.list());
 		int potSlice = pot/winners.size();
-		Output.verbose("-=Showdown=-");
-		Output.sparse(winners.toString());
-		for(Player player : winners)
+		Output.verbose("==Showdown==");
+		StringBuilder handSummary = new StringBuilder();
+		for(Player player : winners){			
 			player.updateStack(potSlice);
+			handSummary.append(player.getName());
+			handSummary.append(" ");
+		}
+		handSummary.append("wins pot, $");
+		handSummary.append(potSlice);
+		Output.sparse(handSummary);
 	}
 	
 	
@@ -89,7 +95,7 @@ public class Game {
 		//Cycle through each remaining active player, hasNext return false when there's only one player left.
 		while(players.hasNext()) {
 			Player player = players.next();
-			Output.debugf("%d == %d%n",player.getAmountWagered(),bet);
+			Output.debugf("%d == %d",player.getAmountWagered(),bet);
 			if(player.getAmountWagered() == bet)
 				return false;
 
@@ -143,7 +149,7 @@ public class Game {
 	private int bet(Player player,int bet) {
 		Output.debugf("%s bets %d.%n",player.getName(),bet);
 		if(bet < 0) {
-			throw new RuntimeException("Cannot bet zero or negative amounts!");
+			throw new RuntimeException("Cannot bet negative amounts!");
 		}
 ;		pot += player.bet(bet);
 		return bet;
