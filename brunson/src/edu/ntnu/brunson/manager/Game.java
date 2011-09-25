@@ -96,6 +96,9 @@ public class Game {
 				pot += player.bet(bet);
 				break;
 			case BET:
+				bet = action.getBet();
+				pot += player.bet(bet);
+				break;
 			case RAISE:
 				bet = action.getBet();
 				pot += player.bet(bet);
