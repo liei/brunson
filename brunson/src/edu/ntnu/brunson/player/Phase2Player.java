@@ -32,6 +32,9 @@ public class Phase2Player extends AIPlayer{
 			
 			if(Util.potOdds(pot, bet) < handStrength) {
 				if(handStrength * 100 > aggression) {
+					if(raises > 2) {
+						return Action.call();
+					}
 					return Action.raise(3* bet);
 				}
 				return Action.call();
@@ -46,11 +49,12 @@ public class Phase2Player extends AIPlayer{
 			else if(Util.randomBoolean(bluffy)){
 				return Action.bet((int)(0.75*pot));
 			}
+			return Action.fold();
 		}
 		
 		HandRating.strength(this.getHand(), community, players);
 		
-		return null;
+		throw new RuntimeException("Phase2Player not sure what to do!");
 	}
 
 	private Action getPreflopAction(int bet, int raises, int players, int pot) {
@@ -63,6 +67,9 @@ public class Phase2Player extends AIPlayer{
 		//Someone has raised before us, re-raise top 3% of hands, if it's a single raise call with top vpip% of hands.
 		else if(raises > 0) {
 			if(pft.inPercentile(getHand(), 97)) {
+				if(raises > 2) {
+					return Action.call();
+				}
 				return Action.raise(3*bet);
 			}
 			
