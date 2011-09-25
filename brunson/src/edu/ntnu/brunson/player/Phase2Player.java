@@ -31,7 +31,7 @@ public class Phase2Player extends AIPlayer{
 		if(bet > 0) {
 			
 			if(Util.potOdds(pot, bet) < handStrength) {
-				if(handStrength * 100 > aggression) {
+				if((handStrength - 0.9) * 1000 > 100- aggression) {
 					if(raises > 2) {
 						return Action.call();
 					}
