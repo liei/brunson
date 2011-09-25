@@ -140,6 +140,7 @@ public class Phase1Player extends AIPlayer{
 				}
 				return Action.raise(bet * 3);
 			}
+			return Action.fold();
 		}
 		//Nobody has bet so we're betting if we have a pair of 8s or better.
 		else if(bet == 0 | bet == -1) {
