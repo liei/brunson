@@ -110,7 +110,7 @@ public class Phase1Player extends AIPlayer{
 				return Action.raise(bet * 3);
 			}
 			
-			else if(rating.compareTo(HandRating.pair(Value.NINE, Value.THREE, Value.FOUR, Value.SIX)) > 0 && pot > 12) {
+			else if(rating.isBetter(HandRating.pair(Value.NINE, Value.THREE, Value.FOUR, Value.SIX)) && pot > 12) {
 				return Action.call();
 			}
 			//Our hand isn't strong enough to continue.
@@ -157,7 +157,7 @@ public class Phase1Player extends AIPlayer{
 				return Action.call();
 			}
 			
-			else if(rating.isBetter(PAIR_OF_NINES) && pot > 12) {
+			else if(rating.isBetter(PAIR_OF_NINES) && pot < 30) {
 				return Action.call();
 			}
 			//Our hand isn't strong enough to continue.
