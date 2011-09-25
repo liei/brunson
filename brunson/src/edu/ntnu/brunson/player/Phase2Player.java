@@ -32,6 +32,9 @@ public class Phase2Player extends AIPlayer{
 			
 			if(Util.potOdds(pot, bet) < handStrength) {
 				if(handStrength * 100 > aggression) {
+					if(raises > 2) {
+						return Action.call();
+					}
 					return Action.raise(3* bet);
 				}
 				return Action.call();
@@ -64,6 +67,9 @@ public class Phase2Player extends AIPlayer{
 		//Someone has raised before us, re-raise top 3% of hands, if it's a single raise call with top vpip% of hands.
 		else if(raises > 0) {
 			if(pft.inPercentile(getHand(), 97)) {
+				if(raises > 2) {
+					return Action.call();
+				}
 				return Action.raise(3*bet);
 			}
 			

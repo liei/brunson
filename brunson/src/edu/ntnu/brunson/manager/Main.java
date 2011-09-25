@@ -29,8 +29,8 @@ public class Main {
 		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
 		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
 		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
-		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
-		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
+		gameManager.addPlayer(new Phase2Player(100, 50, 75, 50));
+		gameManager.addPlayer(new Phase2Player(100, 50, 75, 50));
 		gameManager.addPlayer(new Phase2Player(100, 50, 75, 50));
 		gameManager.playGames(1500);
 	}
