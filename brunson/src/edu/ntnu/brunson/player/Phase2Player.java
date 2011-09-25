@@ -46,11 +46,12 @@ public class Phase2Player extends AIPlayer{
 			else if(Util.randomBoolean(bluffy)){
 				return Action.bet((int)(0.75*pot));
 			}
+			return Action.fold();
 		}
 		
 		HandRating.strength(this.getHand(), community, players);
 		
-		return null;
+		throw new RuntimeException("Phase2Player not sure what to do!");
 	}
 
 	private Action getPreflopAction(int bet, int raises, int players, int pot) {

@@ -20,9 +20,10 @@ public class Main {
 	private void run(){
 		GameManager gameManager = new GameManager();
 		try{
-			AIPlayer.loadPFT(6, "preflop2.txt");
+			AIPlayer.loadPFT(6, "preflop.txt");
 		}
 		catch(Exception e) {
+			e.printStackTrace();
 			System.exit(1);
 		}
 		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
@@ -30,7 +31,7 @@ public class Main {
 		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
 		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
 		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
-		gameManager.addPlayer(new Phase2Player("Bob", 100, 50, 75, 50));
+		gameManager.addPlayer(new Phase2Player(100, 50, 75, 50));
 		gameManager.playGames(1500);
 	}
 	
