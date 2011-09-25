@@ -31,6 +31,9 @@ public class GameManager {
 			Output.println();
 //			Output.printHH();
 		}
+		Output.println("==RESULTS==");
+		for (int i = 0; i < players.size(); i++)
+			Output.printf("%s%n",players.get(i));
 	}
 	
 

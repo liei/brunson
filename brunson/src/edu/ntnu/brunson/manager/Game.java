@@ -27,22 +27,23 @@ public class Game {
 	
 	public void playHand(){
 		
-		int bet = 0;
+		for(Player player : players.list()){
+			player.resetAmountWagered();
+		}
 		
+		int bet = 0;
 		//Small blind
 		if(players.hasNext()){
 			Player sb = players.next();
 			Output.printf("%s posts small blind, $%d.%n",sb.getName(),1);
-			pot += sb.bet(1);
-			bet = 1;
+			bet = bet(sb,2);
 		}
 		
 		// Big blind
 		if(players.hasNext()){
 			Player bb = players.next();
 			Output.printf("%s posts small blind, $%d.%n",bb.getName(),2);
-			pot += bb.bet(2);
-			bet = 2;
+			bet = bet(bb,2);
 		}
 		
 		//deal cards
@@ -57,7 +58,7 @@ public class Game {
 			Output.println(players);
 			
 			community.add(deck.deal(round.cardsDealt()));
-			Output.printf("community: %s%n",community);
+			Output.printf("community: %s, pot: %d%n",community,pot);
 			
 			if(playRound(round,players,bet)) {
 				Player winner = players.list().get(0);
@@ -103,17 +104,16 @@ public class Game {
 				players.remove();
 				break;
 			case CHECK:
+				bet(player,0);
 				break;
 			case CALL:
-				pot += player.bet(bet);
+				bet(player,bet);
 				break;
 			case BET:
-				bet = action.getBet();
-				updatePot(bet);
+				bet = bet(player,action.getBet());
 				break;
 			case RAISE:
-				bet = action.getBet();
-				updatePot(bet);
+				bet = bet(player,action.getBet());
 				raises++;
 				break;
 			}
@@ -140,45 +140,12 @@ public class Game {
 		return winners;
 	}
 	
-	private void updatePot(int bet) {
-		if(bet <= 0) {
+	private int bet(Player player,int bet) {
+		Output.debugf("%s bets %d.%n",player.getName(),bet);
+		if(bet < 0) {
 			throw new RuntimeException("Cannot bet zero or negative amounts!");
 		}
-		pot +=bet;
+;		pot += player.bet(bet);
+		return bet;
 	}
-	
-	//Need to print the community cards, what happens at showdown and who the winners are.
-//	private void writeToHH(Round round, List<Player> players, int i) {
-//		if(round != null) {
-//			switch(round) {
-//		
-//			//community cards
-//			case FLOP: Output.addToHH("Dealing flop: [" + community.getCard(0).toString() + ", "  + community.getCard(1).toString() + ", "  + community.getCard(2).toString() + "]"); return;
-//			case TURN: Output.addToHH("Dealing turn: [ " + community.getCard(3).toString() +"]"); return;
-//			case RIVER: Output.addToHH("Dealing river: [ " + community.getCard(4).toString() +"]"); return;
-//
-//			}
-//		}
-//		switch(i) {
-//		case 0: return;
-//		case 1: 
-//			//showdown
-//			if(players == null) {
-//				throw new RuntimeException("This is not good.");
-//			}
-//			Output.addToHH("Showdown: ");
-//			for(Player player : players) {
-//				Output.addToHH(player.getName() + " shows " + player.getHand().toString() +".");
-//			}
-//			
-//			return;
-//		case 2:
-//			Output.addToHH("Final pot is: " + java.lang.Integer.toString(pot));
-//			for(Player player : players) {
-//				Output.addToHH(player.getName() + " wins " +java.lang.Integer.toString(pot / players.size()) + player.getHand().toString() +".");	
-//			}
-//			return;
-//		default: throw new RuntimeException("Failed to print HH properly.");
-//		}
-//	}
 }

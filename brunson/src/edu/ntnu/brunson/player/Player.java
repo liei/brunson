@@ -60,11 +60,7 @@ public abstract class Player {
 	}
 	
 	public final int bet(int bet){
-		if(amountWagered == -1){
-			amountWagered = bet;
-			return bet;
-		}
-		int diff = bet - amountWagered;
+		int diff = amountWagered == -1 ? bet : bet - amountWagered;
 		chips -= diff;
 		amountWagered = bet;
 		return diff;
@@ -89,11 +85,11 @@ public abstract class Player {
 	}
 	
 	public int getAmountWagered() {
-		return this.amountWagered;
+		return amountWagered;
 	}
 	
 	public void resetAmountWagered() {
-		amountWagered = 0;
+		amountWagered = -1;
 	}
 	
 	public HandRating getHandRating() {

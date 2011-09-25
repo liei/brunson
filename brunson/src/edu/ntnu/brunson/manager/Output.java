@@ -1,61 +1,57 @@
 package edu.ntnu.brunson.manager;
 
-import java.util.ArrayList;
-import java.util.Iterator;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
 
 public class Output {
 	
-	public static boolean debug = false;
+	private static boolean debug = false;
+	private static boolean output = true;
+	private static boolean toFile = false;
+	private static PrintStream ps = null;
 	
-	private static ArrayList<String> handHistory = new ArrayList<String>();
-	//private static ArrayList<String> debug = new ArrayList<String>();
-	private static boolean verbose = true;
-	
-	private Output(){
-		
-	}
-	public static void println() {
-		System.out.println();
-	}
-	public static void println(Object o){
-		System.out.println(o);
-	}
+	private Output(){}
 
-	public static void print(Object o){
-		System.out.print(o);
+	public static void setFile(String filename){
+		try {
+			ps = new PrintStream(new FileOutputStream(filename));
+			toFile = true;
+		} catch (FileNotFoundException e) {
+			System.err.printf("Couldn't find file %s. Writing to console.");
+			toFile = false;
+			output = true;
+		}
+	}
+	
+	public static void setOutput(boolean b){
+		output = b;
 	}
 	
 	public static void printf(String line,Object... os){
-		System.out.printf(line,os);
+		if(output){
+			System.out.printf(line,os);
+		} 
+		if(toFile){
+			ps.printf(line,os);
+		}
 	}
+	
+	public static void println(Object o){
+		printf("%s%n",o);
+	}
+	
+	public static void println() {
+		printf("%n");
+	}
+
+	public static void print(Object o){
+		printf("%s",o);
+	}
+	
 	
 	public static void debugf(String line,Object... os){
 		if(debug)
-			System.out.printf(line,os);
+			System.out.printf("##DEBUG## %s%n",String.format(line,os));
 	}
-
-	
-//	public static void addToHH(String s) {
-//		handHistory.add(s);
-//	}
-//	
-//	public static void addToDebug(String s) {
-//		debug.add(s);
-//	}
-//	
-//	public static void printHH() {
-//		if(!verbose) {
-//			handHistory.clear();
-//			return;
-//		}
-//		Iterator<String> iterator = handHistory.iterator();
-//		while(iterator.hasNext()) {
-//			System.out.println(iterator.next());
-//		}
-//		handHistory.clear();
-//	}
-
-
-	
-	
 }
