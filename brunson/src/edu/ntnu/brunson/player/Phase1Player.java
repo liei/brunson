@@ -71,6 +71,9 @@ public class Phase1Player extends AIPlayer{
 			}
 			//We flopped a value hand and should raise.
 			else if(rating.isBetter(PAIR_OF_ACES)) {
+				if(raises > 3) {
+					return Action.call();
+				}
 				return Action.raise(bet * 3);
 			}
 			//We have air and should fold.
@@ -83,6 +86,9 @@ public class Phase1Player extends AIPlayer{
 				return Action.call();
 			}
 			else if (rating.isBetter(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR))) {
+				if(raises > 2) {
+					return Action.call();
+				}
 				return Action.raise(bet * 3);
 			}
 			return Action.fold();
@@ -111,6 +117,9 @@ public class Phase1Player extends AIPlayer{
 
 			//We have three of a kind and should raise.
 			else if(rating.isBetter(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR))) {
+				if(raises > 2) {
+					return Action.call();
+				}
 				return Action.raise(bet * 3);
 			}
 			
@@ -126,6 +135,9 @@ public class Phase1Player extends AIPlayer{
 				return Action.call();
 			}
 			else if (rating.isBetter(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR))) {
+				if(raises > 2) {
+					return Action.call();
+				}
 				return Action.raise(bet * 3);
 			}
 		}
@@ -154,6 +166,9 @@ public class Phase1Player extends AIPlayer{
 			
 			//We have three of a kind or better and should raise.
 			else if(rating.isBetter(LOW_TRIPS)) {
+				if(raises > 2) {
+					return Action.call();
+				}
 				return Action.raise(bet * 3);
 			}
 
@@ -173,6 +188,9 @@ public class Phase1Player extends AIPlayer{
 				return Action.call();
 			}
 			else if (rating.isBetter(STRAIGT)) {
+				if(raises > 2) {
+					return Action.call();
+				}
 				return Action.raise(bet * 3);
 			}
 		}
