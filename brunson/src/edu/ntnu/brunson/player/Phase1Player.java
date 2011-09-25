@@ -84,7 +84,7 @@ public class Phase1Player extends AIPlayer{
 			return Action.fold();
 		}
 		//Nobody has bet so we're betting if we have a pair or better.
-		else if(bet == 0) {
+		else if(bet == 0 | bet == -1) {
 			if(rating.isBetter(HandRating.pair(Value.TWO, Value.THREE, Value.FOUR, Value.SIX))) {
 				return Action.bet((int)(0.75 * pot));
 			}
@@ -126,7 +126,7 @@ public class Phase1Player extends AIPlayer{
 			}
 		}
 		//Nobody has bet so we're betting if we have a pair of 8s or better.
-		else if(bet == 0) {
+		else if(bet == 0 | bet == -1) {
 			if(rating.isBetter(PAIR_OF_EIGHTS)) {
 				return Action.bet(3/4 * pot);
 			}
@@ -173,7 +173,7 @@ public class Phase1Player extends AIPlayer{
 			}
 		}
 		//Nobody has bet so we're betting if we have a pair of Qs or better.
-		else if(bet == 0) {
+		else if(bet == 0 | bet == -1) {
 			if(rating.isBetter(PAIR_OF_QUEENS)) {
 				return Action.bet(3/4 * pot);
 			}
