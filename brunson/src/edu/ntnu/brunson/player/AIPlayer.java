@@ -1,5 +1,6 @@
 package edu.ntnu.brunson.player;
 
+import edu.ntnu.brunson.preflop.PreFlopTable;
 public abstract class AIPlayer extends Player{
 
 	//Value from 0 - 100 indicating how aggressive the player is.
@@ -9,6 +10,7 @@ public abstract class AIPlayer extends Player{
 	//A vpip above 30 is generally regarded as too loose in 6-max games, the player plays 30% of the deck.
 	//A vpip below 15 is extremely tight, or 'nitty'.
 	protected int vpip;
+	protected static PreFlopTable pft = null;
 	
 	//Value from 0-100 indicating how willing the player is to run big bluffs.
 	protected int bluffy;
@@ -19,4 +21,15 @@ public abstract class AIPlayer extends Player{
 		this.vpip = vpip;
 		this.bluffy = bluffy;
 	}
+	
+	public static void loadPreFlopTable(int players, String filepath) {
+		try{
+			pft = PreFlopTable.load(filepath, players);
+		}
+		catch(Exception e) {
+			throw new RuntimeException("Failed to load Prefloptable");
+		}
+	}
+	
+	
 }
