@@ -16,20 +16,6 @@ public class PreFlopTable {
 	
 	private Map<String, Integer> table;
 	
-	public static void main(String[] args) {
-		try {
-			PreFlopTable pft = load("preflop2.txt",3);
-			for(Pile pile : PileUtil.combinations(Deck.fullDeck(),2))
-				System.out.printf("%s : %d%n",pile,pft.get(pile));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-	}
-	
 	private PreFlopTable(){
 		table = new HashMap<String,Integer>(); 
 	}
@@ -59,7 +45,7 @@ public class PreFlopTable {
 			}
 			lineno++;
 		}
-		return null;
+		throw new IllegalArgumentException(String.format("%s does not have preflop table for %d players",filepath,players));
 	}
 
 	private static PreFlopTable loadTable(String[] hands) throws Exception {
