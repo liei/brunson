@@ -128,11 +128,11 @@ public class Phase1Player extends AIPlayer{
 		//Nobody has bet so we're betting if we have a pair of 8s or better.
 		else if(bet == 0 | bet == -1) {
 			if(rating.isBetter(PAIR_OF_EIGHTS)) {
-				return Action.bet(3/4 * pot);
+				return Action.bet((int)(0.75 * pot));
 			}
 			// 15% of the time we will cbet or donk on flop with complete air and hope everyone else folds.
 			else if(Util.randomBoolean(15)) {
-				return Action.bet(3/4 * pot);
+				return Action.bet((int)(0.75 * pot));
 			}
 			
 			return Action.check();
@@ -175,11 +175,11 @@ public class Phase1Player extends AIPlayer{
 		//Nobody has bet so we're betting if we have a pair of Qs or better.
 		else if(bet == 0 | bet == -1) {
 			if(rating.isBetter(PAIR_OF_QUEENS)) {
-				return Action.bet(3/4 * pot);
+				return Action.bet((int)(0.75 * pot));
 			}
 			// 10% of the time we will cbet or donk and hope everyone else folds.
 			else if(Util.randomBoolean(10)) {
-				return Action.bet(3/4 * pot);
+				return Action.bet((int)(0.75 * pot));
 			}
 			
 			return Action.check();
