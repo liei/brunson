@@ -56,7 +56,7 @@ public class Phase2Player extends AIPlayer{
 	private Action getPreflopAction(int bet, int raises, int players, int pot) {
 		
 		//We're first to act and raise the top vpip% of hands.
-		if(bet == -1 && pft.inPercentile(getHand(), 100-vpip)) {
+		if(bet == 2 && pft.inPercentile(getHand(), 100-vpip)) {
 			return Action.raise(3*bet);
 			
 		}
