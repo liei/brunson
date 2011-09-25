@@ -55,7 +55,7 @@ public class Phase1Player extends AIPlayer{
 			if(bet == 2) {
 				return Action.raise(3*bet);
 			}
-			else if(raises == 1) {
+			else if(raises < 3) {
 				return Action.call();
 			}
 		}
