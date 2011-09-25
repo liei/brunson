@@ -1,8 +1,10 @@
 package edu.ntnu.brunson.player;
 
 import edu.ntnu.brunson.cards.Pile;
+import edu.ntnu.brunson.cards.Value;
 import edu.ntnu.brunson.manager.HandRating;
 import edu.ntnu.brunson.manager.Round;
+import edu.ntnu.brunson.util.*;
 
 public class Phase2Player extends AIPlayer{
 
@@ -21,7 +23,27 @@ public class Phase2Player extends AIPlayer{
 		if(round == Round.PREFLOP) {
 			return getPreflopAction(bet,raises);
 		}
+		double handStrength = HandRating.strength(this.getHand(), community, players);
 		HandRating powerRating = HandRating.rate(getHand(),community);
+		if(bet == 1) {
+			
+			if(Util.potOdds(pot, bet) > handStrength) {
+				if(handStrength * 100 > aggression) {
+					return Action.raise(3* bet);
+				}
+				return Action.call();
+			}
+			return Action.fold();
+		}
+		
+		if(bet == 0) {
+			if(handStrength > 0.5) {
+				return Action.bet((int)(0.75*pot));
+			}
+			else if(Util.randomBoolean(bluffy)){
+				return Action.bet((int)(0.75*pot));
+			}
+		}
 		
 		HandRating.strength(this.getHand(), community, players);
 		
