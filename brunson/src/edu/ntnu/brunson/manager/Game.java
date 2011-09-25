@@ -100,11 +100,11 @@ public class Game {
 				break;
 			case BET:
 				bet = action.getBet();
-				pot += player.bet(bet);
+				updatePot(bet);
 				break;
 			case RAISE:
 				bet = action.getBet();
-				pot += player.bet(bet);
+				updatePot(bet);
 				raises++;
 				break;
 			}
@@ -132,6 +132,13 @@ public class Game {
 		}
 //		writeToHH(null, winners, 2);
 		return winners;
+	}
+	
+	private void updatePot(int bet) {
+		if(bet <= 0) {
+			throw new RuntimeException("Cannot bet zero or negative amounts!");
+		}
+		pot +=bet;
 	}
 	
 	//Need to print the community cards, what happens at showdown and who the winners are.

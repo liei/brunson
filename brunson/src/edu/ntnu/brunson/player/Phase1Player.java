@@ -28,6 +28,10 @@ public class Phase1Player extends AIPlayer{
 	
 	
 	public Action act(Round round, Pile communityCards, int bet, int raises, int pot, int players) {
+		
+		if(pot < 0 | raises < 0 | players < 0) {
+			throw new IllegalArgumentException("Invalid input");
+		}
 
 		if(round == Round.PREFLOP) {
 			return getPreflopAction(bet,raises);

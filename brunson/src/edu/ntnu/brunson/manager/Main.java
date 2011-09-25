@@ -17,10 +17,12 @@ public class Main {
 	
 	private void run(){
 		GameManager gameManager = new GameManager();
-		gameManager.addPlayer(new Phase1Player(100, 50, 25, 50));
-		gameManager.addPlayer(new Phase1Player(100, 50, 25, 50));
-		gameManager.addPlayer(new Phase1Player(100, 50, 25, 50));
-		gameManager.addPlayer(new Phase1Player(100, 50, 25, 50));
+		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
+		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
+		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
+		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
+		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
+		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
 		gameManager.playGames(5);
 	}
 	
