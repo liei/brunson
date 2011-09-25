@@ -176,7 +176,7 @@ public class Phase1Player extends AIPlayer{
 				return Action.call();
 			}
 			
-			else if(rating.isBetter(PAIR_OF_NINES) && pot < 30) {
+			else if(rating.isBetter(PAIR_OF_NINES) && pot <= 30) {
 				return Action.call();
 			}
 			//Our hand isn't strong enough to continue.
@@ -184,7 +184,7 @@ public class Phase1Player extends AIPlayer{
 		}
 		//Someone has raised before it's our turn to act so we only continue with two pairs or better. Raising straights.
 		if(raises > 0 && bet > 0) {
-			if(rating.isTwoPair()) {
+			if(rating.isBetter(PAIR_OF_ACES)) {
 				return Action.call();
 			}
 			else if (rating.isBetter(STRAIGT)) {
@@ -193,6 +193,7 @@ public class Phase1Player extends AIPlayer{
 				}
 				return Action.raise(bet * 3);
 			}
+			return Action.fold();
 		}
 		//Nobody has bet so we're betting if we have a pair of Qs or better.
 		else if(bet == 0 | bet == -1) {
