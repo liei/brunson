@@ -35,14 +35,14 @@ public class Game {
 		//Small blind
 		if(players.hasNext()){
 			Player sb = players.next();
-			Output.printf("%s posts small blind, $%d.%n",sb.getName(),1);
+			Output.verbose("%s posts small blind, $%d.",sb.getName(),1);
 			bet = bet(sb,2);
 		}
 		
 		// Big blind
 		if(players.hasNext()){
 			Player bb = players.next();
-			Output.printf("%s posts small blind, $%d.%n",bb.getName(),2);
+			Output.verbose("%s posts small blind, $%d.",bb.getName(),2);
 			bet = bet(bb,2);
 		}
 		
@@ -54,16 +54,16 @@ public class Game {
 		
 		for(Round round : Round.values()){
 			
-			Output.printf("===%s====================%n",round);
-			Output.println(players);
+			Output.verbose("===%s====================",round);
+			Output.verbose(players);
 			
 			community.add(deck.deal(round.cardsDealt()));
-			Output.printf("community: %s, pot: %d%n",community,pot);
+			Output.verbose("community: %s, pot: %d",community,pot);
 			
 			if(playRound(round,players,bet)) {
 				Player winner = players.list().get(0);
 				winner.updateStack(pot);
-				Output.printf("%s won pot %d%n",winner.getName(),pot);
+				Output.sparse("%s won pot %d%n",winner.getName(),pot);
 				return;
 			}
 			
@@ -77,8 +77,8 @@ public class Game {
 		//Determine winner(s) at showdown
 		List<Player> winners = showdown(players.list());
 		int potSlice = pot/winners.size();
-		Output.println("-=Showdown=-");
-		Output.println(winners.toString());
+		Output.verbose("-=Showdown=-");
+		Output.sparse(winners.toString());
 		for(Player player : winners)
 			player.updateStack(potSlice);
 	}
@@ -97,7 +97,7 @@ public class Game {
 			
 			String hand = String.format("%s %s",player.getHand().toString(),round == Round.PREFLOP ? "" : HandRating.rate(player.getHand(),community));
 			
-			Output.printf("%s %s with %s %n",player.getName(),action,hand);
+			Output.verbose("%s %s with %s",player.getName(),action,hand);
 			player.addAction(round,action);
 			switch(action.getType()) {
 			case FOLD: 

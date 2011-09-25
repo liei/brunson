@@ -19,21 +19,20 @@ public class GameManager {
 	
 	public void playGames(int hands) {
 		for(int hand = 0; hand < hands; hand++) {
-			Output.printf("===== Hand %4d ==========%n",hand + 1);
+			Output.verbose("===== Hand %4d ==========",hand + 1);
 			int button = hand % players.size();
 			for (int i = 0; i < players.size(); i++)
-				Output.printf("%s %s%n",players.get(i), button == i ? "(*)" : "");
+				Output.verbose("%s %s",players.get(i), button == i ? "(*)" : "");
 			
 			Game game = new Game(players,button);
 			game.playHand();
 			
-			Output.println("==========================");
-			Output.println();
+			Output.verbose("==========================");
 //			Output.printHH();
 		}
-		Output.println("==RESULTS==");
+		Output.results("==RESULTS==");
 		for (int i = 0; i < players.size(); i++)
-			Output.printf("%s%n",players.get(i));
+			Output.results("%s%n",players.get(i));
 	}
 	
 
