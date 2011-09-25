@@ -27,13 +27,19 @@ public class Game {
 	
 	public void playHand(){
 		
+		int bet = 0;
+		
 		//Small blind
-		if(players.hasNext())
+		if(players.hasNext()){
 			pot += players.next().bet(1);
+			bet = 1;
+		}
 		
 		// Big blind
-		if(players.hasNext())
+		if(players.hasNext()){
 			pot += players.next().bet(2);
+			bet = 2;
+		}
 		
 		//deal cards
 		for(Player player : players.list())
@@ -49,12 +55,13 @@ public class Game {
 			community.add(deck.deal(round.cardsDealt()));
 			Output.printf("community: %s%n",community);
 //			writeToHH(round, null, 0);
-			if(playRound(round,players,0)) {
+			if(playRound(round,players,bet)) {
 				Player winner = players.list().get(0);
 				winner.updateStack(pot);
 				Output.printf("%s won pot %d%n",winner.getName(),pot);
 				return;
 			}
+			bet = 0;
 			players.reset();
 		}
 		
@@ -73,6 +80,7 @@ public class Game {
 		//Cycle through each remaining active player, hasNext return false when there's only one player left.
 		while(players.hasNext()) {
 			Player player = players.next();
+			Output.debugf("%d == %d%n",player.getAmountWagered(),bet);
 			if(player.getAmountWagered() == bet)
 				return false;
 

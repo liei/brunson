@@ -21,7 +21,7 @@ public abstract class Player {
 	public Player(String name, int buyin){
 		hand = new Pile();
 		chips = buyin;
-		amountWagered = -1;
+		amountWagered = 0;
 		actions = new EnumMap<Round,List<Action>>(Round.class);
 		//List of actions this player took pre-flop, on flop, and on river.
 		actions.put(Round.PREFLOP,new ArrayList<Action>());
@@ -77,7 +77,7 @@ public abstract class Player {
 	}
 	
 	public void updateAmountWagered(int chips) {
-		this.amountWagered +=chips;
+		this.amountWagered += chips;
 	}
 	
 	public int getAmountWagered() {
@@ -99,7 +99,6 @@ public abstract class Player {
 
 	public void addChips(int pot) {
 		// TODO Auto-generated method stub
-		
 	}
 	
 	public String getName() {
@@ -117,6 +116,6 @@ public abstract class Player {
 //	}
 	
 	public String toString(){
-		return String.format("%s: %s",name,hand); 
+		return String.format("%s ($%d)",name,chips); 
 	}	
 }

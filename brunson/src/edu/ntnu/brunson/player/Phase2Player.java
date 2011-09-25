@@ -4,13 +4,16 @@ import edu.ntnu.brunson.cards.Pile;
 import edu.ntnu.brunson.manager.HandRating;
 import edu.ntnu.brunson.manager.Round;
 
-public class Phase2Player extends Player{
-	private int vpip;
+public class Phase2Player extends AIPlayer{
 
-	public Phase2Player(int buyin, int vpip, String name) {
-		super(name, buyin);
-		this.vpip = vpip;
-		
+	private static int playerCount = 1;
+	
+	public Phase2Player(String name,int buyin, int aggression, int vpip, int bluffy){
+		super(name,buyin, aggression,vpip,bluffy);
+	}
+	
+	public Phase2Player(int buyin, int aggression, int vpip, int bluffy) {
+		this(String.format("Phase2-%d",playerCount++),buyin, aggression, vpip, bluffy);
 	}
 
 	public Action act(Round round, Pile community, int bet, int raises, int pot, int players) {

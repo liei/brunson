@@ -7,7 +7,16 @@ import edu.ntnu.brunson.util.Util;
 
 public class Phase1Player extends AIPlayer{
 	
-	private static int playerCount = 0;
+	private static final HandRating PAIR_OF_EIGHTS	= HandRating.pair(Value.EIGHT, Value.THREE, Value.FOUR, Value.SIX);
+	private static final HandRating PAIR_OF_NINES 	= HandRating.pair(Value.NINE, Value.THREE, Value.FOUR, Value.SIX);
+	private static final HandRating PAIR_OF_QUEENS 	= HandRating.pair(Value.QUEEN, Value.THREE, Value.FOUR, Value.SIX);
+	private static final HandRating PAIR_OF_KINGS 	= HandRating.pair(Value.KING, Value.THREE, Value.FOUR, Value.SIX);
+	private static final HandRating PAIR_OF_ACES 	= HandRating.pair(Value.ACE, Value.KING, Value.FOUR, Value.FIVE);
+	private static final HandRating LOW_TRIPS 		= HandRating.trips(Value.TWO, Value.THREE, Value.FOUR);
+	private static final HandRating STRAIGT 		= HandRating.straight(Value.FIVE);
+
+	
+	private static int playerCount = 1;
 	
 	public Phase1Player(String name,int buyin, int aggression, int vpip, int bluffy){
 		super(name,buyin, aggression,vpip,bluffy);
@@ -22,12 +31,9 @@ public class Phase1Player extends AIPlayer{
 
 		if(round == Round.PREFLOP) {
 			return getPreflopAction(bet,raises);
-			
 		}
 		HandRating powerRating = HandRating.rate(getHand(),communityCards);
 		switch(round) {
-		
-
 		case FLOP:
 			return getFlopAction(bet,raises,pot,powerRating);
 		case TURN:
@@ -40,7 +46,7 @@ public class Phase1Player extends AIPlayer{
 	}
 	
 	private Action getPreflopAction(int bet, int raises) {
-		//Call or Raise VPIP % of the time
+		//Call or raise VPIP % of the time
 		if(Util.randomBoolean(vpip)){
 			return raises > 0 ? Action.call() : Action.raise(3);
 		}
@@ -55,7 +61,7 @@ public class Phase1Player extends AIPlayer{
 				return Action.call();
 			}
 			//We flopped a value hand and should raise.
-			else if(rating.isBetter(HandRating.pair(Value.ACE, Value.KING, Value.FOUR, Value.FIVE))) {
+			else if(rating.isBetter(PAIR_OF_ACES)) {
 				return Action.raise(bet * 3);
 			}
 			//We have air and should fold.
@@ -75,15 +81,13 @@ public class Phase1Player extends AIPlayer{
 		//Nobody has bet so we're betting if we have a pair or better.
 		else if(bet == 0) {
 			if(rating.isBetter(HandRating.pair(Value.TWO, Value.THREE, Value.FOUR, Value.SIX))) {
-				return Action.bet(3/4 * pot);
+				return Action.bet((int)(0.75 * pot));
 			}
 			// 25% of the time we will cbet or donk on flop with complete air and hope everyone else folds.
 			else if(Util.randomBoolean(25)) {
-				return Action.bet(3/4 * pot);
+				return Action.bet((int)(0.75 * pot));
 			}
-			
 			return Action.check();
-				
 		}
 		throw new IllegalArgumentException();
 	}
@@ -118,7 +122,7 @@ public class Phase1Player extends AIPlayer{
 		}
 		//Nobody has bet so we're betting if we have a pair of 8s or better.
 		else if(bet == 0) {
-			if(rating.isBetter(HandRating.pair(Value.EIGHT, Value.THREE, Value.FOUR, Value.SIX))) {
+			if(rating.isBetter(PAIR_OF_EIGHTS)) {
 				return Action.bet(3/4 * pot);
 			}
 			// 15% of the time we will cbet or donk on flop with complete air and hope everyone else folds.
@@ -140,15 +144,15 @@ public class Phase1Player extends AIPlayer{
 			}
 			
 			//We have three of a kind or better and should raise.
-			else if(rating.isBetter(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR))) {
+			else if(rating.isBetter(LOW_TRIPS)) {
 				return Action.raise(bet * 3);
 			}
 
-			else if(rating.isBetter(HandRating.pair(Value.KING, Value.THREE, Value.FOUR, Value.SIX))&& pot > 30) {
+			else if(rating.isBetter(PAIR_OF_KINGS) && pot > 30) {
 				return Action.call();
 			}
 			
-			else if(rating.isBetter(HandRating.pair(Value.NINE, Value.THREE, Value.FOUR, Value.SIX)) && pot > 12) {
+			else if(rating.isBetter(PAIR_OF_NINES) && pot > 12) {
 				return Action.call();
 			}
 			//Our hand isn't strong enough to continue.
@@ -159,13 +163,13 @@ public class Phase1Player extends AIPlayer{
 			if(rating.isTwoPair()) {
 				return Action.call();
 			}
-			else if (rating.isBetter(HandRating.straight(Value.FIVE))) {
+			else if (rating.isBetter(STRAIGT)) {
 				return Action.raise(bet * 3);
 			}
 		}
 		//Nobody has bet so we're betting if we have a pair of Qs or better.
 		else if(bet == 0) {
-			if(rating.isBetter(HandRating.pair(Value.QUEEN, Value.THREE, Value.FOUR, Value.SIX))) {
+			if(rating.isBetter(PAIR_OF_QUEENS)) {
 				return Action.bet(3/4 * pot);
 			}
 			// 10% of the time we will cbet or donk and hope everyone else folds.
@@ -176,8 +180,7 @@ public class Phase1Player extends AIPlayer{
 			return Action.check();
 				
 		}
-	throw new IllegalArgumentException();
+		throw new IllegalArgumentException();
 	}
-			
 }
 

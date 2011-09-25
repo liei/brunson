@@ -44,6 +44,10 @@ public class Output {
 		}
 		handHistory.clear();
 	}
+
+	public static void debugf(String line,Object... os){
+		System.out.printf(line,os);
+	}
 	
 	
 }
