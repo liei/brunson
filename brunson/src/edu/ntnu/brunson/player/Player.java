@@ -21,7 +21,7 @@ public abstract class Player {
 	public Player(String name, int buyin){
 		hand = new Pile();
 		chips = buyin;
-		amountWagered = 0;
+		amountWagered = -1;
 		actions = new EnumMap<Round,List<Action>>(Round.class);
 		//List of actions this player took pre-flop, on flop, and on river.
 		actions.put(Round.PREFLOP,new ArrayList<Action>());
@@ -32,17 +32,15 @@ public abstract class Player {
 	}
 	
 	public void addCard(Card card){
-		if(hand.size() == 2) {
+		hand.add(card);
+		if(hand.size() > 2) {
 			throw new RuntimeException("A player cannot have more than two holecards!");
 		}
-		hand.add(card);
 	}
 	
 	public void addCards(Pile pile) {
-		if(hand.size() == 2) {
-			throw new RuntimeException("A player cannot have more than two holecards!");
-		}
-		hand.add(pile);
+		for(Card card : pile)
+			addCard(card);
 	}
 	
 	public Pile getHand() {
@@ -62,6 +60,10 @@ public abstract class Player {
 	}
 	
 	public final int bet(int bet){
+		if(amountWagered == -1){
+			amountWagered = bet;
+			return bet;
+		}
 		int diff = bet - amountWagered;
 		chips -= diff;
 		amountWagered = bet;

@@ -52,18 +52,24 @@ public class Game {
 		}
 		
 		for(Round round : Round.values()){
+			
 			Output.printf("===%s====================%n",round);
-			Output.println(players.toString());
+			Output.println(players);
+			
 			community.add(deck.deal(round.cardsDealt()));
 			Output.printf("community: %s%n",community);
-//			writeToHH(round, null, 0);
+			
 			if(playRound(round,players,bet)) {
 				Player winner = players.list().get(0);
 				winner.updateStack(pot);
 				Output.printf("%s won pot %d%n",winner.getName(),pot);
 				return;
 			}
-			bet = -1;
+			
+			for(Player player : players.list()){
+				player.resetAmountWagered();
+			}
+			bet = 0;
 			players.reset();
 		}
 		
@@ -87,7 +93,10 @@ public class Game {
 				return false;
 
 			Action action = player.act(round,community, bet, raises, pot, players.getSize());
-			Output.printf("%s %s%n",player.getName(),action);
+			
+			String hand = String.format("%s %s",player.getHand().toString(),round == Round.PREFLOP ? "" : HandRating.rate(player.getHand(),community));
+			
+			Output.printf("%s %s with %s %n",player.getName(),action,hand);
 			player.addAction(round,action);
 			switch(action.getType()) {
 			case FOLD: 
@@ -108,9 +117,6 @@ public class Game {
 				raises++;
 				break;
 			}
-		}
-		for(Player player : players.list()){
-			player.resetAmountWagered();
 		}
 		return true;
 	}
