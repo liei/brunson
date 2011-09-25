@@ -42,9 +42,10 @@ public class Game {
 		}
 		
 		//deal cards
-		for(Player player : players.list())
+		for(Player player : players.list()){
+			player.clearHand();
 			player.addCards(deck.deal(2));
-		
+		}
 		for(Player player : players.list()){
 			Output.println(player.toString());
 		}
