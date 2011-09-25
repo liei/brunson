@@ -1,9 +1,13 @@
 package edu.ntnu.brunson.player;
 
+import java.io.IOException;
+import java.text.ParseException;
+
 import edu.ntnu.brunson.cards.Pile;
 import edu.ntnu.brunson.cards.Value;
 import edu.ntnu.brunson.manager.HandRating;
 import edu.ntnu.brunson.manager.Round;
+import edu.ntnu.brunson.preflop.PreFlopTable;
 import edu.ntnu.brunson.util.*;
 
 public class Phase2Player extends AIPlayer{
@@ -21,10 +25,9 @@ public class Phase2Player extends AIPlayer{
 	public Action act(Round round, Pile community, int bet, int raises, int pot, int players) {
 	
 		if(round == Round.PREFLOP) {
-			return getPreflopAction(bet,raises);
+			return getPreflopAction(bet,raises, players, pot);
 		}
 		double handStrength = HandRating.strength(this.getHand(), community, players);
-		HandRating powerRating = HandRating.rate(getHand(),community);
 		if(bet == 1) {
 			
 			if(Util.potOdds(pot, bet) > handStrength) {
@@ -50,22 +53,28 @@ public class Phase2Player extends AIPlayer{
 		return null;
 	}
 
-	private Action getPreflopAction(int bet, int raises) {
-		// TODO Auto-generated method stub
-		if(bet == 0) {
-			//raise top vpip% of hands. otherwise fold.
-		}
+	private Action getPreflopAction(int bet, int raises, int players, int pot) {
 		
-		else if(bet == 1 && raises == 0) {
-			//re-raise top 3% of hands to 3 * bet.
+		//We're first to act and raise the top vpip% of hands.
+		if(bet == -1 && pft.inPercentile(getHand(), 100-vpip)) {
+			return Action.raise(3*bet);
 			
-			//call with vpip-3% remaining hands, otherwise fold.
 		}
-		
-		else if(bet == 1 && raises > 0) {
-			//re-raise top 3% 3*pot, call med neste 2% av hender om pot-odds indikerer at du blir re-raiset.
+		//Someone has raised before us, re-raise top 3% of hands, if it's a single raise call with top vpip% of hands.
+		else if(raises > 0) {
+			if(pft.inPercentile(getHand(), 97)) {
+				return Action.raise(3*bet);
+			}
+			
+			else if(raises == 1 && pft.inPercentile(getHand(), 100-vpip)) {
+				return Action.call();
+			}
 		}
-		return null;
+		//Call if pot odds are great and you have an OK hand.
+		else if(raises > 0 && pft.inPercentile(getHand(), 100-6) && Util.potOdds(pot, bet-getAmountWagered()) < 0.50) {
+			return Action.call();
+		}
+		return Action.fold();
 	}
 
 
