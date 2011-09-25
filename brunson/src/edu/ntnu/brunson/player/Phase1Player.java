@@ -84,7 +84,7 @@ public class Phase1Player extends AIPlayer{
 			return Action.fold();
 		}
 		//Nobody has bet so we're betting if we have a pair or better.
-		else if(bet == 0) {
+		else if(bet == 0 | bet == -1) {
 			if(rating.isBetter(HandRating.pair(Value.TWO, Value.THREE, Value.FOUR, Value.SIX))) {
 				return Action.bet((int)(0.75 * pot));
 			}
