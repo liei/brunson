@@ -28,9 +28,9 @@ public class Phase2Player extends AIPlayer{
 			return getPreflopAction(bet,raises, players, pot);
 		}
 		double handStrength = HandRating.strength(this.getHand(), community, players);
-		if(bet == 1) {
+		if(bet > 0) {
 			
-			if(Util.potOdds(pot, bet) > handStrength) {
+			if(Util.potOdds(pot, bet) < handStrength) {
 				if(handStrength * 100 > aggression) {
 					return Action.raise(3* bet);
 				}
@@ -39,7 +39,7 @@ public class Phase2Player extends AIPlayer{
 			return Action.fold();
 		}
 		
-		if(bet == 0) {
+		if(bet == 0 | bet == -1) {
 			if(handStrength > 0.5) {
 				return Action.bet((int)(0.75*pot));
 			}
