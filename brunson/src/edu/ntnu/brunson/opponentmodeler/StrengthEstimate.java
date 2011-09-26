@@ -5,9 +5,9 @@ public class StrengthEstimate {
 	private double strength;
 	private int timesSeen;
 	
-	StrengthEstimate(double strength, int timesSeen){
-		this.strength = strength;
-		this.timesSeen = timesSeen;
+	StrengthEstimate(){
+		this.strength = 0;
+		this.timesSeen = 0;
 	}
 	
 	public double getStrength(){

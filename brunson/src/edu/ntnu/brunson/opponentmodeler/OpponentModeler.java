@@ -15,7 +15,7 @@ public class OpponentModeler {
 	
 	public static void init(List<Player> players){
 		for(Player p : players)
-			models.put(p.getName(),new PlayerModel());
+			models.put(p,new PlayerModel());
 	}
 	
 	private static PlayerModel getModel(Player p){
@@ -43,13 +43,13 @@ public class OpponentModeler {
 		}
 		
 		private void add(Context c,double strength){
-			StrengthEstimate se = estimates.get(c);
+			get(c).addStrength(strength);
 		}
 		
 		private StrengthEstimate get(Context c){
 			StrengthEstimate se = estimates.get(c);
 			if(se == null){
-				se = new StrengthEstimate(0.0,0);
+				se = new StrengthEstimate();
 				estimates.put(c,se);
 			}
 			return se;
