@@ -11,6 +11,7 @@ import edu.ntnu.brunson.manager.Round;
 import edu.ntnu.brunson.opponentmodeler.Context;
 import edu.ntnu.brunson.opponentmodeler.OpponentModeler;
 import edu.ntnu.brunson.opponentmodeler.StrengthEstimate;
+import edu.ntnu.brunson.player.Action;
 import edu.ntnu.brunson.player.Phase1Player;
 import edu.ntnu.brunson.player.Player;
 
@@ -21,7 +22,7 @@ public class OpponentModelerTest {
 	public void testOpponentModeler(){
 		Player p = new Phase1Player(0, 0, 0, 0);
 		OpponentModeler.init(Arrays.asList(new Player[]{p}));
-		Context c = new Context(Round.FLOP, 2, 1);
+		Context c = new Context(Round.FLOP, 2, 1,Action.fold());
 		
 		OpponentModeler.add(p, c, 0.25);
 		OpponentModeler.add(p, c, 0.30);

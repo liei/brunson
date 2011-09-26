@@ -1,9 +1,14 @@
 package edu.ntnu.brunson.manager;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 
 import edu.ntnu.brunson.cards.*;
+import edu.ntnu.brunson.opponentmodeler.Context;
+import edu.ntnu.brunson.opponentmodeler.OpponentModeler;
 import edu.ntnu.brunson.player.Action;
 import edu.ntnu.brunson.player.Player;
 import edu.ntnu.brunson.player.PlayerCycler;
@@ -15,9 +20,15 @@ public class Game {
 	private int pot;
 	private Pile community;
 	private Pile deck;
-
+	
+	private Pile[] boards = new Pile[Round.values().length];
+	private Map<Player,List<Context>> playerContexts;
+	
 	public Game(List<Player> playerList,int button){
 		players = PlayerCycler.cycler(playerList,button);
+		playerContexts = new HashMap<Player,List<Context>>();
+		for(Player player : playerList)
+			playerContexts.put(player,new LinkedList<Context>());
 		pot = 0;
 		deck = Deck.fullDeck().shuffle();
 		community = new Pile();
@@ -56,6 +67,7 @@ public class Game {
 			Output.verbose(players);
 			
 			community.add(deck.deal(round.cardsDealt()));
+			boards[round.ordinal()] = community.copy();
 			Output.verbose("community: %s, pot: %d",community,pot);
 			
 			if(playRound(round,players,bet)) {
@@ -73,6 +85,16 @@ public class Game {
 		}
 		
 		//Determine winner(s) at showdown
+		for(Player player : players.list()){
+			Pile hole = player.getHand();
+			for(Context c : playerContexts.get(player)){
+				if(c.getRound() != Round.PREFLOP){
+					Pile board = boards[c.getRound().ordinal()];
+					double strength = HandRating.strength(hole, board, c.getNumPlayers());
+					OpponentModeler.add(player,c,strength);
+				}
+			}
+		}
 		List<Player> winners = showdown(players.list());
 		int potSlice = pot/winners.size();
 		Output.verbose("==Showdown==");
@@ -103,6 +125,7 @@ public class Game {
 			
 			Output.verbose("%s %s with %s",player.getName(),action,hand);
 			player.addAction(round,action);
+			playerContexts.get(player).add(new Context(round,players.list().size(),raises,action));
 			switch(action.getType()) {
 			case FOLD: 
 				players.remove();

@@ -6,36 +6,43 @@ import edu.ntnu.brunson.player.Action;
 public class Context {
 	
 	private Round round;
-	private Action action;
+	private String action;
+	private int numPlayers;
 	private Amount players;
 	private Amount raises;
 	
+	public static void main(String[] args) {
+		Context c = new Context(Round.FLOP,2,1,Action.fold());
+		System.out.println(c);
+	}
+	
 	public Context(Round round,int numPlayers, int numRaises,Action action) {
 		this.round = round;
-		this.action = action;
+		this.action = action.getType().name();
+		this.numPlayers = numPlayers;
 		switch(numPlayers){
-		case 1: 
-			players = Amount.ONE; 
+		case 2: 
+			players = Amount.ONE;
 			break;
-		case 2:
-		case 3: 
+		case 3:
+		case 4:
 			players = Amount.FEW; 
 			break;
 		default: 
-			if(numPlayers <= 0)
-				throw new IllegalArgumentException("numPlayers must be >= 0");
+			if(numPlayers < 2)
+				throw new IllegalArgumentException("numPlayers must be >= 2");
 			players = Amount.MANY;
 		}
 		switch(numRaises){
-		case 1: 
+		case 0: 
 			raises = Amount.NONE; 
 			break;
-		case 2:
+		case 1:
 			raises = Amount.ONE; 
 			break;
 		default: 
 			if(numRaises < 0)
-				throw new IllegalArgumentException("numRaises must be > 0");
+				throw new IllegalArgumentException("numRaises must be >= 0");
 			raises = Amount.MANY;
 		}
 	}
@@ -60,10 +67,18 @@ public class Context {
 	}
 	
 	public String toString(){
-		return String.format("%8s %8s %8s %8s",round,players,raises,action.getType());
+		return String.format("%-8s %-8s %-8s %-8s",round,players,raises,action);
 	}
 	
 	static enum Amount {
 		NONE,ONE,FEW,MANY;
+	}
+
+	public Round getRound() {
+		return round;
+	}
+
+	public int getNumPlayers() {
+		return numPlayers;
 	}
 }
