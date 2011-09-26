@@ -1,7 +1,6 @@
 package edu.ntnu.brunson.manager;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import edu.ntnu.brunson.cards.*;
@@ -99,7 +98,7 @@ public class Game {
 			if(player.getAmountWagered() == bet)
 				return false;
 
-			Action action = player.act(round,community, bet, raises, pot, players.getSize());
+			Action action = player.act(round,community, bet, raises, pot, players.list());
 			
 			String hand = String.format("%s %s",player.getHand().toString(),round == Round.PREFLOP ? "" : HandRating.rate(player.getHand(),community));
 			
