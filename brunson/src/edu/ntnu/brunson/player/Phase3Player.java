@@ -30,12 +30,12 @@ public class Phase3Player extends Phase2Player {
 		}
 		//My handstrength
 		double handStrength = HandRating.strength(getHand(), community, players.size());
-		Context c = new Context(round, players.size(), raises);
 		double weakerVillains = 0;
 		double strongestVillain = 0;
 		HandRating powerRating = HandRating.rate(getHand(),community);
 		//Get strengthEstimate for remaining players from OpponentModeler.
 		for(Player player : players) {
+			Context c = new Context(round, players.size(), raises,player.lastAction());
 			StrengthEstimate se = OpponentModeler.get(player, c);
 			
 			//If we have less than 3 datapoints we shouldn't base our decisions on it.

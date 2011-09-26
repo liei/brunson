@@ -53,7 +53,7 @@ public class Action {
 		case CHECK: return "checks";
 		case CALL: return "calls";
 		case FOLD: return "folds";
-		default: throw new RuntimeException("type can't be null");
+		default: throw new IllegalArgumentException("type can't be null");
 		}
 	}
 }

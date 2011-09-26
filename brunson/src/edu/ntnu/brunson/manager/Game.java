@@ -52,7 +52,6 @@ public class Game {
 		}
 		
 		for(Round round : Round.values()){
-			
 			Output.verbose("===%s====================",round);
 			Output.verbose(players);
 			
@@ -99,7 +98,7 @@ public class Game {
 				return false;
 
 			Action action = player.act(round,community, bet, raises, pot, players.list());
-			
+			player.setLastAction(action);
 			String hand = String.format("%s %s",player.getHand().toString(),round == Round.PREFLOP ? "" : HandRating.rate(player.getHand(),community));
 			
 			Output.verbose("%s %s with %s",player.getName(),action,hand);

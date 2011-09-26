@@ -14,7 +14,7 @@ public abstract class Player {
 	private int chips;
 	private int amountWagered;
 	private String name;
-	
+	private Action lastAction;
 	private Map<Round,List<Action>> actions;
 	private HandRating handRating;
 		
@@ -31,10 +31,14 @@ public abstract class Player {
 		this.name = name;
 	}
 	
+	public String getName() {
+		return name;
+	}
+	
 	public void addCard(Card card){
 		hand.add(card);
 		if(hand.size() > 2) {
-			throw new RuntimeException("A player cannot have more than two holecards!");
+			throw new IllegalStateException("A player cannot have more than two holecards!");
 		}
 	}
 	
@@ -50,6 +54,14 @@ public abstract class Player {
 	public int getStackSize() {
 		return chips;
 	}
+	
+	public void setLastAction(Action lastAction){
+		this.lastAction = lastAction; 
+	}
+	
+	public Action lastAction() {
+		return lastAction;
+	}	
 	
 	public void updateStack(int delta) {
 		chips += delta;
@@ -73,10 +85,7 @@ public abstract class Player {
 	}
 	
 	public void addAction(Round round,Action action) {
-//		writeToHH(action);
 		List<Action> list = actions.get(round);
-		if(list == null)
-			throw new NullPointerException();
 		list.add(action);
 	}
 	
@@ -99,27 +108,8 @@ public abstract class Player {
 	public void setHandRating(Pile communityCards) {
 		handRating = HandRating.rate(communityCards, hand);
 	}
-
-
-	public void addChips(int pot) {
-		// TODO Auto-generated method stub
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-//	private void writeToHH(Action action) {
-//		switch(action.getType()) {
-//		case FOLD:	Output.addToHH(name + " folds."); return;
-//		case CALL:	Output.addToHH(name + " calls."); return;
-//		case BET:	Output.addToHH(name + " bets " + java.lang.Integer.toString(action.getBet()) + "."); return;
-//		case RAISE:	Output.addToHH(name + " raises to " + java.lang.Integer.toString(action.getBet()) + "."); return;
-//		default: throw new RuntimeException("This shouldn't happen!");
-//		}
-//	}
-	
+		
 	public String toString(){
 		return String.format("%s ($%d)",name,chips); 
-	}	
+	}
 }

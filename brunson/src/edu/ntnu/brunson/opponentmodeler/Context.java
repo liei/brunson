@@ -1,15 +1,18 @@
 package edu.ntnu.brunson.opponentmodeler;
 
 import edu.ntnu.brunson.manager.Round;
+import edu.ntnu.brunson.player.Action;
 
 public class Context {
 	
 	private Round round;
+	private Action action;
 	private Amount players;
 	private Amount raises;
 	
-	public Context(Round round,int numPlayers, int numRaises) {
+	public Context(Round round,int numPlayers, int numRaises,Action action) {
 		this.round = round;
+		this.action = action;
 		switch(numPlayers){
 		case 1: 
 			players = Amount.ONE; 
@@ -53,11 +56,11 @@ public class Context {
 	}
 
 	public static String getHeader(){
-		return String.format("ROUND   PLAYERS RAISES");
+		return String.format("ROUND    PLAYERS  RAISES  ACTION  ");
 	}
 	
 	public String toString(){
-		return String.format("%7s %4s    %4s",round,players,raises);
+		return String.format("%8s %8s %8s %8s",round,players,raises,action.getType());
 	}
 	
 	static enum Amount {
