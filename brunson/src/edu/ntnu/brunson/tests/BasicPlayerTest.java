@@ -22,13 +22,13 @@ public class BasicPlayerTest {
 		player.addCard(Deck.getCard("Ac"));
 		player.addCard(Deck.getCard("5d"));
 		//Player has 1 pair on flop and should call!
-		assertTrue(player.act(Round.FLOP, communityCards, 4, 0, 6).getType() == Type.CALL);
+		assertTrue(player.act(Round.FLOP, communityCards, 4, 0, 6, null).getType() == Type.CALL);
 		
 		//Player has a set and should raise the flop.
 		player.clearHand();
 		player.addCard(Deck.getCard("Ac"));
 		player.addCard(Deck.getCard("As"));
-		assertTrue(player.act(Round.FLOP, communityCards, 4, 0, 6).getType() == Type.RAISE);
+		assertTrue(player.act(Round.FLOP, communityCards, 4, 0, 6, null).getType() == Type.RAISE);
 	}
 
 	@Test

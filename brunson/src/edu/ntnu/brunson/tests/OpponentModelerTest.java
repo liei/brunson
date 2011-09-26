@@ -7,7 +7,6 @@ import org.junit.Test;
 import java.util.Arrays;
 
 
-import edu.ntnu.brunson.cards.Suit;
 import edu.ntnu.brunson.manager.Round;
 import edu.ntnu.brunson.opponentmodeler.Context;
 import edu.ntnu.brunson.opponentmodeler.OpponentModeler;

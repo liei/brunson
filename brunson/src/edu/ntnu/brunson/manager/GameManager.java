@@ -3,6 +3,7 @@ package edu.ntnu.brunson.manager;
 import java.util.List;
 import java.util.ArrayList;
 
+import edu.ntnu.brunson.opponentmodeler.OpponentModeler;
 import edu.ntnu.brunson.player.*;
 
 public class GameManager {
@@ -18,6 +19,7 @@ public class GameManager {
 	}
 	
 	public void playGames(int hands) {
+		OpponentModeler.init(players);
 		for(int hand = 0; hand < hands; hand++) {
 			Output.verbose("===== Hand %4d ==========",hand + 1);
 			int button = hand % players.size();

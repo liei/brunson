@@ -8,9 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import edu.ntnu.brunson.cards.Card;
-import edu.ntnu.brunson.cards.Deck;
 import edu.ntnu.brunson.cards.Pile;
-import edu.ntnu.brunson.util.PileUtil;
 
 public class PreFlopTable {
 	

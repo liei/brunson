@@ -3,8 +3,6 @@ package edu.ntnu.brunson.player;
 import java.io.IOException;
 import java.text.ParseException;
 
-import javax.xml.ws.WebServiceException;
-
 import edu.ntnu.brunson.preflop.PreFlopTable;
 public abstract class AIPlayer extends Player{
 

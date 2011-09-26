@@ -4,16 +4,12 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.PrintStream;
 
-import edu.ntnu.brunson.player.PlayerCycler;
-
 public class Output {
 	
 	public static final int VERBOSE = 3;
 	public static final int SPARSE  = 2;
 	public static final int RESULTS = 1;
 	public static final int SILENT = 0;
-	
-	
 	
 	private static boolean debug = true;
 	private static boolean fileDebug = false;
@@ -22,7 +18,6 @@ public class Output {
 	private static PrintStream ps = null;
 	
 	private Output(){}
-
 	
 	public static void setFile(String filename,int outputLevel){
 		try {

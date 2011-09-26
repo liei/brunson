@@ -128,7 +128,6 @@ public class Game {
 	
 	private List<Player> showdown(List<Player> playerList) {
 		List<Player> winners = new ArrayList<Player>();
-//		writeToHH(null, playerList, 1);
 		HandRating best = HandRating.rate(playerList.get(0).getHand(), community);
 		for(Player player : playerList){
 			
@@ -141,16 +140,15 @@ public class Game {
 				winners.add(player);
 			}
 		}
-//		writeToHH(null, winners, 2);
 		return winners;
 	}
 	
 	private int bet(Player player,int bet) {
 		Output.debugf("%s bets %d.%n",player.getName(),bet);
 		if(bet < 0) {
-			throw new RuntimeException("Cannot bet negative amounts!");
+			throw new IllegalArgumentException("Cannot bet negative amounts!");
 		}
-;		pot += player.bet(bet);
+		pot += player.bet(bet);
 		return bet;
 	}
 }

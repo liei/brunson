@@ -51,7 +51,7 @@ public class Phase2Player extends AIPlayer{
 		throw new RuntimeException("Phase2Player not sure what to do!");
 	}
 
-	private Action getPreflopAction(int bet, int raises, int players, int pot) {
+	protected Action getPreflopAction(int bet, int raises, int players, int pot) {
 		
 		//We're first to act and raise the top vpip% of hands.
 		if(bet == 2 && pft.inPercentile(getHand(), 100-vpip)) {
