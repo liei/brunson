@@ -26,7 +26,7 @@ public class Main {
 		gameManager.addPlayer(new Phase2Player(100, 40, 20, 15));
 		gameManager.addPlayer(new Phase3Player(100, 25, 20, 15));
 		gameManager.addPlayer(new Phase3Player(100, 5, 20, 15));
-		gameManager.playGames(1000);
+		gameManager.playGames(10000);
 	}
 	
 	public static void main(String[] args) {

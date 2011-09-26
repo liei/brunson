@@ -46,7 +46,7 @@ public class Output {
 		fileDebug = b;
 	}
 	
-	private static void printf(int outputLevel,String line,Object... os){
+	public static void printf(int outputLevel,String line,Object... os){
 		String s = String.format(line,os);
 		
 		if(outputLevel <= output)

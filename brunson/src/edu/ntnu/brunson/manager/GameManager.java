@@ -34,6 +34,7 @@ public class GameManager {
 		Output.results("==RESULTS==");
 		for (int i = 0; i < players.size(); i++)
 			Output.results("%s",players.get(i));
+		OpponentModeler.print(Output.SPARSE);
 	}
 	
 }

@@ -1,9 +1,12 @@
 package edu.ntnu.brunson.opponentmodeler;
 
+import java.io.PrintWriter;
+import java.io.StringWriter;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import edu.ntnu.brunson.manager.Output;
 import edu.ntnu.brunson.player.Player;
 
 public class OpponentModeler {
@@ -55,5 +58,26 @@ public class OpponentModeler {
 			}
 			return se;
 		}
+		
+		public String toString(){
+			StringWriter sw = new StringWriter();
+			PrintWriter pw = new PrintWriter(sw);
+			pw.println(Context.getHeader());
+			for(Map.Entry<Context,StrengthEstimate> e : estimates.entrySet()){
+				StrengthEstimate se = e.getValue();
+				pw.printf("%s  %.4f  %3d%n",e.getKey(),se.getStrength(),se.getTimesSeen());
+			}
+			return sw.toString();
+		}
+		
 	}
+	
+	public static void print(int outputLevel){
+		for(Map.Entry<Player,PlayerModel> e : models.entrySet()){
+			Output.printf(outputLevel,"%s:",e.getKey().getName());
+			Output.printf(outputLevel,"%s",e.getValue());
+		}
+	}
+	
+	
 }
