@@ -2,10 +2,9 @@ package edu.ntnu.brunson.player;
 import edu.ntnu.brunson.manager.Round;
 public class Context {
 	
-	private Context() {}
-
-	public static String getHash(Round round, int players, int raises) {
-		
+	private String hash;
+	
+	public Context(Round round, int players, int raises) {
 		String p;
 		String r;
 		if(players == 1) {
@@ -25,7 +24,11 @@ public class Context {
 	else 
 		r="several";
 	
-	return p + r + round.toString();
+	hash = p + r + round.toString();
+	}
+
+	public String getHash() {
+	return hash;
 	}
 
 }
