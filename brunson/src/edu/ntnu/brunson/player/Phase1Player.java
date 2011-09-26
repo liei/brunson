@@ -8,6 +8,7 @@ import java.util.List;
 
 public class Phase1Player extends AIPlayer{
 	
+	private static final HandRating PAIR_OF_DEUCES 	= HandRating.pair(Value.TWO, Value.THREE, Value.FOUR, Value.SIX);
 	private static final HandRating PAIR_OF_EIGHTS	= HandRating.pair(Value.EIGHT, Value.THREE, Value.FOUR, Value.SIX);
 	private static final HandRating PAIR_OF_NINES 	= HandRating.pair(Value.NINE, Value.THREE, Value.FOUR, Value.SIX);
 	private static final HandRating PAIR_OF_QUEENS 	= HandRating.pair(Value.QUEEN, Value.THREE, Value.FOUR, Value.SIX);
@@ -15,7 +16,6 @@ public class Phase1Player extends AIPlayer{
 	private static final HandRating PAIR_OF_ACES 	= HandRating.pair(Value.ACE, Value.KING, Value.FOUR, Value.FIVE);
 	private static final HandRating LOW_TRIPS 		= HandRating.trips(Value.TWO, Value.THREE, Value.FOUR);
 	private static final HandRating STRAIGT 		= HandRating.straight(Value.FIVE);
-
 	
 	private static int playerCount = 1;
 	
@@ -46,171 +46,122 @@ public class Phase1Player extends AIPlayer{
 		case RIVER:
 			return getRiverAction(bet,raises,pot,powerRating);
 		default:
-			throw new RuntimeException("Not possible!");
+			throw new IllegalArgumentException("round can't be null");
 		}		
 	}
 	
 	private Action getPreflopAction(int bet, int raises) {
 		//Call or raise VPIP % of the time
-		if(Util.randomBoolean(vpip)){
-			if(bet == 2) {
-				return Action.raise(3*bet);
-			}
-			else if(raises < 3) {
-				return Action.call();
-			}
-		}
+		if(Util.randomBoolean(vpip))
+			return raises > 2 ? Action.call() : Action.raise(3*bet); 
 		return Action.fold();
 	}
 		
 	private Action getFlopAction(int bet, int raises, int pot, HandRating rating) {	
 		
-		// Someone bet, we have a pair, call.
-		if(bet > 0 && raises == 0) {
-			if(rating.isPair()) {
-				return Action.call();
-			}
-			//We flopped a value hand and should raise.
-			else if(rating.isBetter(PAIR_OF_ACES)) {
-				if(raises > 3) {
-					return Action.call();
-				}
-				return Action.raise(bet * 3);
-			}
-			//We have air and should fold.
-			return Action.fold();
-		}
-		
-		//Someone has raised before it's our turn to act so we only continue with two pairs or better. If we can beat two pair we'll raise.
-		if(raises > 0 && bet > 0) {
-			if(rating.isTwoPair()) {
-				return Action.call();
-			}
-			else if (rating.isBetter(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR))) {
-				if(raises > 2) {
-					return Action.call();
-				}
-				return Action.raise(bet * 3);
-			}
-			return Action.fold();
-		}
-		//Nobody has bet so we're betting if we have a pair or better.
-		else if(bet == 0 | bet == -1) {
-			if(rating.isBetter(HandRating.pair(Value.TWO, Value.THREE, Value.FOUR, Value.SIX))) {
+		if(bet == 0) {								// nobody has bet
+			if(rating.isBetter(PAIR_OF_DEUCES))  	// we're betting if we have a pair or better
 				return Action.bet((int)(0.75 * pot));
-			}
 			// 25% of the time we will cbet or donk on flop with complete air and hope everyone else folds.
-			else if(Util.randomBoolean(25)) {
+			if(Util.randomBoolean(25)) {
 				return Action.bet((int)(0.75 * pot));
 			}
 			return Action.check();
 		}
-		throw new IllegalArgumentException();
+		
+		if(raises == 0) {
+			// Someone bet, we have a pair, call.
+			if(rating.isPair())
+				return Action.call();
+			else if(rating.isBetter(PAIR_OF_ACES))	// we flopped a value hand and should raise
+				return raises > 2 ? Action.call() : Action.raise(bet * 3);
+		} else {									// someone has raised
+			if(rating.isTwoPair())  				// we continue with two pairs
+				return Action.call();
+			if (rating.isBetter(LOW_TRIPS)) 		// if we can beat two pair we'll raise
+				return raises > 2 ? Action.call() : Action.raise(bet * 3);
+		}
+		return Action.fold();
 	}
 	
 	private Action getTurnAction(int bet, int raises, int pot, HandRating rating) {
 		
-		// Someone bet, we'll continue with a pair of 9s or better if the pot is larger than 12.
-		if(bet > 0 && raises == 0) {
-			if(rating.isPair() && pot < 13) {
-				return Action.call();
-			}
-
-			//We have three of a kind and should raise.
-			else if(rating.isBetter(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR))) {
-				if(raises > 2) {
-					return Action.call();
-				}
-				return Action.raise(bet * 3);
-			}
-			
-			else if(rating.isBetter(HandRating.pair(Value.NINE, Value.THREE, Value.FOUR, Value.SIX)) && pot > 12) {
-				return Action.call();
-			}
-			//Our hand isn't strong enough to continue.
-			return Action.fold();
-		}
-		//Someone has raised before it's our turn to act so we only continue with two pairs or better. If we can beat two pair we'll raise.
-		if(raises > 0 && bet > 0) {
-			if(rating.isTwoPair()) {
-				return Action.call();
-			}
-			else if (rating.isBetter(HandRating.trips(Value.TWO, Value.THREE, Value.FOUR))) {
-				if(raises > 2) {
-					return Action.call();
-				}
-				return Action.raise(bet * 3);
-			}
-			return Action.fold();
-		}
-		//Nobody has bet so we're betting if we have a pair of 8s or better.
-		else if(bet == 0 | bet == -1) {
+		// nobody has bet so we're betting if we have a pair of 8s or better.
+		if(bet == 0) {
 			if(rating.isBetter(PAIR_OF_EIGHTS)) {
 				return Action.bet((int)(0.75 * pot));
 			}
 			// 15% of the time we will cbet or donk on flop with complete air and hope everyone else folds.
-			else if(Util.randomBoolean(15)) {
+			if(Util.randomBoolean(15)) {
 				return Action.bet((int)(0.75 * pot));
 			}
-			
 			return Action.check();
-				
 		}
-	throw new IllegalArgumentException();
+		
+		if(raises == 0) {						// someone bet
+			if(rating.isPair() && pot < 13) {
+				return Action.call();
+			}
+
+			//we have three of a kind or better and should raise.
+			if(rating.isBetter(LOW_TRIPS)) {
+				return raises > 2 ? Action.call() : Action.raise(bet * 3);
+			}
+			
+			//we'll continue with a pair of 9s or better if the pot is larger than 12.
+			if(rating.isBetter(PAIR_OF_NINES) && pot > 12) {
+				return Action.call();
+			}
+		} else { 								// someone has raised  
+			if(rating.isTwoPair()) 				// we only continue with two pairs or better
+				return Action.call();
+			if (rating.isBetter(LOW_TRIPS)) 	//if we can beat two pair we'll raise
+				return raises > 2 ? Action.call() : Action.raise(bet * 3);
+		}
+		return Action.fold();
 	}
 	
 	private Action getRiverAction(int bet, int raises, int pot, HandRating rating) {
-		// Someone bet, we'll continue with a pair of kings or better if the pot is larger than 30.
-		if(bet > 0 && raises == 0) {
+		
+		// nobody has bet so we're betting if we have a pair of Qs or better
+		if(bet == 0) {
+			if(rating.isBetter(PAIR_OF_QUEENS)) {
+				return Action.bet((int)(0.75 * pot));
+			}
+			// 10% of the time we will cbet or donk and hope everyone else folds
+			if(Util.randomBoolean(10)) {
+				return Action.bet((int)(0.75 * pot));
+			}
+			//hope we get something good after a free card
+			return Action.check();
+		}
+		
+		if(raises == 0) {							//someone has bet
+			//we'll continue with a pair of kings or better if the pot is larger than 30.
 			if(rating.isPair() && pot < 13) {
 				return Action.call();
 			}
 			
 			//We have three of a kind or better and should raise.
-			else if(rating.isBetter(LOW_TRIPS)) {
-				if(raises > 2) {
-					return Action.call();
-				}
-				return Action.raise(bet * 3);
+			if(rating.isBetter(LOW_TRIPS)) {
+				return raises > 2 ? Action.call() : Action.raise(bet * 3);
 			}
 
-			else if(rating.isBetter(PAIR_OF_KINGS) && pot > 30) {
+			if(rating.isBetter(PAIR_OF_KINGS) && pot > 30) {
 				return Action.call();
 			}
 			
-			else if(rating.isBetter(PAIR_OF_NINES) && pot <= 30) {
+			if(rating.isBetter(PAIR_OF_NINES) && pot <= 30) {
 				return Action.call();
-			}
-			//Our hand isn't strong enough to continue.
-			return Action.fold();
-		}
-		//Someone has raised before it's our turn to act so we only continue with two pairs or better. Raising straights.
-		if(raises > 0 && bet > 0) {
-			if(rating.isBetter(PAIR_OF_ACES)) {
-				return Action.call();
-			}
-			else if (rating.isBetter(STRAIGT)) {
-				if(raises > 2) {
-					return Action.call();
-				}
-				return Action.raise(bet * 3);
-			}
-			return Action.fold();
-		}
-		//Nobody has bet so we're betting if we have a pair of Qs or better.
-		else if(bet == 0 | bet == -1) {
-			if(rating.isBetter(PAIR_OF_QUEENS)) {
-				return Action.bet((int)(0.75 * pot));
-			}
-			// 10% of the time we will cbet or donk and hope everyone else folds.
-			else if(Util.randomBoolean(10)) {
-				return Action.bet((int)(0.75 * pot));
 			}
 			
-			return Action.check();
-				
+		} else { 									//someone has raised 
+			if (rating.isBetter(STRAIGT)) 			// re-raise if we have straight or better
+				return raises > 2 ? Action.call() : Action.raise(bet * 3);
+			if(rating.isBetter(PAIR_OF_ACES)) 		//call with pair of aces or better
+				return Action.call();
 		}
-		throw new IllegalArgumentException();
+		return Action.fold(); 						// our hand isn't strong enough to continue
 	}
 }
 
