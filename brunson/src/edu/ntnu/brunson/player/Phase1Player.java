@@ -59,22 +59,15 @@ public class Phase1Player extends AIPlayer{
 		
 	private Action getFlopAction(int bet, int raises, int pot, HandRating rating) {	
 		
-		if(bet == 0) {								// nobody has bet
-			if(rating.isBetter(PAIR_OF_DEUCES))  	// we're betting if we have a pair or better
-				return Action.bet((int)(0.75 * pot));
-			// 25% of the time we will cbet or donk on flop with complete air and hope everyone else folds.
-			if(Util.randomBoolean(25)) {
-				return Action.bet((int)(0.75 * pot));
-			}
-			return Action.check();
-		}
-		
-		if(raises == 0) {
-			// Someone bet, we have a pair, call.
-			if(rating.isPair())
-				return Action.call();
-			else if(rating.isBetter(PAIR_OF_ACES))	// we flopped a value hand and should raise
+		// nobody has bet so we're betting if we have a pair of 8s or better, bluff 25%
+		if(bet == 0)
+			return zeroBetAction(pot, rating,PAIR_OF_DEUCES,25);
+				
+		if(raises == 0) {							// someone bet
+			if(rating.isBetter(PAIR_OF_ACES))		// we flopped a value hand and should raise
 				return raises > 2 ? Action.call() : Action.raise(bet * 3);
+			if(rating.isPair())						// we have a pair, call
+				return Action.call();
 		} else {									// someone has raised
 			if(rating.isTwoPair())  				// we continue with two pairs
 				return Action.call();
@@ -86,36 +79,23 @@ public class Phase1Player extends AIPlayer{
 	
 	private Action getTurnAction(int bet, int raises, int pot, HandRating rating) {
 		
-		// nobody has bet so we're betting if we have a pair of 8s or better.
-		if(bet == 0) {
-			if(rating.isBetter(PAIR_OF_EIGHTS)) {
-				return Action.bet((int)(0.75 * pot));
-			}
-			// 15% of the time we will cbet or donk on flop with complete air and hope everyone else folds.
-			if(Util.randomBoolean(15)) {
-				return Action.bet((int)(0.75 * pot));
-			}
-			return Action.check();
-		}
+		// nobody has bet so we're betting if we have a pair of 8s or better, bluff 25%
+		if(bet == 0)
+			return zeroBetAction(pot, rating,PAIR_OF_EIGHTS,25);
 		
 		if(raises == 0) {						// someone bet
-			if(rating.isPair() && pot < 13) {
+			if(rating.isPair() && pot < 13)
 				return Action.call();
-			}
-
 			//we have three of a kind or better and should raise.
-			if(rating.isBetter(LOW_TRIPS)) {
+			if(rating.isBetter(LOW_TRIPS))
 				return raises > 2 ? Action.call() : Action.raise(bet * 3);
-			}
-			
 			//we'll continue with a pair of 9s or better if the pot is larger than 12.
-			if(rating.isBetter(PAIR_OF_NINES) && pot > 12) {
+			if(rating.isBetter(PAIR_OF_NINES) && pot > 12)
 				return Action.call();
-			}
 		} else { 								// someone has raised  
 			if(rating.isTwoPair()) 				// we only continue with two pairs or better
 				return Action.call();
-			if (rating.isBetter(LOW_TRIPS)) 	//if we can beat two pair we'll raise
+			if (rating.isBetter(LOW_TRIPS)) 	// if we can beat two pair we'll raise
 				return raises > 2 ? Action.call() : Action.raise(bet * 3);
 		}
 		return Action.fold();
@@ -123,18 +103,9 @@ public class Phase1Player extends AIPlayer{
 	
 	private Action getRiverAction(int bet, int raises, int pot, HandRating rating) {
 		
-		// nobody has bet so we're betting if we have a pair of Qs or better
-		if(bet == 0) {
-			if(rating.isBetter(PAIR_OF_QUEENS)) {
-				return Action.bet((int)(0.75 * pot));
-			}
-			// 10% of the time we will cbet or donk and hope everyone else folds
-			if(Util.randomBoolean(10)) {
-				return Action.bet((int)(0.75 * pot));
-			}
-			//hope we get something good after a free card
-			return Action.check();
-		}
+		// nobody has bet so we're betting if we have a pair of Qs or better, bluff 10%
+		if(bet == 0)
+			return zeroBetAction(pot, rating,PAIR_OF_QUEENS,10);
 		
 		if(raises == 0) {							//someone has bet
 			//we'll continue with a pair of kings or better if the pot is larger than 30.
@@ -162,6 +133,15 @@ public class Phase1Player extends AIPlayer{
 				return Action.call();
 		}
 		return Action.fold(); 						// our hand isn't strong enough to continue
+	}
+
+	private Action zeroBetAction(int pot, HandRating rating,HandRating betRating, int bluff) {
+		if(rating.isBetter(betRating))				// bet if rating is better that betRating
+			return Action.bet((int)(0.75 * pot));
+		if(Util.randomBoolean(bluff))				// bluff bluff% amount of the time
+			return Action.bet((int)(0.75 * pot));
+		//hope we get something good after a free card
+		return Action.check();
 	}
 }
 
