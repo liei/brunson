@@ -15,7 +15,8 @@ public class Output {
 	
 	
 	
-	private static boolean debug = false;
+	private static boolean debug = true;
+	private static boolean fileDebug = false;
 	private static int output = VERBOSE;
 	private static int toFile = SILENT;
 	private static PrintStream ps = null;
@@ -40,6 +41,14 @@ public class Output {
 	
 	public static void setFile(int outputLevel){
 		toFile = outputLevel;
+	}
+	
+	public static void setDebug(boolean b){
+		debug = b;
+	}
+	
+	public static void setFileDebug(boolean b){
+		fileDebug = b;
 	}
 	
 	private static void printf(int outputLevel,String line,Object... os){
@@ -92,8 +101,13 @@ public class Output {
 	}
 
 	public static void debugf(String line,Object... os){
+		String s = String.format("##DEBUG## %s%n",String.format(line,os));
 		if(debug)
-			System.out.printf("##DEBUG## %s%n",String.format(line,os));
+			System.out.println(s);
+		if(fileDebug){
+			ps.println(s);
+		}
+			
 	}
 
 
