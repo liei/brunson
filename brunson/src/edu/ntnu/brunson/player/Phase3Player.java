@@ -11,8 +11,14 @@ import edu.ntnu.brunson.opponentmodeler.*;
 public class Phase3Player extends Phase2Player {
 	private static final HandRating LOW_TRIPS 		= HandRating.trips(Value.TWO, Value.THREE, Value.FOUR);
 	
+	static int playerCount = 1;
+	
 	public Phase3Player(String name,int buyin, int aggression, int vpip, int bluffy) {
 		super(name,buyin,aggression, vpip, bluffy);
+	}
+	
+	public Phase3Player(int buyin, int aggression, int vpip, int bluffy) {
+		this(String.format("Phase2-%d",playerCount++),buyin, aggression, vpip, bluffy);
 	}
 	
 	public Action act(Round round, Pile community, int bet, int raises, int pot, List<Player> activePlayers) {
