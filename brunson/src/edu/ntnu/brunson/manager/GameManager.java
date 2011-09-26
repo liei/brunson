@@ -34,5 +34,4 @@ public class GameManager {
 			Output.results("%s",players.get(i));
 	}
 	
-
 }

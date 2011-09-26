@@ -1,14 +1,10 @@
 package edu.ntnu.brunson.player;
 
-import java.io.IOException;
-import java.text.ParseException;
-
 import edu.ntnu.brunson.cards.Pile;
-import edu.ntnu.brunson.cards.Value;
 import edu.ntnu.brunson.manager.HandRating;
 import edu.ntnu.brunson.manager.Round;
-import edu.ntnu.brunson.preflop.PreFlopTable;
 import edu.ntnu.brunson.util.*;
+import java.util.List;
 
 public class Phase2Player extends AIPlayer{
 
@@ -22,12 +18,12 @@ public class Phase2Player extends AIPlayer{
 		this(String.format("Phase2-%d",playerCount++),buyin, aggression, vpip, bluffy);
 	}
 
-	public Action act(Round round, Pile community, int bet, int raises, int pot, int players) {
+	public Action act(Round round, Pile community, int bet, int raises, int pot, List<Player> activePlayers) {
 	
 		if(round == Round.PREFLOP) {
-			return getPreflopAction(bet,raises, players, pot);
+			return getPreflopAction(bet,raises, activePlayers.size(), pot);
 		}
-		double handStrength = HandRating.strength(this.getHand(), community, players);
+		double handStrength = HandRating.strength(this.getHand(), community, activePlayers.size());
 		if(bet > 0) {
 			
 			if(Util.potOdds(pot, bet) < handStrength) {
@@ -51,8 +47,6 @@ public class Phase2Player extends AIPlayer{
 			}
 			return Action.fold();
 		}
-		
-		HandRating.strength(this.getHand(), community, players);
 		
 		throw new RuntimeException("Phase2Player not sure what to do!");
 	}

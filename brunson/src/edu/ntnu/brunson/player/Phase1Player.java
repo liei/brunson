@@ -4,6 +4,7 @@ import edu.ntnu.brunson.cards.Pile;
 import edu.ntnu.brunson.cards.Value;
 import edu.ntnu.brunson.manager.*;
 import edu.ntnu.brunson.util.Util;
+import java.util.List;
 
 public class Phase1Player extends AIPlayer{
 	
@@ -27,10 +28,10 @@ public class Phase1Player extends AIPlayer{
 	}
 	
 	
-	public Action act(Round round, Pile communityCards, int bet, int raises, int pot, int players) {
+	public Action act(Round round, Pile communityCards, int bet, int raises, int pot, List<Player> activePlayers) {
 		
-		if(pot < 0 || raises < 0 || players < 0) {
-			throw new IllegalArgumentException(String.format("Invalid input pot: %d, raises: %d, players: %d",pot,raises,players));
+		if(pot < 0 || raises < 0 || activePlayers.size() < 0) {
+			throw new IllegalArgumentException(String.format("Invalid input pot: %d, raises: %d, players: %d",pot,raises,activePlayers.size()));
 		}
 
 		if(round == Round.PREFLOP) {
@@ -55,7 +56,7 @@ public class Phase1Player extends AIPlayer{
 			if(bet == 2) {
 				return Action.raise(3*bet);
 			}
-			else if(raises == 1) {
+			else if(raises < 3) {
 				return Action.call();
 			}
 		}

@@ -26,13 +26,14 @@ public class Main {
 			e.printStackTrace();
 			System.exit(1);
 		}
-		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
-		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
-		gameManager.addPlayer(new Phase1Player(100, 50, 75, 50));
-		gameManager.addPlayer(new Phase2Player(100, 50, 75, 50));
-		gameManager.addPlayer(new Phase2Player(100, 50, 75, 50));
-		gameManager.addPlayer(new Phase2Player(100, 50, 75, 50));
-		gameManager.playGames(1500);
+		Output.setOutput(Output.RESULTS);
+		gameManager.addPlayer(new Phase1Player(100, 50, 20, 25));
+		gameManager.addPlayer(new Phase1Player(100, 50, 20, 25));
+		gameManager.addPlayer(new Phase1Player(100, 50, 20, 25));
+		gameManager.addPlayer(new Phase2Player(100, 40, 20, 15));
+		gameManager.addPlayer(new Phase2Player(100, 25, 20, 15));
+		gameManager.addPlayer(new Phase2Player(100, 5, 20, 15));
+		gameManager.playGames(10000);
 	}
 	
 	public static void main(String[] args) {

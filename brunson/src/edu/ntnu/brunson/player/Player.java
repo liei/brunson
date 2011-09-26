@@ -66,7 +66,7 @@ public abstract class Player {
 		return diff;
 	}
 	
-	public abstract Action act(Round round, Pile communityCards, int bet, int raises, int pot, int players);
+	public abstract Action act(Round round, Pile communityCards, int bet, int raises, int pot, List<Player> activePlayers);
 	
 	public List<Action> getActions(Round round) {
 		return actions.get(round);
