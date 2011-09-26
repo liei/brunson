@@ -1,12 +1,24 @@
 package edu.ntnu.brunson.opponentmodeler;
 
+import java.util.Arrays;
+
 import edu.ntnu.brunson.manager.Round;
+import edu.ntnu.brunson.player.Phase1Player;
+import edu.ntnu.brunson.player.Player;
 
 public class Context {
 	
 	private Round round;
 	private Amount players;
 	private Amount raises;
+	
+	public static void main(String[] args) {
+		Player p = new Phase1Player(0, 0, 0, 0);
+		OpponentModeler.init(Arrays.asList(new Player[]{p}));
+		Context c = new Context(Round.FLOP, 2, 1);
+		
+		OpponentModeler.add(p, c, 0.25);
+	}
 	
 	public Context(Round round,int numPlayers, int numRaises) {
 		this.round = round;
@@ -35,8 +47,6 @@ public class Context {
 				throw new IllegalArgumentException("numRaises must be >= 0");
 			raises = Amount.MANY;
 		}
-		
-		
 	}
 	
 	@Override
@@ -59,11 +69,10 @@ public class Context {
 	}
 	
 	public String toString(){
-		return String.format("%7s %4s    %4",round,players,raises);
+		return String.format("%7s %4s    %4s",round,players,raises);
 	}
 	
 	static enum Amount {
 		NONE,ONE,FEW,MANY;
 	}
-
 }

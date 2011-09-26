@@ -19,8 +19,7 @@ public class StrengthEstimate {
 	}
 	
 	void addStrength(double newStrength){
-		timesSeen++;
-		strength += newStrength / timesSeen;
+		strength = ((strength * timesSeen) + newStrength) / ++timesSeen;
 	}
 	
 	
