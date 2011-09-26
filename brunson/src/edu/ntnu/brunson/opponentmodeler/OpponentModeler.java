@@ -14,6 +14,7 @@ public class OpponentModeler {
 	private OpponentModeler(){}
 	
 	public static void init(List<Player> players){
+		models.clear();
 		for(Player p : players)
 			models.put(p,new PlayerModel());
 	}
