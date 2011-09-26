@@ -28,7 +28,7 @@ public class Context {
 	}
 
 	public String getHash() {
+
 		return hash;
 	}
-
 }
