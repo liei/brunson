@@ -11,11 +11,6 @@ public class Context {
 	private Amount players;
 	private Amount raises;
 	
-	public static void main(String[] args) {
-		Context c = new Context(Round.FLOP,2,1,Action.fold());
-		System.out.println(c);
-	}
-	
 	public Context(Round round,int numPlayers, int numRaises,Action action) {
 		this.round = round;
 		this.action = action.getType().name();
@@ -47,6 +42,14 @@ public class Context {
 		}
 	}
 	
+	public Round getRound() {
+		return round;
+	}
+	
+	public int getNumPlayers() {
+		return numPlayers;
+	}
+	
 	@Override
 	public int hashCode(){
 		return toString().hashCode();
@@ -59,7 +62,8 @@ public class Context {
 		Context that = (Context)o;
 		return this.round == that.round &&
 				this.players == that.players &&
-				this.raises == that.raises;
+				this.raises == that.raises &&
+				this.action.equals(that.action);
 	}
 
 	public static String getHeader(){
@@ -72,13 +76,5 @@ public class Context {
 	
 	static enum Amount {
 		NONE,ONE,FEW,MANY;
-	}
-
-	public Round getRound() {
-		return round;
-	}
-
-	public int getNumPlayers() {
-		return numPlayers;
 	}
 }

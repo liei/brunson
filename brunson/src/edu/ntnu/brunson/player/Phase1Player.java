@@ -61,7 +61,7 @@ public class Phase1Player extends AIPlayer{
 		
 		// nobody has bet so we're betting if we have a pair of 8s or better, bluff 25%
 		if(bet == 0)
-			return zeroBetAction(pot, rating,PAIR_OF_DEUCES,25);
+			return zeroBetAction(pot,rating,PAIR_OF_DEUCES,25);
 				
 		if(raises == 0) {							// someone bet
 			if(rating.isBetter(PAIR_OF_ACES))		// we flopped a value hand and should raise
@@ -84,11 +84,11 @@ public class Phase1Player extends AIPlayer{
 			return zeroBetAction(pot, rating,PAIR_OF_EIGHTS,25);
 		
 		if(raises == 0) {						// someone bet
-			if(rating.isPair() && pot < 13)
-				return Action.call();
 			//we have three of a kind or better and should raise.
 			if(rating.isBetter(LOW_TRIPS))
 				return raises > 2 ? Action.call() : Action.raise(bet * 3);
+			if(rating.isPair() && pot <= 12)
+				return Action.call();
 			//we'll continue with a pair of 9s or better if the pot is larger than 12.
 			if(rating.isBetter(PAIR_OF_NINES) && pot > 12)
 				return Action.call();
